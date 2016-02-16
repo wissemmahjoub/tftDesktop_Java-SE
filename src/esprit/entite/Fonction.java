@@ -5,18 +5,12 @@
  */
 package esprit.entite;
 
-import java.util.Date;
-
 /**
  *
  * @author yasmi
  */
-public class ReclamationMedecin {
+public enum Fonction {
     
-    private int idreclamation;
-    private String sujet;
-    private String path;
-    private Date datecreation;
-    private Date datedestrction;
-    private int idmedecin;
+    Administrateur,
+    Responsable
 }

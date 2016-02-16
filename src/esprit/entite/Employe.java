@@ -11,16 +11,32 @@ import java.util.Date;
  *
  * @author yasmi
  */
-public class Employe {
+public class Employe extends Personne {
+ 
+    private Fonction fonction;
+
+    public Employe() {
+
+    }
+
+    public Employe(Fonction fonction, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction) {
+        super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance, role, avatar, datedestruction);
+        this.fonction = fonction;
+    }
+
+    public Fonction getFonction() {
+        return fonction;
+    }
+
+    public void setFonction(Fonction fonction) {
+        this.fonction = fonction;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Employe{" + "fonction=" + fonction + '}';
+    }
     
-    private int idemploye;
-    private String cin;
-    private String nom;
-    private String prenom;
-    private String login;
-    private String password;
-    private String mail;
-    private String role;
-
-
+    
+    
 }

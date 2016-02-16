@@ -6,28 +6,47 @@
 package esprit.entite;
 
 import java.util.Date;
-import java.util.Objects;
 
 /**
  *
  * @author yasmi
  */
-public class Medecin {
+public class Medecin extends Personne {
     
-    private int idmedecin;
-    private String cin;
-    private String nom;
-    private String prenom;
-    private String specialite;
-    private float salaire;
-    private String login;
-    private String password;
-    private String mail;
-    private Date datenaissance;
-    private Date datedestruction;
-    private String sexe;
-    private String tel;
-    private String avatar;
+        private float salaire;
+        private String specialite;
 
+    public Medecin() {
+
+    }
+
+    public Medecin(float salaire, String specialite, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction) {
+        super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance, role, avatar, datedestruction);
+        this.salaire = salaire;
+        this.specialite = specialite;
+    }
+
+    public float getSalaire() {
+        return salaire;
+    }
+
+    public void setSalaire(float salaire) {
+        this.salaire = salaire;
+    }
+
+    public String getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Medecin{" + "salaire=" + salaire + ", specialite=" + specialite + '}';
+    }
+      
     
+        
 }

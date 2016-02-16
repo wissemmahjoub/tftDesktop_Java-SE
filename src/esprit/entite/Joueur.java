@@ -6,31 +6,56 @@
 package esprit.entite;
 
 import java.util.Date;
-import java.util.Objects;
 
 /**
  *
  * @author yasmi
  */
-public class Joueur {
+public class Joueur extends Personne {
     
-    private int idjoueur;
-    private String cin;
-    private String nom;
-    private String prenom;
-    private String login;
-    private String password;
-    private String mail;
-    private Date datenaissance;
-    private Date datedestruction;
-    private String sexe;
-    private Niveau niveau; //enumeration
-    private TrancheAge section; //enumeration
-    private String tel;
+    private Niveau niveau;
+    private TrancheAge section;
     private int idclub;
-    private String avatar;
-    private String etat;
 
+    public Joueur() {
+
+    }
+
+    public Joueur(Niveau niveau, TrancheAge section, int idclub, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction) {
+        super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance, role, avatar, datedestruction);
+        this.niveau = niveau;
+        this.section = section;
+        this.idclub = idclub;
+    }
+
+    public Niveau getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(Niveau niveau) {
+        this.niveau = niveau;
+    }
+
+    public TrancheAge getSection() {
+        return section;
+    }
+
+    public void setSection(TrancheAge section) {
+        this.section = section;
+    }
+
+    public int getIdclub() {
+        return idclub;
+    }
+
+    public void setIdclub(int idclub) {
+        this.idclub = idclub;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Joueur{" + "niveau=" + niveau + ", section=" + section + ", idclub=" + idclub + '}';
+    }
     
     
     
