@@ -20,7 +20,7 @@ public class TFTPidev extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ChoixEspace.fxml"));
-        
+        //chams gitlab w doctour ya doctour;
         Scene scene = new Scene(root);
         System.out.println("bbbbb");
         stage.setScene(scene);
