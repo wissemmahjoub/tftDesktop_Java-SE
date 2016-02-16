@@ -22,7 +22,7 @@ public class TFTPidev extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("ChoixEspace.fxml"));
         
         Scene scene = new Scene(root);
-        
+        System.out.println("aaaaa");
         stage.setScene(scene);
         stage.show();
     }
