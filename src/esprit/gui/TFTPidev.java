@@ -22,7 +22,13 @@ public class TFTPidev extends Application {
     public void start(Stage stage) throws Exception {
         
         Parent root = FXMLLoader.load(getClass().getResource("responsable/FXMLResponsable.fxml"));
+        Parent rootAdmin = FXMLLoader.load(getClass().getResource("admin/FXMLAdmin.fxml"));
+        
         Scene scene = new Scene(root);
+        
+        // Activer cette ligne pour afficher l'interface d'espace Administrateur
+        //scene.setRoot(rootAdmin);
+        
         stage.setMaximized(true);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
