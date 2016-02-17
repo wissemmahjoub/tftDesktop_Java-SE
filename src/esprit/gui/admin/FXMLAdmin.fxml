@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="grandParent_Pane" fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="godpane" stylesheets="@../../ressources/css/mainSheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.admin.FXMLAdminController">
+   <effect>
+      <DropShadow color="#00000043" spread="0.52" />
+   </effect>
+   <children>
+      <AnchorPane id="CorpsJoueur" fx:id="consulterJoueurPane" layoutX="166.0" layoutY="109.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" visible="false" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+         <children>
+            <TextField layoutX="38.0" layoutY="66.0" prefHeight="31.0" prefWidth="267.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
+            <Pane layoutX="492.0" layoutY="66.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" AnchorPane.rightAnchor="414.0" AnchorPane.topAnchor="44.0">
+               <children>
+                  </children>
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
+               </effect>
+            </Pane>
+            <AnchorPane id="tableViewArbitre" layoutX="26.0" layoutY="128.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="747.0" styleClass="titleListPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label layoutX="48.0" layoutY="6.0" text="Liste des Joueurs" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TableView layoutX="14.0" layoutY="67.0" prefHeight="331.0" prefWidth="631.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="67.0">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="C1" />
+                        <TableColumn prefWidth="75.0" text="C2" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouterArbitreContainer" layoutX="708.0" layoutY="44.0" prefHeight="539.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="22.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane">
+                     <children>
+                        <Label layoutX="65.0" layoutY="7.0" text="Ajouter un nouveau Joueur" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="nom2" layoutX="113.0" layoutY="72.0" />
+                  <TextField fx:id="prenom2" layoutX="113.0" layoutY="126.0" />
+                  <TextField fx:id="cin2" layoutX="113.0" layoutY="174.0" />
+                  <Button layoutX="132.0" layoutY="480.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" text="Envoyer" textAlignment="CENTER" />
+                  <Label layoutX="26.0" layoutY="77.0" text="Nom" />
+                  <Label layoutX="27.0" layoutY="131.0" text="Prenom" />
+                  <Label layoutX="28.0" layoutY="179.0" text="CIN" />
+                  <Label layoutX="27.0" layoutY="233.0" text="Password" />
+                  <PasswordField layoutX="113.0" layoutY="228.0" />
+               </children>
+            </AnchorPane>
+         </children>
+         <effect>
+            <InnerShadow color="#0000003c" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane fx:id="consulterArbitrePane" layoutX="168.0" layoutY="108.0" prefHeight="586.0" prefWidth="1035.0" styleClass="corpsPane" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+         <children>
+            <TextField fx:id="searchField" layoutX="28.0" layoutY="44.0" onKeyReleased="#rechercher" prefHeight="31.0" prefWidth="267.0" promptText="Rechercher" styleClass="inputNormal" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="44.0" />
+            <Pane layoutX="556.0" layoutY="45.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-background-color: #F5F5F5; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" AnchorPane.rightAnchor="412.0" AnchorPane.topAnchor="45.0">
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
+               </effect>
+               <children>
+                  <Button fx:id="boutonGlissantImage" layoutY="-5.0" mnemonicParsing="false" onMouseClicked="#basculerVersImageOuListe" prefHeight="39.0" prefWidth="72.0" style="-fx-background-radius: 15;" text="Image" />
+                  <Button fx:id="boutonGlissantListe" layoutX="72.0" layoutY="-5.0" mnemonicParsing="false" onMouseClicked="#basculerVersImageOuListe" prefHeight="39.0" prefWidth="72.0" style="-fx-background-radius: 15;" text="Liste" visible="false" />
+               </children>
+            </Pane>
+            <AnchorPane id="tableViewArbitre" fx:id="listeContainer" layoutX="36.0" layoutY="101.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="747.0" styleClass="titleListPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label layoutX="48.0" layoutY="6.0" text="Liste des arbitres" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tableArbitre" editable="true" layoutX="14.0" layoutY="67.0" prefHeight="331.0" prefWidth="631.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="67.0">
+                     <columns>
+                        <TableColumn fx:id="columnNom" prefWidth="75.0" text="Nom" />
+                        <TableColumn fx:id="columnPrenom" prefWidth="75.0" text="Prenom" />
+                        <TableColumn fx:id="columnCin" prefWidth="57.0" text="CIN" />
+                        <TableColumn fx:id="columnAdresse" prefWidth="93.0" text="Adresse" />
+                        <TableColumn fx:id="columnSexe" prefWidth="75.0" text="Sexe" />
+                        <TableColumn fx:id="columnNiveau" prefWidth="75.0" text="Niveau" />
+                        <TableColumn fx:id="columnLogin" prefWidth="65.0" text="Login" />
+                        <TableColumn fx:id="columnPassword" prefWidth="75.0" text="pwd" />
+                        <TableColumn fx:id="columnButton" prefWidth="52.0" />
+                        <TableColumn fx:id="columnButtonModify" prefWidth="55.0" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouterArbitreContainer" fx:id="ajouterArbitrePane" layoutX="708.0" layoutY="44.0" prefHeight="539.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="22.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane">
+                     <children>
+                        <Label layoutX="65.0" layoutY="7.0" text="Ajouter un nouvel Arbitre" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="nom" layoutX="122.0" layoutY="62.0" prefHeight="33.0" prefWidth="189.0" styleClass="inputNormal" />
+                  <TextField fx:id="prenom" layoutX="122.0" layoutY="100.0" styleClass="inputNormal" />
+                  <TextField fx:id="cin" layoutX="121.0" layoutY="141.0" onKeyReleased="#isCinANumber" styleClass="inputNormal" />
+                  <Button layoutX="189.0" layoutY="480.0" mnemonicParsing="false" onMouseClicked="#handleAjouterArbitre" prefHeight="33.0" prefWidth="124.0" styleClass="imageContainerButton" text="Envoyer" textAlignment="CENTER" />
+                  <Label layoutX="17.0" layoutY="67.0" text="Nom" />
+                  <Label layoutX="20.0" layoutY="105.0" text="Prenom" />
+                  <Label layoutX="21.0" layoutY="146.0" text="CIN" />
+                  <Label layoutX="23.0" layoutY="278.0" text="Niveau" />
+                  <ComboBox fx:id="niveau" layoutX="122.0" layoutY="273.0" onMouseClicked="#isBoxVide" onMouseMoved="#setBoxToNormal" prefHeight="31.0" prefWidth="187.0" styleClass="inputNormal" />
+                  <Label layoutX="18.0" layoutY="401.0" text="Password" />
+                  <PasswordField fx:id="pwd" layoutX="122.0" layoutY="396.0" styleClass="inputNormal" />
+                  <Label layoutX="24.0" layoutY="230.0" text="Sexe" />
+                  <RadioButton fx:id="homme" layoutX="122.0" layoutY="230.0" mnemonicParsing="false" text="Homme" />
+                  <RadioButton fx:id="femme" layoutX="237.0" layoutY="230.0" mnemonicParsing="false" text="Femme" />
+                  <TextField fx:id="adresse" layoutX="121.0" layoutY="180.0" styleClass="inputNormal" />
+                  <Label layoutX="23.0" layoutY="185.0" text="Adresse" />
+                  <TextField fx:id="login" layoutX="122.0" layoutY="353.0" styleClass="inputNormal" />
+                  <Label layoutX="21.0" layoutY="358.0" text="Login" />
+                  <Separator layoutX="102.0" layoutY="327.0" prefHeight="4.0" prefWidth="241.0" />
+                  <Label layoutX="12.0" layoutY="318.0" text="Connexion">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <ScrollPane id="ImageGodConainter" fx:id="imageScrollPaneContainer" layoutX="22.0" layoutY="128.0" opacity="0.0" prefHeight="452.0" prefWidth="700.0" visible="false" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="128.0">
+              <content>
+                <AnchorPane id="ImageGlobalContainer" fx:id="imageGlobalContainer" minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <AnchorPane id="ImageContainer" layoutX="26.0" layoutY="25.0" prefHeight="263.0" prefWidth="218.0" style="-fx-border-color: #f1f1f1; -fx-background-color: #FFF;" visible="false">
+                           <children>
+                              <Label layoutX="46.0" layoutY="142.0" text="[NOM &amp; PRENOM]" />
+                              <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="81.0" layoutY="174.0" text="[Niveau]" />
+                              <ImageView fitHeight="108.0" fitWidth="158.0" layoutX="31.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                              <Button layoutX="119.0" layoutY="218.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" styleClass="imageContainerButton" text="Modifier">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button layoutX="23.0" layoutY="218.0" mnemonicParsing="false" styleClass="imageContainerButton" text="Supprimer">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                           </children></AnchorPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children>
+         <effect>
+            <InnerShadow color="#00000060" radius="4.75" width="0.0" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="166.0" layoutY="108.0" prefHeight="586.0" prefWidth="1080.0" styleClass="corpsPane" visible="false" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+         <children>
+            <AnchorPane id="tableViewMedecin" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="747.0" styleClass="titleListPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label layoutX="48.0" layoutY="6.0" text="Liste des Medecins" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TableView layoutX="14.0" layoutY="67.0" prefHeight="331.0" prefWidth="631.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="67.0">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="C1" />
+                        <TableColumn prefWidth="75.0" text="C2" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouterMedecinContainer" layoutX="708.0" layoutY="44.0" prefHeight="504.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="22.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane">
+                     <children>
+                        <Label layoutX="65.0" layoutY="7.0" text="Ajouter un nouveau Medecin" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="nom1" layoutX="121.0" layoutY="98.0" />
+                  <TextField fx:id="prenom1" layoutX="121.0" layoutY="152.0" />
+                  <TextField fx:id="cin1" layoutX="122.0" layoutY="200.0" />
+                  <Button layoutX="121.0" layoutY="393.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" text="Envoyer" textAlignment="CENTER" />
+                  <Label layoutX="49.0" layoutY="103.0" text="Nom" />
+                  <Label layoutX="43.0" layoutY="168.0" text="Prenom" />
+                  <Label layoutX="53.0" layoutY="205.0" text="CIN" />
+                  <Label layoutX="46.0" layoutY="329.0" text="Niveau" />
+                  <ComboBox fx:id="niveau1" layoutX="121.0" layoutY="324.0" prefHeight="31.0" prefWidth="187.0" />
+                  <Label layoutX="38.0" layoutY="268.0" text="Password" />
+                  <PasswordField layoutX="122.0" layoutY="263.0" />
+               </children>
+            </AnchorPane>
+            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../ressources/css/mainSheet.css" AnchorPane.rightAnchor="414.0">
+               <children>
+                  <Button fx:id="boutonGlissantListe1" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="82.0" styleClass="boutonGlissantBouton1" text="List" visible="false" />
+                  <Button fx:id="boutonGlissantImage1" layoutY="-3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="72.0" styleClass="boutonGlissantBouton1" text="Images" />
+               </children>
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
+               </effect>
+            </Pane>
+            <TextField layoutX="22.0" layoutY="44.0" prefHeight="31.0" prefWidth="267.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
+         </children>
+         <effect>
+            <InnerShadow color="#00000044" />
+         </effect>
+      </AnchorPane>
+      <ImageView id="TailleNormale" fx:id="optionTailleParDefaut" fitHeight="21.0" fitWidth="20.0" layoutX="1099.0" layoutY="12.0" onMouseClicked="#handleRetournerParDefaut" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.rightAnchor="93.0">
+         <image>
+            <Image url="@../../ressources/images/tailleParDefaut.png" />
+         </image>
+      </ImageView>
+      <Label id="Developped By" layoutX="1018.0" layoutY="717.0" text="Developped by MyWishy" textFill="WHITE" AnchorPane.bottomAnchor="31.0" />
+      <Label id="Copyright" layoutX="186.0" layoutY="717.0" text="2016 Copyright" textFill="WHITE" AnchorPane.bottomAnchor="30.0" />
+      <Pane id="Logo_Pane" layoutX="10.0" layoutY="10.0" prefHeight="108.0" prefWidth="165.0" styleClass="logo" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane id="PanePourDeplacer" layoutX="166.0" layoutY="6.0" onMouseDragged="#handleonMouseDragged" onMousePressed="#onMousePressed" prefHeight="31.0" prefWidth="934.0">
+         <children>
+            <Label layoutX="14.0" layoutY="9.0" text="Espace Administrateur" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ImageView id="Fermer" fitHeight="21.0" fitWidth="20.0" layoutX="1190.0" layoutY="12.0" onMouseClicked="#handleCloseApplication" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.rightAnchor="39.0">
+         <image>
+            <Image url="@../../ressources/images/Fermer.png" />
+         </image>
+      </ImageView>
+      <AnchorPane id="titlePane" layoutX="168.0" layoutY="55.0" onMouseDragged="#handleonMouseDragged" onMousePressed="#onMousePressed" prefHeight="53.0" prefWidth="1033.0" styleClass="titlePane" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="titelLabel" layoutX="27.0" layoutY="8.0" text="Gestion des Arbitres">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <ImageView id="Agrandir" fx:id="optionTailleAgrandir" fitHeight="21.0" fitWidth="20.0" layoutX="1136.0" layoutY="12.0" onMouseClicked="#handleAgrandir" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" visible="false" AnchorPane.rightAnchor="93.0">
+         <image>
+            <Image url="@../../ressources/images/Agrandir.png" />
+         </image>
+      </ImageView>
+      <AnchorPane id="menuContainer" layoutX="1.0" layoutY="109.0" prefHeight="586.0" prefWidth="165.0">
+         <children>
+            <Button fx:id="menuMedecin" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" stylesheets="@../../ressources/css/mainSheet.css" text="Medecins" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <padding>
+                  <Insets left="60.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="menuBoutons" />
+                  <String fx:value="bgMedecin" />
+               </styleClass>
+            </Button>
+            <Button fx:id="menuArbitre" layoutX="5.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" stylesheets="@../../ressources/css/mainSheet.css" text="Arbitres" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <padding>
+                  <Insets left="60.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="menuBoutons" />
+                  <String fx:value="bgArbitre" />
+               </styleClass>
+            </Button>
+            <Button fx:id="menuJoueur" layoutX="5.0" layoutY="209.0" mnemonicParsing="false" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" stylesheets="@../../ressources/css/mainSheet.css" text="Joueurs" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <padding>
+                  <Insets left="60.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="menuBoutons" />
+                  <String fx:value="bgJoueur" />
+               </styleClass>
+            </Button>
+            <Button fx:id="menuArbitre121" layoutY="351.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" stylesheets="@../../ressources/css/mainSheet.css" text="Deconnexion" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <padding>
+                  <Insets left="60.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="menuBoutons" />
+                  <String fx:value="bgDeconnexion" />
+               </styleClass>
+            </Button>
+            <Label layoutX="33.0" layoutY="45.0" text="Administrateur" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

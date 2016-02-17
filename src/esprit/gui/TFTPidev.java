@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -19,14 +20,14 @@ public class TFTPidev extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("ChoixEspace.fxml"));
-        //chams gitlab w doctour ya doctour;
+        
+        Parent root = FXMLLoader.load(getClass().getResource("responsable/FXMLResponsable.fxml"));
         Scene scene = new Scene(root);
-        System.out.println("bbbbb");
+        stage.setMaximized(true);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
     }
-    //test wissem gitlab 16/02/2016 19:50 :)
 
     /**
      * @param args the command line arguments

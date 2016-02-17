@@ -1,0 +1,288 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 4 févr. 2016, 12:54:39
+    Author     : Mustapha
+*/
+.inputError
+{
+    -fx-border-color: #e01212; 
+}
+.inputNormal 
+{
+    -fx-border-color : rgba(0,0,0,0.3) ;
+    
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-background-color: -fx-control-inner-background ;
+    
+}
+.inputNormal:focused
+{
+    -fx-background-color: #f9f9f9;
+    -fx-border-color :  #229abf;
+}
+.inputError
+{
+    -fx-border-color: #e01212;
+}
+.bgDeconnexion
+{
+    -fx-background-size: 12% ;
+    
+    -fx-background-position: 8%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/deconnexion.png);
+}
+.bgDeconnexion:hover
+{
+    -fx-background-image: url(../../ressources/images/deconnexionHover.png);
+}
+.bgArbitre
+{
+    -fx-background-size: 12% ;
+    -fx-background-position: 8%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/admin/arbitre.png);
+}
+.bgArbitre:hover
+{
+    -fx-background-image: url(../../ressources/images/admin/arbitreHover.png);
+}
+.bgFormation
+{
+    -fx-background-size: 15% ;
+    -fx-background-position: 6%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/responsable/formation.png);
+}
+.bgFormation:hover
+{
+    -fx-background-image: url(../../ressources/images/responsable/formationHover.png);
+}
+.bgClub
+{
+    -fx-background-size: 15% ;
+    -fx-background-position: 6%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/responsable/club.png);
+}
+.bgClub:hover
+{
+    -fx-background-image: url(../../ressources/images/responsable/clubHover.png);
+}
+
+.bgMessage
+{
+    -fx-background-size: 15% ;
+    -fx-background-position: 6%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/responsable/message.png);
+}
+.bgMessage:hover
+{
+    -fx-background-image: url(../../ressources/images/responsable/messageHover.png);
+}
+.bgMatchs
+{
+    -fx-background-size: 15% ;
+    -fx-background-position: 6%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/responsable/matchs.png);
+}
+.bgMatchs:hover
+{
+    -fx-background-image: url(../../ressources/images/responsable/matchsHover.png);
+}
+.bgMedecin
+{
+    -fx-background-size: 12% ;
+    -fx-background-position: 8%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/admin/medecin.png);
+}
+.bgMedecin:hover
+{
+    -fx-background-image: url(../../ressources/images/admin/medecinHover.png);
+}
+.bgStade
+{
+    -fx-background-size: 15% ;
+    -fx-background-position: 6%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/responsable/stade.png);
+}
+.bgStade:hover,.bgStade:focused
+{
+    -fx-background-image: url(../../ressources/images/responsable/stadeHover.png);
+}
+.bgMedecin
+{
+    -fx-background-size: 15% ;
+    -fx-background-position: 6%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/admin/medecin.png);
+}
+.bgMedecin:hover
+{
+    -fx-background-image: url(../../ressources/images/admin/medecinHover.png);
+}
+.bgCup
+{
+    -fx-background-size: 10% ;
+    -fx-background-position: 8%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/responsable/cup.png);
+}
+.bgCup:hover
+{
+    -fx-background-image: url(../../ressources/images/responsable/cupHover.png);
+}
+
+.bgJoueur
+{
+    -fx-background-size: 12% ;
+    -fx-background-position: 8%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url(../../ressources/images/admin/joueur.png);
+}.bgJoueur:hover
+{
+    -fx-background-image: url(../../ressources/images/admin/joueurHover.png);
+}
+
+
+
+.menuBoutons{
+    -fx-background-color: #29778e;
+    -fx-text-alignment: left;
+   -fx-text-align: left;
+   -fx-cursor : hand;
+}
+.menuBoutons:hover{
+    -fx-background-color: #144d5e;
+}
+.menuBoutonsPressed{
+    -fx-background-color: #144d5e;
+    -fx-text-alignment: left;
+   -fx-text-align: left;
+}
+.backgroundListPane{
+    -fx-background-color: #FFF;
+   
+}
+.titleListPane
+{
+    -fx-background-color: #26778f;
+}
+.godpane
+{
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-background-color: #144d5e;
+    -fx-border-color :  rgba(0,0,0,0.3);
+}
+.backGroundPane{
+    -fx-background-color: #144d5e;
+}
+.logo{
+    -fx-background-color: #229abf;
+     -fx-background-image: url(../../ressources/images/logov2.png);
+    -fx-background-repeat: no-repeat;
+   
+   
+}
+.selectPane
+{
+    -fx-background-color: #229abf;
+     -fx-background-image: url(../../ressources/images/logov2.png);
+         -fx-border-insets: 0;
+         -fx-border-width: 1;
+         -fx-border-style: solid;
+    
+    -fx-background-repeat: no-repeat;
+   
+}
+.imageContainerButton
+{
+    -fx-font-size : 12;
+    -fx-background-color: #FFF;
+    -fx-text-fill : #144d5e;
+    -fx-border-insets: 0;
+         -fx-border-width: 1;
+         -fx-border-style: solid;
+         -fx-border-color: #144d5e;
+}
+.imageContainerButton:hover
+{
+    -fx-background-color: #144d5e;
+    -fx-text-fill : #FFF;
+    -fx-border-insets: 0;
+         -fx-border-width: 1;
+         -fx-border-style: solid;
+         -fx-border-color: #144d5e;
+}
+.corpsPane{
+    -fx-background-color: #dedede;
+    -fx-background-size: 100%;
+}
+.titlePane{
+    -fx-background-color: #FFF;
+}
+.boutonGlissant
+{
+    -fx-background-color: #FFF;
+}
+.boutonGlissantBouton1
+{
+   -fx-background-radius: 15px;
+   -fx-cursor: hand;
+  
+}
+.btn {
+     -fx-alignment : center-left;
+  
+    -fx-background-color: linear-gradient(#54beef, #2ea1d7);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+     
+}
+.btnEnvoyer {
+     -fx-alignment : center;
+  
+    -fx-background-color: linear-gradient(#54beef, #2ea1d7);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+     
+}
+
+.btn:hover,.btnEnvoyer:hover{
+  
+  
+    -fx-background-color: 
+       
+        linear-gradient(#76cef8, #2ea1d7);
+    
+
+
+}
+
+
+.compteContainer
+{
+    -fx-border-color :  rgba(0,0,0,0.3);
+    -fx-background-color: #FFF;
+    -fx-background-size: 100%;
+   
+    -fx-background-position: 50% 0%;
+    -fx-background-repeat:no-repeat;
+    -fx-background-image: url(Images/arbitreAvatar.jpg);
+   
+    
+}
