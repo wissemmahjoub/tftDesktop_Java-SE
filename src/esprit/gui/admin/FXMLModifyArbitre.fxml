@@ -12,21 +12,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" maxHeight="576.0" maxWidth="400.0" minHeight="576.0" minWidth="400.0" prefHeight="576.0" prefWidth="400.0" styleClass="mainFxmlBody" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="admin.FXMLModifyArbitreController">
-    <stylesheets>
-        <URL value="@fxmlmodifyarbitre.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" maxHeight="576.0" maxWidth="400.0" minHeight="576.0" minWidth="400.0" prefHeight="576.0" prefWidth="400.0" styleClass="mainFxmlBody" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.admin.FXMLModifyArbitreController">
    <children>
-      <TextField fx:id="adresse" layoutX="185.0" layoutY="182.0" />
-      <TextField fx:id="prenom" layoutX="185.0" layoutY="134.0" />
-      <TextField fx:id="nom" layoutX="185.0" layoutY="89.0" />
-      <TextField fx:id="login" layoutX="185.0" layoutY="406.0" />
+      <TextField fx:id="email" layoutX="185.0" layoutY="182.0" styleClass="inputNormal" />
+      <TextField fx:id="prenom" layoutX="185.0" layoutY="134.0" styleClass="inputNormal" />
+      <TextField fx:id="nom" layoutX="185.0" layoutY="89.0" styleClass="inputNormal" stylesheets="@../../ressources/css/mainSheet.css" />
+      <TextField fx:id="login" layoutX="185.0" layoutY="406.0" styleClass="inputNormal" />
       <Text layoutX="50.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" />
       <Text layoutX="50.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prenom" />
       <Text layoutX="49.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse" />
       <Text layoutX="50.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" />
       <Text layoutX="44.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-      <PasswordField fx:id="pwd" layoutX="185.0" layoutY="457.0" />
+      <PasswordField fx:id="pwd" layoutX="185.0" layoutY="457.0" styleClass="inputNormal" />
       <AnchorPane layoutX="-2.0" layoutY="-2.0" prefHeight="49.0" prefWidth="400.0" style="-fx-background-color: #144d5e;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Text fill="WHITE" layoutX="113.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier un arbitre">
@@ -44,7 +41,7 @@
       </Text>
       <Button fx:id="boutonModifier" layoutX="151.0" layoutY="519.0" mnemonicParsing="false" onMouseClicked="#modifier" prefHeight="31.0" prefWidth="99.0" text="Valider" />
       <Button fx:id="boutonAnnuler" layoutX="31.0" layoutY="519.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="90.0" text="Annuler" />
-      <ComboBox fx:id="niveau" layoutX="185.0" layoutY="243.0" prefHeight="31.0" prefWidth="187.0" />
+      <ComboBox fx:id="niveau" layoutX="185.0" layoutY="243.0" prefHeight="31.0" prefWidth="187.0" styleClass="inputNormal" />
       <Text layoutX="53.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Niveau" />
       <RadioButton fx:id="homme" layoutX="185.0" layoutY="300.0" mnemonicParsing="false" text="Homme" />
       <RadioButton fx:id="femme" layoutX="296.0" layoutY="300.0" mnemonicParsing="false" text="Femme" />
@@ -56,4 +53,8 @@
       </AnchorPane>
       <Button fx:id="boutonTerminer" layoutX="279.0" layoutY="519.0" mnemonicParsing="false" onMouseClicked="#terminer" prefHeight="31.0" prefWidth="99.0" text="Terminer" />
    </children>
+   <stylesheets>
+      <URL value="@../../ressources/css/fxmlmodifyarbitre.css" />
+      <URL value="@../../ressources/css/mainSheet.css" />
+   </stylesheets>
 </AnchorPane>

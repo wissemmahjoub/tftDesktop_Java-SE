@@ -71,7 +71,6 @@ public class FXMLResponsableController implements Initializable {
         menuMessage.setStyle(styleMenu); 
         menuFormation.setStyle(styleMenu);
         menuClub.setStyle(styleMenu);
-        
     }
      
      private Stage getStage()

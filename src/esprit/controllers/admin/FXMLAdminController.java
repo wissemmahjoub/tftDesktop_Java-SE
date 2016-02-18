@@ -440,7 +440,7 @@ public class FXMLAdminController implements Initializable {
          
     }
         
-    private void fillTableArbitre()
+     private void fillTableArbitre()
    {
        
        
@@ -543,10 +543,11 @@ public class FXMLAdminController implements Initializable {
                                             stageModify.setResizable(false);
                                              Parent root;
                                         try {
-                                            root = FXMLLoader.load(getClass().getResource("FXMLModifyArbitre.fxml"));
+                                            root = FXMLLoader.load(getClass().getResource("/esprit/gui/admin/FXMLModifyArbitre.fxml"));
                                             stageModify.setScene(new Scene(root));
                                         } catch (IOException ex) {
                                             Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                                           // System.out.println(ex.getMessage());
                                         }
                                             
                                              stageModify.setTitle("Modifier un Arbitre");
