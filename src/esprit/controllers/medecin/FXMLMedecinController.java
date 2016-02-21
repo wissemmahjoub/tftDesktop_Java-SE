@@ -318,24 +318,6 @@ private Stage getStage()
 
     }
     
-   //################################## Statistique ###########################################
-       @FXML
-    void afficherStatisque(ActionEvent event)
-    {
-      ObservableList<PieChart.Data> pieChartData =FXCollections.observableArrayList();
-        List<Joueur> list =invDAO.getListinviteee();
-        for(Joueur jjj : list){
-           
-            PieChart.Data data = new PieChart.Data(jjj.getCin(), jjj.getIdpersonne());
-            pieChartData.add(data);
-        }
-    
-
-        zone_stat.setTitle("Statistique");
-       
-        zone_stat.setData(pieChartData);  
-
-    }
     
   //########################|   afficher les joueur invités|###################################"
    public void affiche_liste_joueurs_invites()
