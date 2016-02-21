@@ -69,7 +69,7 @@ public class FXMLAdminController implements Initializable {
 "    -fx-faint-focus-color: -fx-control-inner-background ;";
      //*************************************************************************************************************
        
-    
+    /* --*/
         @FXML
     private Button boutonGlissantListe;
     @FXML

@@ -14,8 +14,8 @@ import java.util.List;
 public interface ICrudDAO <T>{
     
     public T find(T t);
-    public void save(T t);
-    public void delete(T t);
-    public void update(T t);
+    public boolean save(T t);
+    public boolean  delete(T t);
+    public boolean  update(T t);
     public List<T> getList();
 }
