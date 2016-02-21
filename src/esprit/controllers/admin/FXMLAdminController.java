@@ -21,11 +21,15 @@ import javafx.stage.Stage;
 import esprit.entite.Arbitre;
 import esprit.entite.Niveau;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -133,7 +137,12 @@ public class FXMLAdminController implements Initializable {
     private TableView tableArbitre;
     @FXML
     private TableColumn arbitreColumnButtonModify;
-    
+    @FXML
+    private ScrollPane imageScrollPaneContainer;
+    @FXML
+     private List<AnchorPane> anchorListe;
+    @FXML
+    private AnchorPane imageGlobalContainer;
          private ObservableList<Arbitre> mainArbitreData;
         private ObservableList<Arbitre> arbitreData_filtree;
         private ObservableList<Arbitre> arbitreData ;
@@ -386,11 +395,11 @@ public class FXMLAdminController implements Initializable {
         Button auxButton = (Button)event.getSource();
         if (auxButton.getId().equals("boutonGlissantImage"))
         {
-           // imageScrollPaneContainer.setVisible(true);
+            imageScrollPaneContainer.setVisible(true);
             boutonGlissantImage.setVisible(false);
             boutonGlissantListe.setVisible(true);
-            //TFTTransition.fadeIn(imageScrollPaneContainer,400);
-           // fillImages();
+            TFTTransition.fadeIn(imageScrollPaneContainer,400);
+            fillImagesArbitre();
             listeContainer.setOpacity(0);
             listeContainer.setVisible(false);
         }else
@@ -398,16 +407,16 @@ public class FXMLAdminController implements Initializable {
                 listeContainer.setVisible(true);
                 boutonGlissantImage.setVisible(true);
                 boutonGlissantListe.setVisible(false);
-              //  imageScrollPaneContainer.setOpacity(0);
-              //  imageScrollPaneContainer.setVisible(false);
+                imageScrollPaneContainer.setOpacity(0);
+                imageScrollPaneContainer.setVisible(false);
                 TFTTransition.fadeIn(listeContainer,600);
                 
-              //  fillTable();
+                fillTableArbitre();
            
             
         }
         
-    }  
+    }
    @FXML
     private void handleAjouterArbitre(MouseEvent event)
     {
@@ -423,10 +432,10 @@ public class FXMLAdminController implements Initializable {
                 arbitrePassword.getText(),null,"Arbitre",
                 "Sans avatar",null,0,0,Niveau.valueOf(arbitreNiveau.getValue().toString())
         );
-         System.out.println(arbitreNom.getText());
+         
          ArbitreDAO arbitreDAO = new ArbitreDAO();
          arbitreDAO.save(arbitre);
-         //fillTable();
+         fillTableArbitre();
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Federation Tunisienne de Tennis");
@@ -440,7 +449,7 @@ public class FXMLAdminController implements Initializable {
          
     }
         
-     private void fillTableArbitre()
+    private void fillTableArbitre()
    {
        
        
@@ -586,11 +595,436 @@ public class FXMLAdminController implements Initializable {
    }
    
     
+   @FXML
+   public void rechercher(KeyEvent event)
+   {
+       rechercherImages();
+       Arbitre a=new Arbitre();
+           ArbitreDAO arbitreDao = new ArbitreDAO();
+           arbitreColumnNom.setCellValueFactory(new PropertyValueFactory("Nom"));
+           arbitreColumnPrenom.setCellValueFactory(new PropertyValueFactory("Prenom"));
+           arbitreColumnCin.setCellValueFactory(new PropertyValueFactory("Cin"));
+           arbitreColumnEmail.setCellValueFactory(new PropertyValueFactory("Email"));
+           arbitreColumnLogin.setCellValueFactory(new PropertyValueFactory("Login"));
+           arbitreColumnPassword.setCellValueFactory(new PropertyValueFactory("pwd"));
+           arbitreColumnSexe.setCellValueFactory(new PropertyValueFactory("Sexe"));
+           arbitreColumnNiveau.setCellValueFactory(new PropertyValueFactory("Niveau"));
+             
+           
+           Callback<TableColumn<Arbitre, String>, TableCell<Arbitre, String>> cellFactory = 
+                new Callback<TableColumn<Arbitre, String>, TableCell<Arbitre, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Arbitre, String> param )
+                    {
+                        final TableCell<Arbitre, String> cell = new TableCell<Arbitre, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             a.setCin(getTableView().getItems().get(getIndex()).getCin()); 
+                                              arbitreDao.delete(a);
+                                             fillTableArbitre();
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+           
+           
+            Callback<TableColumn<Arbitre, String>, TableCell<Arbitre, String>> cellFactoryModify = 
+                new Callback<TableColumn<Arbitre, String>, TableCell<Arbitre, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Arbitre, String> param )
+                    {
+                        final TableCell<Arbitre, String> cell = new TableCell<Arbitre, String>()
+                        {
+
+                            final Button btnModify = new Button( "Modifier" );
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btnModify.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             a.setCin(getTableView().getItems().get(getIndex()).getCin());
+                                             a.setNom(getTableView().getItems().get(getIndex()).getNom());
+                                             a.setPrenom(getTableView().getItems().get(getIndex()).getPrenom());
+                                             a.setLogin(getTableView().getItems().get(getIndex()).getLogin());
+                                             a.setPassword(getTableView().getItems().get(getIndex()).getPassword());
+                                             a.setSexe(getTableView().getItems().get(getIndex()).getSexe());
+                                             a.setAdresse(getTableView().getItems().get(getIndex()).getAdresse());
+                                             a.setNiveau(getTableView().getItems().get(getIndex()).getNiveau());
+                                              //arbitreDao.delete(a);
+                                             fillTableArbitre();
+                                             FXMLModifyArbitreController.initData(a);
+                                             
+                                             /**
+                                              *  Attendre pour que les donneés soit envoyées
+                                              */
+                                             try {
+                                            Thread.sleep(1000);
+                                       
+                                             } catch (InterruptedException ex) {
+                                            Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                                       
+                                             }
+                                             //***********************************************
+                                             
+                                             Stage stageModify = new Stage();
+                                            stageModify.setResizable(false);
+                                             Parent root;
+                                        try {
+                                            root = FXMLLoader.load(getClass().getResource("/esprit/gui/admin/FXMLModifyArbitre.fxml"));
+                                            stageModify.setScene(new Scene(root));
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                            
+                                             stageModify.setTitle("Modifier un Arbitre");
+                                                     stageModify.initModality(Modality.WINDOW_MODAL);
+                                            stageModify.initOwner(
+                                               ((Button)event.getSource()).getScene().getWindow() );
+                                             stageModify.setOnHidden((WindowEvent e)->{
+                                             fillTableArbitre() ;});
+                                                     
+                                                     
+                                                     stageModify.show();
+                                             
+                                    } );
+                                    setGraphic( btnModify );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            arbitreColumnButtonModify.setCellFactory(cellFactoryModify);
+            arbitreColumnButton.setCellFactory( cellFactory );
+           arbitreData_filtree = FXCollections.observableArrayList();
+           arbitreDao.getList().stream().filter((aIterator) -> ( aIterator.getNom().contains(searchField.getText()) ||  aIterator.getPrenom().contains(searchField.getText()) )).forEach((aIterator) -> {
+               arbitreData_filtree.add(aIterator);
+       });
+            
+            tableArbitre.setItems(arbitreData_filtree);
+            tableArbitre.setEditable(true);
+        
+        
+            
+   }
+   
+  
+     private void rechercherImages()
+   {
+       ArbitreDAO arbitreDao = new ArbitreDAO();
+       
+       List imageData;
+       imageData = arbitreDao.getList();
+       ObservableList<Arbitre> imageData_filtree = FXCollections.observableArrayList();
+       
+        arbitreDao.getList().stream().filter((aIterator) -> ( aIterator.getNom().contains(searchField.getText()) ||  aIterator.getPrenom().contains(searchField.getText()) )).forEach((aIterator) -> {
+               imageData_filtree.add(aIterator);
+       });
+       /**
+        * Itération pour chaque Objet Arbitre dans la base;
+        */
+       double ligneX = 26;
+       double ligneY = 25;
+       double iteration = 1;
+       int nombreLigne = 1;
+       int maxHorizon = 600;
+       
+       if (imageScrollPaneContainer.getWidth() > 750) maxHorizon=900;
+       
+       // On vide le container à chaque fois qu'on entre dans la fonction.
+       if(anchorListe.size() > 0)
+       {
+           anchorListe.stream().forEach((anchorIterator) -> {
+               imageGlobalContainer.getChildren().remove(anchorIterator);
+           });
+       }
+       
+           for (Arbitre aIterator :     imageData_filtree)
+               {
+                   
+                       /**
+                        * on est arrivé à la limite de la ligne horizontale donc on retourne à la ligne.
+                        */
+                       if (ligneX >= maxHorizon)
+                        {
+                       ligneX = 26;
+                       ligneY = (263 * nombreLigne) + 25;
+                       nombreLigne++;
+                        }
+                   
+                   
+                   //--------------------------Creation des composants / Evenements ----------------------------
+                   VBox vbLabels = new VBox();
+                   vbLabels.setSpacing(10);
+                    vbLabels.setPadding(new Insets(0, 20, 10, 20)); 
+                    vbLabels.setAlignment(Pos.CENTER);
+                            
+                   Label nomAndprenom = new Label(aIterator.getNom()+" "+aIterator.getPrenom());
+                   //nomAndprenom.setLayoutX(65);
+                   //nomAndprenom.setLayoutY(142);
+                   Label lblNiveau = new Label(aIterator.getNiveau().toString());
+                  // lblNiveau.setLayoutX(81);
+                   //lblNiveau.setLayoutY(174);
+                   
+                   vbLabels.getChildren().addAll(nomAndprenom,lblNiveau);
+                   vbLabels.setLayoutY(142);
+                   vbLabels.setLayoutX((218 / nomAndprenom.getText().length()) + 20 );
+                   /**
+                    * Creation des boutons.
+                    */
+                   Button imgContainerModiferButton = new Button();
+                   imgContainerModiferButton.getStyleClass().add("imageContainerButton");
+                   imgContainerModiferButton.setText("Modifier");
+                   imgContainerModiferButton.setPrefSize(74, 25);
+                   imgContainerModiferButton.setLayoutX(119);
+                   imgContainerModiferButton.setLayoutY(218);
+                   
+                   Button imgContainerSuppButton = new Button();
+                   imgContainerSuppButton.getStyleClass().add("imageContainerButton");
+                   imgContainerSuppButton.setText("Supprimer");
+                   imgContainerSuppButton.setPrefSize(74, 25);
+                   imgContainerSuppButton.setLayoutX(23);
+                   imgContainerSuppButton.setLayoutY(218);
+                   
+                   imgContainerModiferButton.setOnAction((ActionEvent eventModifer)->{
+                                FXMLModifyArbitreController.initData(aIterator);
+                                 Stage stageModify = new Stage();
+                                     stageModify.setResizable(false);
+                                    Parent root;
+                                  try {
+                                    root = FXMLLoader.load(getClass().getResource("/esprit/gui/admin/FXMLModifyArbitre.fxml"));
+                                      stageModify.setScene(new Scene(root));
+                                     } catch (IOException ex) {
+                                      Logger.getLogger(FXMLModifyArbitreController.class.getName()).log(Level.SEVERE, null, ex);
+                                              }
+                                      stageModify.setTitle("Modifier un Arbitre");
+                                      stageModify.initModality(Modality.WINDOW_MODAL);
+                                        stageModify.initOwner(((Button)eventModifer.getSource()).getScene().getWindow() );
+                                          stageModify.setOnHidden((WindowEvent e)->{
+                               fillImagesArbitre() ;
+                                     });
+                                 stageModify.show();
+                               });
+                   
+                   
+                   /**
+                    * Creation des Containers.
+                    */
+                   AnchorPane imageContainer = new AnchorPane();
+                   imageContainer.setOpacity(0);
+                   imageContainer.setId("imageContainer"+aIterator.getCin());
+                   
+                   imageContainer.setPrefSize(218, 263);
+                   imageContainer.setStyle("-fx-background-color: #fff; -fx-border-color: #f1f1f1");
+                   imageContainer.setLayoutX(ligneX);
+                   imageContainer.setLayoutY(ligneY);
+                   
+                   imageGlobalContainer.getChildren().add(imageContainer);
+                   imageContainer.getChildren().addAll(imgContainerModiferButton,imgContainerSuppButton, vbLabels);
+                   anchorListe.add(imageContainer);
+                   ligneX += 218; 
+                   
+                   /**
+                    * Transition config.
+                    */
+                   TFTTransition.fadeIn(imageContainer,iteration*150);
+                   iteration++;
+                   
+                   
+                   imgContainerSuppButton.setOnAction((ActionEvent eventSupp)->{
+                       arbitreDao.delete(aIterator);
+                       imageGlobalContainer.getChildren().remove(imageContainer);
+                       
+                       fillImagesArbitre();
+                   });
+                   
+                  // data.add(aIterator);
+               }
+           
+       
+        //----------------------------------------------------------------------------
+                                        
+       
+   }
     
+     private void fillImagesArbitre()
+   {
+       ArbitreDAO arbitreDao = new ArbitreDAO();
+       List imageData;
+       imageData = arbitreDao.getList();
+       /**
+        * Itération pour chaque Objet Arbitre dans la base;
+        */
+       double ligneX = 26;
+       double ligneY = 25;
+       double iteration = 1;
+       int nombreLigne = 1;
+       int maxHorizon = 600;
+       
+       if (imageScrollPaneContainer.getWidth() > 750) maxHorizon=900;
+       
+       // On vide le container à chaque fois qu'on entre dans la fonction.
+       if(anchorListe.size() > 0)
+       {
+           anchorListe.stream().forEach((anchorIterator) -> {
+               imageGlobalContainer.getChildren().remove(anchorIterator);
+           });
+       }
+       
+           for (Arbitre aIterator : arbitreDao.getList())
+               {
+                   
+                       /**
+                        * on est arrivé à la limite de la ligne horizontale donc on retourne à la ligne.
+                        */
+                       if (ligneX >= maxHorizon)
+                        {
+                       ligneX = 26;
+                       ligneY = (263 * nombreLigne) + 25;
+                       nombreLigne++;
+                        }
+                   
+                   
+                   //--------------------------Creation des composants / Evenements ----------------------------
+                   VBox vbLabels = new VBox();
+                   vbLabels.setSpacing(10);
+                    vbLabels.setPadding(new Insets(0, 20, 10, 20)); 
+                    vbLabels.setAlignment(Pos.CENTER);
+                            
+                   Label nomAndprenom = new Label(aIterator.getNom()+" "+aIterator.getPrenom());
+                   //nomAndprenom.setLayoutX(65);
+                   //nomAndprenom.setLayoutY(142);
+                   Label lblNiveau = new Label(aIterator.getNiveau().toString());
+                  // lblNiveau.setLayoutX(81);
+                   //lblNiveau.setLayoutY(174);
+                   
+                   vbLabels.getChildren().addAll(nomAndprenom,lblNiveau);
+                   vbLabels.setLayoutY(142);
+                   vbLabels.setLayoutX((218 / nomAndprenom.getText().length()) + 20 );
+                   /**
+                    * Creation des boutons.
+                    */
+                   Button imgContainerModiferButton = new Button();
+                   imgContainerModiferButton.getStyleClass().add("imageContainerButton");
+                   imgContainerModiferButton.setText("Modifier");
+                   imgContainerModiferButton.setPrefSize(74, 25);
+                   imgContainerModiferButton.setLayoutX(119);
+                   imgContainerModiferButton.setLayoutY(218);
+                   
+                   Button imgContainerSuppButton = new Button();
+                   imgContainerSuppButton.getStyleClass().add("imageContainerButton");
+                   imgContainerSuppButton.setText("Supprimer");
+                   imgContainerSuppButton.setPrefSize(74, 25);
+                   imgContainerSuppButton.setLayoutX(23);
+                   imgContainerSuppButton.setLayoutY(218);
+                   
+                   imgContainerModiferButton.setOnAction((ActionEvent event)->{
+                                FXMLModifyArbitreController.initData(aIterator);
+                                 Stage stageModify = new Stage();
+                                     stageModify.setResizable(false);
+                                    Parent root;
+                                  try {
+                                    root = FXMLLoader.load(getClass().getResource("/esprit/gui/admin/FXMLModifyArbitre.fxml"));
+                                      stageModify.setScene(new Scene(root));
+                                     } catch (IOException ex) {
+                                      Logger.getLogger(FXMLModifyArbitreController.class.getName()).log(Level.SEVERE, null, ex);
+                                              }
+                                      stageModify.setTitle("Modifier un Arbitre");
+                                      stageModify.initModality(Modality.WINDOW_MODAL);
+                                        stageModify.initOwner(((Button)event.getSource()).getScene().getWindow() );
+                                          stageModify.setOnHidden((WindowEvent e)->{
+                               fillImagesArbitre() ;
+                                     });
+                                 stageModify.show();
+                               });
+                   
+                   
+                   /**
+                    * Creation des Containers.
+                    */
+                   AnchorPane imageContainer = new AnchorPane();
+                   imageContainer.setOpacity(0);
+                   imageContainer.setId("imageContainer"+aIterator.getCin());
+                   
+                   imageContainer.setPrefSize(218, 263);
+                   imageContainer.setStyle("-fx-background-color: #fff; -fx-border-color: #f1f1f1");
+                   imageContainer.setLayoutX(ligneX);
+                   imageContainer.setLayoutY(ligneY);
+                   
+                   imageGlobalContainer.getChildren().add(imageContainer);
+                   imageContainer.getChildren().addAll(imgContainerModiferButton,imgContainerSuppButton, vbLabels);
+                   anchorListe.add(imageContainer);
+                   ligneX += 218; 
+                   
+                   /**
+                    * Transition config.
+                    */
+                   TFTTransition.fadeIn(imageContainer,iteration*150);
+                   iteration++;
+                   
+                   
+                   imgContainerSuppButton.setOnAction((ActionEvent event)->{
+                       arbitreDao.delete(aIterator);
+                       imageGlobalContainer.getChildren().remove(imageContainer);
+                       
+                       fillImagesArbitre();
+                   });
+                   
+                  // data.add(aIterator);
+               }
+           
+       
+        //----------------------------------------------------------------------------
+                                        
+       
+   }
     
-    
-    
-    
+     
+     
+     @FXML
+     private void deconnexion(MouseEvent event)
+     {
+         Stage stage = getStage();
+           Parent rootAuth;
+       try {
+           rootAuth = FXMLLoader.load(getClass().getResource("/esprit/gui/authentification/FXMLauthentificationv2.fxml"));
+            Scene scene = new Scene(rootAuth);
+            stage.setScene(scene);
+       } catch (IOException ex) {
+           Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
+     }
     //***********************************************
     //***********************************************
     
@@ -599,7 +1033,7 @@ public class FXMLAdminController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       
-      
+      anchorListe = new ArrayList<>();
        arbitreNiveau.getItems().addAll("Amateur","National","International");
        femme.setToggleGroup(groupSexeArbitre);
        homme.setSelected(true);

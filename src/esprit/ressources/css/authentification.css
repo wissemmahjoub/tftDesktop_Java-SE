@@ -33,7 +33,7 @@ and open the template in the editor.
 .inputNormal 
 {
     -fx-border-color : rgba(255,255,255,0.3) ;
-    
+     -fx-text-fill: white;
     -fx-focus-color: -fx-control-inner-background ;
     -fx-background-color: #0f4454 ;
     

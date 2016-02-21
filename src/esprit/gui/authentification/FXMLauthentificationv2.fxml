@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="613.0" style="-fx-background-color: #16404d;" stylesheets="@../../ressources/css/authentification.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.authentification.FXMLauthentificationController">
+   <children>
+      <ImageView fitHeight="663.0" fitWidth="613.0" layoutY="-2.0">
+         <image>
+            <Image url="@../../ressources/images/authentification/degrade.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="formContainer" focusTraversable="true" layoutX="55.0" layoutY="128.0" prefHeight="527.0" prefWidth="484.0" visible="false">
+         <children>
+            <TextField fx:id="formLogin" layoutX="71.0" layoutY="293.0" onKeyPressed="#onChangeFields" onKeyReleased="#onChangeFields" onKeyTyped="#onChangeFields" prefHeight="31.0" prefWidth="375.0" promptText="Entrez votre ID" styleClass="inputNormal" />
+            <TextField fx:id="formPwd" layoutX="71.0" layoutY="347.0" onKeyPressed="#onChangeFields" onKeyReleased="#onChangeFields" onKeyTyped="#onChangeFields" prefHeight="31.0" prefWidth="375.0" promptText="Entrez votre mot de passe" styleClass="inputNormal" />
+            <Button fx:id="valider" disable="true" layoutX="71.0" layoutY="429.0" mnemonicParsing="false" onMouseClicked="#clickValider" prefHeight="31.0" prefWidth="158.0" styleClass="imageContainerButton" text="Valider" />
+            <Button layoutX="288.0" layoutY="429.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="158.0" styleClass="imageContainerButton" text="Inaccessible ?" />
+            <VBox alignment="TOP_CENTER" layoutX="65.0" layoutY="247.0" prefHeight="33.0" prefWidth="375.0">
+               <children>
+                  <Label fx:id="note" text="Label" textAlignment="CENTER" textFill="WHITE" visible="false" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="104.0" fitWidth="108.0" layoutX="19.0" layoutY="21.0">
+         <image>
+            <Image url="@../../ressources/images/authentification/logo.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="139.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tunisian Federation of Tennis">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Text>
+      <AnchorPane fx:id="adminContainer" layoutX="38.0" layoutY="158.0" prefHeight="227.0" prefWidth="240.0">
+         <children>
+            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="41.0" onMouseClicked="#clickAdmin">
+               <image>
+                  <Image url="@../../ressources/images/authentification/admin.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="25.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Espace Administrateur">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="arbitreContainer" layoutX="361.0" layoutY="164.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="21.0" onMouseClicked="#clickArbitre">
+               <image>
+                  <Image url="@../../ressources/images/authentification/arbitre2.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="34.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Espace Arbitre" wrappingWidth="132.67529296875">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="medecinContainer" layoutX="339.0" layoutY="404.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="21.0" onMouseClicked="#clickMedecin">
+               <image>
+                  <Image url="@../../ressources/images/authentification/medecin2.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="26.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Espace Medecin">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <Button fx:id="retour" layoutX="107.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#retourPressed" opacity="0.0" prefHeight="33.0" prefWidth="87.0" styleClass="imageContainerButton" text="&lt;- Retour" />
+      <AnchorPane fx:id="responsableContainer" layoutX="39.0" layoutY="411.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" layoutX="7.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Espace Responsable">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="145.0" fitWidth="149.0" layoutX="26.0" onMouseClicked="#clickResponsable">
+               <image>
+                  <Image url="@../../ressources/images/authentification/responsable.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

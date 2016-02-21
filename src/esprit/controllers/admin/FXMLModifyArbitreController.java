@@ -51,7 +51,7 @@ public class FXMLModifyArbitreController implements Initializable {
     @FXML
     TextField prenom ;
     @FXML
-    TextField adresse ;
+    TextField email ;
     @FXML
     TextField login;
     @FXML
@@ -62,9 +62,10 @@ public class FXMLModifyArbitreController implements Initializable {
     AnchorPane body;
     @FXML
     Label label;
-    @FXML
-    TextField email;
     static private Arbitre arbitre;
+    
+    
+    
     private boolean fonctionCCsaisie()
     {
         return !(nom.getText().isEmpty() || prenom.getText().isEmpty() || login.getText().isEmpty() || pwd.getText().isEmpty() || email.getText().isEmpty() || niveau.getValue()==null);
@@ -82,11 +83,16 @@ public class FXMLModifyArbitreController implements Initializable {
         try
         {
             if (fonctionCCsaisie()){
-                // public Arbitre(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, 
-             //Date datenaissance, String role, String avatar, Date datedestruction,float salaire, int experience, Niveau niveau) 
-             //
-                 Arbitre arbitreNouveau = new Arbitre(0,arbitre.getCin(),nom.getText(),prenom.getText(),"Sans adresse",email.getText(),auxButton.getId(), login.getText(), pwd.getText(),null,"Arbitre","Sans avatar",null,0,0,Niveau.valueOf(niveau.getValue().toString()));
-        
+                //public Arbitre(int idpersonne, String cin, String nom, String prenom, String adresse, 
+        //String email, String sexe, String login, String password, Date datenaissance, String role, String avatar,
+        //Date datedestruction,float salaire, int experience, Niveau niveau) 
+    
+                 //Arbitre arbitreNouveau = new Arbitre(null,nom.getText(),prenom.getText(),adresse.getText(),auxButton.getId(), arbitre.getCin(),pwd.getText(), login.getText(), niveau.getValue().toString());
+                  Arbitre arbitreNouveau = new Arbitre(0,arbitre.getCin(),nom.getText(),prenom.getText(),"Sans adresse",email.getText(),
+                   auxButton.getId(),login.getText(),
+                pwd.getText(),null,"Arbitre",
+                "Sans avatar",null,0,0,Niveau.valueOf(niveau.getValue().toString())
+        );
                 arbitreDao.update(arbitreNouveau);
                 notification.setStyle("-fx-background-color:#6df35f");
                 label.setText("Modification terminée !");
@@ -119,7 +125,7 @@ public class FXMLModifyArbitreController implements Initializable {
         // TODO
         nom.setText(arbitre.getNom());
         prenom.setText(arbitre.getPrenom());
-       email.setText(arbitre.getEmail());
+        email.setText(arbitre.getEmail());
         login.setText(arbitre.getLogin());
         pwd.setText(arbitre.getPassword());
        niveau.getItems().addAll("Amateur","National","International");

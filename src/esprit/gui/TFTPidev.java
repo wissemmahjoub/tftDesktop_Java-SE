@@ -6,6 +6,7 @@
 package esprit.gui;
 
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,14 +23,15 @@ public class TFTPidev extends Application {
     public void start(Stage stage) throws Exception {
         
         Parent root = FXMLLoader.load(getClass().getResource("responsable/FXMLResponsable.fxml"));
-        Parent rootAdmin = FXMLLoader.load(getClass().getResource("admin/FXMLAdmin.fxml"));
+           Parent rootAdmin = FXMLLoader.load(getClass().getResource("admin/FXMLAdmin.fxml"));
+        Parent rootAuth = FXMLLoader.load(getClass().getResource("authentification/FXMLauthentificationv2.fxml"));
         
         Scene scene = new Scene(root);
         
         // Activer cette ligne pour afficher l'interface d'espace Administrateur
         //scene.setRoot(rootAdmin);
-        
-        stage.setMaximized(true);
+        scene.setRoot(rootAuth);
+        //stage.setMaximized(true);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
