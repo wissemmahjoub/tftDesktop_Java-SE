@@ -27,14 +27,14 @@ public class TFTPidev extends Application {
         Parent rootAuth = FXMLLoader.load(getClass().getResource("authentification/FXMLauthentificationv2.fxml"));
         Parent rootMedecin = FXMLLoader.load(getClass().getResource("medecin/FXMLMedecin.fxml"));
         Scene scene = new Scene(root);
-        Scene sceneMedecin = new Scene(rootMedecin);
-        // Activer cette ligne pour afficher l'interface d'espace Administrateur
-        //scene.setRoot(rootAdmin);
+        //Scene sceneMedecin = new Scene(rootMedecin);
+        
         scene.setRoot(rootAuth);
+        
         //stage.setMaximized(true);
+        stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
-     //   stage.setScene(scene);
-        stage.setScene(sceneMedecin);
+     
         stage.show();
     }
 

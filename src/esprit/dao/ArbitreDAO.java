@@ -38,7 +38,7 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
     }
 
     @Override
-    public void save(Arbitre t) {
+    public boolean save(Arbitre t) {
          try {
              // public Arbitre(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, 
              //Date datenaissance, String role, String avatar, Date datedestruction,float salaire, int experience, Niveau niveau) 
@@ -61,19 +61,22 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
             
             
             pre.execute();
+            
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Federation Tunisienne de Tennis");
 
             alert.setHeaderText("");
             alert.setContentText("L'arbitre a été ajouté avec succés");
             alert.showAndWait();
+            return true;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
     }
 
     @Override
-    public void delete(Arbitre t) {
+    public boolean delete(Arbitre t) {
          LocalDateTime timePoint = LocalDateTime.now(); 
          String format = "dd/MM/yyyy";
          System.out.println(timePoint.format(DateTimeFormatter.ISO_DATE));
@@ -81,8 +84,10 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
        try {
             String req= "update personne set datedestruction =  '" + timePoint.format(DateTimeFormatter.ISO_DATE) +"' where cin ='"+t.getCin()+"' and role='Arbitre'" ;
             ste.executeUpdate(req);
+            return true;
         } catch (SQLException ex) {
          System.out.println(ex.getMessage());
+         return false;
         }
     }
 
@@ -127,7 +132,7 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
     }
 
     @Override
-    public void update(Arbitre t) {
+    public boolean update(Arbitre t) {
         
         try {
             String req= "update personne set nom = '" + t.getNom()+"', prenom ='"
@@ -136,37 +141,47 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
                     //"
                     //+ " where cin="+t.getCin()+" and role= 'Arbitre';";
             ste.executeUpdate(req);
+            return true;
         } catch (SQLException ex) {
          System.out.println(ex.getMessage());
+         return false;
         }
         
     }
 
     @Override
     public Arbitre find(Arbitre t) {
-//         Arbitre arbitre ;
-//       
-//        String req= "select * from personne where role = 'Arbitre' and date_destruction is null and login='"+t.getLogin()+"' ";
-//            try {
-//            ResultSet res =  ste.executeQuery(req);
-//            if (res.next()) {
-//               arbitre= new Arbitre(res.getString("nom"),
-//                       res.getString("prenom"),
-//                        res.getString("adresse"),
-//                res.getString("sexe"),
-//                       res.getString("cin"),
-//                       res.getString("pwd"),
-//                       res.getString("login"),
-//                       res.getString("niveau"));
-//               return arbitre;
-//            }else{
-//                return null;
-//            }
-//            
-//        } catch (SQLException ex) {
-//            return null;
-//        } 
-        return null;
+          Arbitre arbitre ;
+       
+        String req= "select * from personne where role = 'Arbitre' and datedestruction is null and login='"+t.getLogin()+"' ";
+            try {
+            ResultSet res =  ste.executeQuery(req);
+            if (res.next()) {
+                arbitre= new Arbitre(res.getInt("idpersonne"),
+                       res.getString("cin"),
+                        res.getString("nom"),
+                       res.getString("prenom"),
+                       res.getString("adresse"),
+                       res.getString("email"),
+                       res.getString("sexe"),
+                       res.getString("login"),
+                       res.getString("password"),
+                       res.getDate("datenaissance"),
+                       res.getString("role"),
+                       res.getString("avatar"),
+                       res.getDate("datedestruction"),
+                       res.getFloat("salaire"),
+                       res.getInt("experience"),
+                       Niveau.valueOf(res.getString("niveau"))
+               );
+               return arbitre;
+            }else{
+                return null;
+            }
+            
+        } catch (SQLException ex) {
+            return null;
+        } 
     }
     
     

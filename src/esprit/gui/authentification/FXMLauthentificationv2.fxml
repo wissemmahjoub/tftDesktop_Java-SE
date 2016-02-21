@@ -30,7 +30,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="104.0" fitWidth="108.0" layoutX="19.0" layoutY="21.0">
+      <ImageView fitHeight="104.0" fitWidth="108.0" layoutX="14.0" layoutY="32.0">
          <image>
             <Image url="@../../ressources/images/authentification/logo.png" />
          </image>
@@ -42,7 +42,7 @@
       </Text>
       <AnchorPane fx:id="adminContainer" layoutX="38.0" layoutY="158.0" prefHeight="227.0" prefWidth="240.0">
          <children>
-            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="41.0" onMouseClicked="#clickAdmin">
+            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="41.0" onMouseClicked="#clickAdmin" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../../ressources/images/authentification/admin.png" />
                </image>
@@ -56,7 +56,7 @@
       </AnchorPane>
       <AnchorPane fx:id="arbitreContainer" layoutX="361.0" layoutY="164.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="21.0" onMouseClicked="#clickArbitre">
+            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="21.0" onMouseClicked="#clickArbitre" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../../ressources/images/authentification/arbitre2.png" />
                </image>
@@ -70,7 +70,7 @@
       </AnchorPane>
       <AnchorPane fx:id="medecinContainer" layoutX="339.0" layoutY="404.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="21.0" onMouseClicked="#clickMedecin">
+            <ImageView fitHeight="155.0" fitWidth="158.0" layoutX="21.0" onMouseClicked="#clickMedecin" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../../ressources/images/authentification/medecin2.png" />
                </image>
@@ -90,11 +90,21 @@
                   <Font size="21.0" />
                </font>
             </Text>
-            <ImageView fitHeight="145.0" fitWidth="149.0" layoutX="26.0" onMouseClicked="#clickResponsable">
+            <ImageView fitHeight="145.0" fitWidth="149.0" layoutX="26.0" onMouseClicked="#clickResponsable" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../../ressources/images/authentification/responsable.png" />
                </image>
             </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="-1.0" layoutY="-4.0" onMouseDragged="#handleonMouseDragged" onMousePressed="#onMousePressed" prefHeight="28.0" prefWidth="613.0" style="-fx-cursor: hand;" styleClass="barBackground">
+         <children>
+            <ImageView fitHeight="21.0" fitWidth="17.0" layoutX="582.0" layoutY="8.0" onMouseClicked="#handleCloseApplication" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../../ressources/images/Fermer.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="21.0" layoutY="5.0" text="Connectez vous à votre espace" textFill="WHITE" />
          </children>
       </AnchorPane>
    </children>

@@ -31,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 /**
  * FXML Controller class
@@ -39,6 +40,8 @@ import javafx.stage.Stage;
  */
 public class FXMLauthentificationController implements Initializable {
 
+     private double initialX;
+   private double initialY;
     @FXML
     AnchorPane arbitreContainer;
     @FXML
@@ -83,7 +86,41 @@ public class FXMLauthentificationController implements Initializable {
      
    }
     
-    
+      @FXML
+    private void onMousePressed( MouseEvent event)
+    {
+        // Si l'hauteur de l'application est superieur à 800 ( Par defaut ) alors elle est en plein ecran , Cette fonctionnalité est désactivée
+        Stage  stage = getStage();
+          if (stage.getHeight() < 900){
+         initialX = event.getX();
+        initialY = event.getY();
+        if(event.getButton()!=MouseButton.MIDDLE)
+                {
+                    initialX = event.getSceneX();
+                    initialY = event.getSceneY();
+                }
+                else
+                {
+                    arbitreContainer.getScene().getWindow().centerOnScreen();
+                    initialX = arbitreContainer.getScene().getWindow().getX();
+                    initialY = arbitreContainer.getScene().getWindow().getY();
+                }
+       // System.out.println(initialX);
+          }
+    }
+    // Permet le deplacement de la fenetre suivant la souris
+    @FXML
+    private void handleonMouseDragged(MouseEvent event)
+    {
+        
+      Stage stage = getStage();
+       
+          if (stage.getHeight() < 900){
+              arbitreContainer.getScene().getWindow().setX(event.getScreenX() - initialX);
+              arbitreContainer.getScene().getWindow().setY(event.getScreenY() - initialY);
+          }
+                
+    }
     
     
     @FXML
@@ -134,9 +171,9 @@ public class FXMLauthentificationController implements Initializable {
                     timeLine.getKeyFrames().addAll(
 
                     new KeyFrame(Duration.ZERO),
-                    new KeyFrame(Duration.millis(500),
-				new KeyValue(medecinContainer.layoutXProperty(),177 ),
-                                                                                new KeyValue(medecinContainer.layoutYProperty(),145 )
+                    new KeyFrame(Duration.millis(400),
+				new KeyValue(medecinContainer.layoutXProperty(),210 ),
+                                                                                new KeyValue(medecinContainer.layoutYProperty(),170 )
 					)
                     );
                     timeLine.play(); 
@@ -203,9 +240,9 @@ public class FXMLauthentificationController implements Initializable {
                     timeLine.getKeyFrames().addAll(
 
                     new KeyFrame(Duration.ZERO),
-                    new KeyFrame(Duration.millis(500),
-				new KeyValue(responsableContainer.layoutXProperty(),177),
-                                                                                new KeyValue(responsableContainer.layoutYProperty(),145 )
+                    new KeyFrame(Duration.millis(400),
+				new KeyValue(responsableContainer.layoutXProperty(),210),
+                                                                                new KeyValue(responsableContainer.layoutYProperty(),170 )
 					)
                     );
                     timeLine.play(); 
@@ -423,12 +460,12 @@ public class FXMLauthentificationController implements Initializable {
                     System.out.println("Not supported yet !");
                     break;
             case "responsable":
-                   if((formLogin.getText().equals("Responsable")) && !(formPwd.getText().isEmpty()))
+                   if((formLogin.getText().equals("responsable")) && !(formPwd.getText().isEmpty()))
                     {
                                                 Stage stage = getStage();
                                                 Parent root;
                            try {
-                               root = FXMLLoader.load(getClass().getResource("/esprit/gui/admin/FXMLResponsable.fxml"));
+                               root = FXMLLoader.load(getClass().getResource("/esprit/gui/responsable/FXMLResponsable.fxml"));
                                Scene scene = new Scene(root);
                                stage.setScene(scene);
                            } catch (IOException ex) {
@@ -448,7 +485,7 @@ public class FXMLauthentificationController implements Initializable {
                     }
                     break;
             case "admin":
-                      if((formLogin.getText().equals("Admin")) && !(formPwd.getText().isEmpty()))
+                      if((formLogin.getText().equals("admin")) && !(formPwd.getText().isEmpty()))
                     {
                                                 Stage stage = getStage();
                                                 Parent root;
