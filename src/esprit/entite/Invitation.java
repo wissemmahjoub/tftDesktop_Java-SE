@@ -5,6 +5,7 @@
  */
 package esprit.entite;
 
+import java.sql.Date;
 import java.util.Objects;
 
 /**
@@ -13,40 +14,40 @@ import java.util.Objects;
  */
 public class Invitation {
     
-    private String idjoueur;
-    private String idtest;
-    private String dateinvitation;
+    private int idjoueur;
+    private int idtest;
+    private Date dateinvitation;
 
     public Invitation() {
     }
 
-    public Invitation(String idjoueur, String idtest, String dateinvitation) {
+    public Invitation(int idjoueur, int idtest, Date dateinvitation) {
         this.idjoueur = idjoueur;
         this.idtest = idtest;
         this.dateinvitation = dateinvitation;
     }
 
-    public String getIdjoueur() {
+    public int getIdjoueur() {
         return idjoueur;
     }
 
-    public void setIdjoueur(String idjoueur) {
+    public void setIdjoueur(int idjoueur) {
         this.idjoueur = idjoueur;
     }
 
-    public String getIdtest() {
+    public int getIdtest() {
         return idtest;
     }
 
-    public void setIdtest(String idtest) {
+    public void setIdtest(int idtest) {
         this.idtest = idtest;
     }
 
-    public String getDateinvitation() {
+    public Date getDateinvitation() {
         return dateinvitation;
     }
 
-    public void setDateinvitation(String dateinvitation) {
+    public void setDateinvitation(Date dateinvitation) {
         this.dateinvitation = dateinvitation;
     }
 

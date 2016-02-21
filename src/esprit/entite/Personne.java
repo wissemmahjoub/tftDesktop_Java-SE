@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class Personne {
     
-    private int idpersonne;
+    int idpersonne;
     private String cin;
     private String nom;
     private String prenom;
@@ -45,6 +45,13 @@ public class Personne {
         this.role = role;
         this.avatar = avatar;
         this.datedestruction = datedestruction;
+    }
+    public Personne (int idpersonne , String cin, String nom, String prenom)
+    {
+    this.idpersonne = idpersonne;
+    this.cin = cin;
+    this.nom = nom;
+    this.prenom = prenom;
     }
 
     public int getIdpersonne() {
