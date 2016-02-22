@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="grandParent_Pane" fx:id="backgroundPane" prefHeight="768.0" prefWidth="1222.0" styleClass="backGroundPane" stylesheets="@../../ressources/css/mainSheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.responsable.FXMLResponsableController">
@@ -122,5 +131,138 @@
       </ImageView>
       <Label id="Copyright" layoutX="182.0" layoutY="712.0" text="2016 Copyright" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="182.0" />
       <Label id="Developped By" layoutX="1002.0" layoutY="712.0" text="Developped by MyWishy" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="55.0" />
+      <AnchorPane id="CorpsArbitre" fx:id="consulterStadePane" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+         <children>
+            <TextField fx:id="recherchestade" layoutX="30.0" layoutY="48.0" onKeyReleased="#afficherDataStadeRechcherche" prefHeight="31.0" prefWidth="267.0" promptText="Rechercher par Libellé, Ville" styleClass="inputNormal" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="48.0" />
+            <AnchorPane id="tableViewStade" fx:id="listeContainer" layoutX="11.0" layoutY="110.0" prefHeight="436.0" prefWidth="668.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="377.0" AnchorPane.topAnchor="110.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="639.0" styleClass="titleListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="381.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label layoutX="48.0" layoutY="6.0" text="Liste des stades" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tablestade" editable="true" layoutX="6.0" layoutY="67.0" onMouseClicked="#EditableTableViewStade" prefHeight="347.0" prefWidth="784.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="67.0">
+                     <columns>
+                        <TableColumn fx:id="column1stade" prefWidth="86.0" text="Libéllé" />
+                        <TableColumn fx:id="column2stade" prefWidth="99.0" text="Capacité" />
+                        <TableColumn fx:id="column3stade" prefWidth="71.0" text="Surface" />
+                        <TableColumn fx:id="column4stade" prefWidth="122.0" text="Date création" />
+                        <TableColumn fx:id="column5stade" prefWidth="81.0" text="Ville" />
+                        <TableColumn fx:id="column6stade" prefWidth="75.0" text="Latitude" />
+                        <TableColumn fx:id="column8stade" prefWidth="75.0" text="Longitude" />
+                        <TableColumn fx:id="column7stade" prefWidth="84.0" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouterStadeContainer" layoutX="690.0" layoutY="53.0" prefHeight="495.0" prefWidth="301.0" style="-fx-background-color: #FFF;" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.rightAnchor="14.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="352.0" styleClass="titleListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css">
+                     <children>
+                        <Label layoutX="65.0" layoutY="7.0" text="Ajouter un nouveu stade" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <VBox layoutY="82.0" prefHeight="327.0" prefWidth="352.0" spacing="20.0">
+                     <children>
+                        <HBox spacing="70.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="110.0" text="Nom" />
+                              <TextField fx:id="txtlibellestade" prefHeight="27.0" prefWidth="154.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="84.0" text="Capacité" />
+                              <TextField fx:id="txtcapacite" prefHeight="27.0" prefWidth="157.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="70.0" text="Surface" />
+                              <ComboBox fx:id="txtsurface" onAction="#surfaceStade" prefHeight="25.0" prefWidth="143.0">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Gazon" />
+                                       <String fx:value="TerreBattue" />
+                                    </FXCollections>
+                                 </items>
+                              </ComboBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="27.0" prefWidth="352.0" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="188.0" text="DateCréation" />
+                              <DatePicker fx:id="datecreationstade" editable="false" prefHeight="27.0" prefWidth="256.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="150.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="51.0" text="Ville" />
+                              <ComboBox fx:id="txtville" editable="true" onAction="#villeStade" prefHeight="27.0" prefWidth="166.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Australia" />
+                                       <String fx:value="France" />
+                                       <String fx:value="India" />
+                                       <String fx:value="Russia" />
+                                       <String fx:value="USA" />
+                                       <String fx:value="Tunisia" />
+                                       <String fx:value="Ariana" />
+                                       <String fx:value="Bizerte" />
+                                       <String fx:value="Soussa" />
+                                       <String fx:value="Sfax" />
+                                    </FXCollections>
+                                 </items>
+                              </ComboBox>
+                           </children>
+                        </HBox>
+                        <HBox spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Latitude" />
+                              <TextField fx:id="txtlatitude" prefHeight="27.0" prefWidth="139.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="97.0" text="Longitude" />
+                              <TextField fx:id="txtlongitude" prefHeight="27.0" prefWidth="166.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </padding>
+                  </VBox>
+                  <Button layoutX="198.0" layoutY="418.0" mnemonicParsing="false" onAction="#modifierStade" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" text="Modifier" textAlignment="CENTER" />
+                  <Button layoutX="44.0" layoutY="418.0" mnemonicParsing="false" onAction="#ajouterStade" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" text="Envoyer" textAlignment="CENTER" />
+                  <Hyperlink fx:id="clear" layoutX="298.0" layoutY="41.0" onAction="#clear" prefHeight="29.0" prefWidth="50.0" text="Clear">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </AnchorPane>
+            <Pane layoutX="521.0" layoutY="53.0" onMouseClicked="#handleButtonListe" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-background-color: #F5F5F5; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant">
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
+               </effect>
+               <children>
+                  <Button fx:id="boutonGlissantMap" layoutY="-5.0" mnemonicParsing="false" onMouseClicked="#handleButtonMap" prefHeight="39.0" prefWidth="72.0" style="-fx-background-radius: 15;" text="Image" />
+                  <Button fx:id="boutonGlissantList" layoutX="72.0" layoutY="-5.0" mnemonicParsing="false" onMouseClicked="#handleButtonListe" prefHeight="39.0" prefWidth="72.0" style="-fx-background-radius: 15;" text="Liste" visible="false" />
+               </children>
+            </Pane>
+         </children>
+         <effect>
+            <InnerShadow color="#00000060" radius="4.75" width="0.0" />
+         </effect>
+      </AnchorPane>
    </children>
 </AnchorPane>

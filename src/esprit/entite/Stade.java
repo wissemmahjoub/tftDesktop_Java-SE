@@ -16,8 +16,8 @@ public class Stade {
     private int idstade;
     private String libellestade;
     private String avatar;
-    private String latitude;
-    private String longidute;
+    private float latitude;
+    private float longidute;
     private String ville;
     private int capacite;
     private Surface surface;
@@ -27,7 +27,7 @@ public class Stade {
     public Stade() {
     }
 
-    public Stade(int idstade, String libellestade, String avatar, String latitude, String longidute, String ville, int capacite, Surface surface, Date datecreation, Date datedestruction) {
+    public Stade(int idstade, String libellestade, String avatar, float latitude, float longidute, String ville, int capacite, Surface surface, Date datecreation, Date datedestruction) {
         this.idstade = idstade;
         this.libellestade = libellestade;
         this.avatar = avatar;
@@ -38,6 +38,17 @@ public class Stade {
         this.surface = surface;
         this.datecreation = datecreation;
         this.datedestruction = datedestruction;
+    }
+    
+    public Stade(int idstade, String libellestade,float latitude, float longidute, String ville, int capacite, Surface surface, Date datecreation) {
+        this.idstade = idstade;
+        this.libellestade = libellestade;
+        this.latitude = latitude;
+        this.longidute = longidute;
+        this.ville = ville;
+        this.capacite = capacite;
+        this.surface = surface;
+        this.datecreation = datecreation;
     }
     
     
@@ -65,19 +76,19 @@ public class Stade {
         this.avatar = avatar;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongidute() {
+    public float getLongidute() {
         return longidute;
     }
 
-    public void setLongidute(String longidute) {
+    public void setLongidute(float longidute) {
         this.longidute = longidute;
     }
 

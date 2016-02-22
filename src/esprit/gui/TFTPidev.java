@@ -29,7 +29,7 @@ public class TFTPidev extends Application {
         Scene scene = new Scene(root);
         //Scene sceneMedecin = new Scene(rootMedecin);
         
-        scene.setRoot(rootAuth);
+        scene.setRoot(root);
         
         //stage.setMaximized(true);
         stage.setScene(scene);

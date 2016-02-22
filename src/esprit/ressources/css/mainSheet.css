@@ -7,6 +7,12 @@ and open the template in the editor.
     Created on : 4 févr. 2016, 12:54:39
     Author     : Mustapha
 */
+
+.errorTextField{
+    -fx-background-color: #FFF0F0;
+    -fx-border-color: #DBB1B1;
+}
+
 .inputError
 {
     -fx-border-color: #e01212; 

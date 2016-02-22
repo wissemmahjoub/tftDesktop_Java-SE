@@ -11,5 +11,6 @@ package esprit.entite;
  */
 public enum Surface {
     
-    
+    Gazon,
+    TerreBattue;
 }
