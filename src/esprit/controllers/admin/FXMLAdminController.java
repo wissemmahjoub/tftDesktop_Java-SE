@@ -359,6 +359,7 @@ public class FXMLAdminController implements Initializable {
      
    }
    
+  AnchorPane zon_ajout_medecin;
     @FXML
     // Mettre la fenetre en plein ecran et Changer la source de l'icone Agrandir
     private void handleAgrandir(MouseEvent event)
@@ -367,7 +368,8 @@ public class FXMLAdminController implements Initializable {
        stage = getStage();
        stage.setMaximized(true);
        optionTailleAgrandir.setVisible(false);
-       optionTailleParDefaut.setVisible(true);    
+       optionTailleParDefaut.setVisible(true);
+       zon_ajout_medecin.setLayoutX(825);
     }
     @FXML
     //retourner la taille par defaut
@@ -378,6 +380,7 @@ public class FXMLAdminController implements Initializable {
        stage.setMaximized(false);
        optionTailleAgrandir.setVisible(true);
        optionTailleParDefaut.setVisible(false);
+       zon_ajout_medecin.setLayoutX(740);
     }
      @FXML
     private void onMousePressed( MouseEvent event)
