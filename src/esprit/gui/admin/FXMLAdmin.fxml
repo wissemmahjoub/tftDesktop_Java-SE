@@ -2,8 +2,10 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
@@ -12,6 +14,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -19,6 +22,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane id="grandParent_Pane" fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="godpane" stylesheets="@../../ressources/css/mainSheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.admin.FXMLAdminController">
    <effect>
@@ -186,7 +190,7 @@
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="166.0" layoutY="108.0" prefHeight="586.0" prefWidth="1080.0" styleClass="corpsPane" visible="false" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="176.0" layoutY="119.0" prefHeight="586.0" prefWidth="1035.0" styleClass="corpsPane" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <AnchorPane id="tableViewMedecin" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
                <children>
@@ -199,39 +203,40 @@
                         </Label>
                      </children>
                   </Pane>
-                  <TableView layoutX="14.0" layoutY="67.0" prefHeight="331.0" prefWidth="631.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="67.0">
+                  <TableView fx:id="tab_medecin" layoutX="14.0" layoutY="67.0" onMouseClicked="#Modifier" prefHeight="331.0" prefWidth="631.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="67.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="75.0" text="C2" />
+                        <TableColumn fx:id="col_nom_med" prefWidth="34.0" text="nom" />
+                        <TableColumn fx:id="col_prenom_med" prefWidth="54.0" text="prenom" />
+                        <TableColumn fx:id="col_cin_med" prefWidth="27.0" text="cin" />
+                        <TableColumn fx:id="col_login_med" prefWidth="37.0" text="login" />
+                        <TableColumn fx:id="col_pwd_med" prefWidth="60.0" text="password" />
+                        <TableColumn fx:id="col_specialite_med" prefWidth="60.0" text="specialité" />
+                        <TableColumn fx:id="col_salaire_med" prefWidth="43.0" text="salaire" />
+                        <TableColumn fx:id="col_datenaiss_med" prefWidth="97.0" text="date naissance" />
+                        <TableColumn fx:id="col_sexe_med" prefWidth="45.0" text="Sexe" />
+                        <TableColumn fx:id="col_mail_med" minWidth="5.0" prefWidth="51.0" text="Mail" />
+                        <TableColumn fx:id="col_adress_med" prefWidth="68.0" text="Adresse" />
+                        <TableColumn fx:id="col_supp_med" prefWidth="84.0" />
                      </columns>
                   </TableView>
-               </children>
-            </AnchorPane>
-            <AnchorPane id="ajouterMedecinContainer" layoutX="708.0" layoutY="44.0" prefHeight="504.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="22.0">
-               <children>
-                  <Pane prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane">
+                  <AnchorPane fx:id="zone_statisque_medecin" layoutX="22.0" layoutY="-47.0" prefHeight="425.0" prefWidth="487.0" style="-fx-background-color: #9aa9ad;">
                      <children>
-                        <Label layoutX="65.0" layoutY="7.0" text="Ajouter un nouveau Medecin" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
+                        <PieChart fx:id="graph_stat_medecin" prefHeight="379.0" prefWidth="500.0" />
+                        <Button fx:id="bnt_close_stat" layoutX="474.0" layoutY="2.0" mnemonicParsing="false" onAction="#close_stat" prefHeight="25.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" />
                      </children>
-                  </Pane>
-                  <TextField fx:id="nom1" layoutX="121.0" layoutY="98.0" />
-                  <TextField fx:id="prenom1" layoutX="121.0" layoutY="152.0" />
-                  <TextField fx:id="cin1" layoutX="122.0" layoutY="200.0" />
-                  <Button layoutX="121.0" layoutY="393.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" text="Envoyer" textAlignment="CENTER" />
-                  <Label layoutX="49.0" layoutY="103.0" text="Nom" />
-                  <Label layoutX="43.0" layoutY="168.0" text="Prenom" />
-                  <Label layoutX="53.0" layoutY="205.0" text="CIN" />
-                  <Label layoutX="46.0" layoutY="329.0" text="Niveau" />
-                  <ComboBox fx:id="niveau1" layoutX="121.0" layoutY="324.0" prefHeight="31.0" prefWidth="187.0" />
-                  <Label layoutX="38.0" layoutY="268.0" text="Password" />
-                  <PasswordField layoutX="122.0" layoutY="263.0" />
+                  </AnchorPane>
+                  <Button fx:id="Bnt_stat_btn" layoutX="543.0" layoutY="-25.0" mnemonicParsing="false" onAction="#afficherStatisque" onMouseClicked="#handleMenuButtonPressed" prefHeight="25.0" prefWidth="151.0" style="-fx-alignment: baseline-left;" stylesheets="@../../../../../TFTPidev_1/src/esprit/ressources/css/mainSheet.css" text="Statistique" textFill="WHITE">
+                     <padding>
+                        <Insets left="60.0" />
+                     </padding>
+                     <styleClass>
+                        <String fx:value="menuBoutons" />
+                        <String fx:value="bgMedecin" />
+                     </styleClass>
+                  </Button>
                </children>
             </AnchorPane>
-            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../ressources/css/mainSheet.css" AnchorPane.rightAnchor="414.0">
+            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../../../../TFTPidev_1/src/esprit/ressources/css/mainSheet.css" AnchorPane.rightAnchor="414.0">
                <children>
                   <Button fx:id="boutonGlissantListe1" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="82.0" styleClass="boutonGlissantBouton1" text="List" visible="false" />
                   <Button fx:id="boutonGlissantImage1" layoutY="-3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="72.0" styleClass="boutonGlissantBouton1" text="Images" />
@@ -240,7 +245,49 @@
                   <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
                </effect>
             </Pane>
-            <TextField layoutX="22.0" layoutY="44.0" prefHeight="31.0" prefWidth="267.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
+            <TextField fx:id="rech" layoutX="22.0" layoutY="44.0" onKeyPressed="#FiltrerMedecin" onKeyReleased="#FiltrerMedecin" prefHeight="31.0" prefWidth="267.0" promptText="Recherche" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
+            <AnchorPane id="ajouterMedecinContainer" fx:id="zon_ajout_medecin" layoutX="740.0" layoutY="44.0" prefHeight="539.0" prefWidth="350.0" style="-fx-background-color: #FFF;">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css">
+                     <children>
+                        <Label fx:id="label_medecin" layoutX="65.0" layoutY="7.0" text="Ajouter un nouveau Medecin" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="nom_medecin" layoutX="122.0" layoutY="65.0" promptText="nom" />
+                  <TextField fx:id="prenom_medecin" layoutX="123.0" layoutY="94.0" promptText="prenom" />
+                  <TextField fx:id="cin_medecin" layoutX="123.0" layoutY="123.0" promptText="CIN" />
+                  <Button fx:id="Button_ajout_medecin" layoutX="202.0" layoutY="467.0" mnemonicParsing="false" onAction="#AjouterMedecin" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Envoyer" textAlignment="CENTER" />
+                  <Label layoutX="68.0" layoutY="69.0" prefHeight="17.0" prefWidth="30.0" text="Nom" />
+                  <Label layoutX="50.0" layoutY="98.0" text="Prenom" />
+                  <Label layoutX="75.0" layoutY="127.0" prefHeight="17.0" prefWidth="30.0" text="CIN" />
+                  <Label layoutX="50.0" layoutY="190.0" text="Password" />
+                  <PasswordField fx:id="pwd_medecin" layoutX="123.0" layoutY="186.0" promptText="password" />
+                  <TextField fx:id="login_medecin" layoutX="123.0" layoutY="154.0" promptText="Login" />
+                  <Label layoutX="70.0" layoutY="158.0" text="Login" />
+                  <Label layoutX="48.0" layoutY="222.0" text="Specialité" />
+                  <TextField fx:id="spec_medecin" layoutX="123.0" layoutY="218.0" promptText="specialité" />
+                  <Label layoutX="58.0" layoutY="255.0" text="Salaire" />
+                  <TextField fx:id="salaire_medecin" layoutX="123.0" layoutY="251.0" promptText="salaire" />
+                  <TextField fx:id="mail_medecin" layoutX="128.0" layoutY="352.0" promptText="mail" />
+                  <TextField fx:id="adrs_medecin" layoutX="128.0" layoutY="385.0" promptText="adresse" />
+                  <RadioButton fx:id="radio_h" layoutX="131.0" layoutY="318.0" mnemonicParsing="false" selected="true" text="Homme">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="sexe" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="radio_f" layoutX="203.0" layoutY="318.0" mnemonicParsing="false" text="Femme" toggleGroup="$sexe" />
+                  <Text layoutX="94.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mail" />
+                  <Text layoutX="77.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse" />
+                  <Label layoutX="87.0" layoutY="318.0" text="Sexe" />
+                  <Button fx:id="Button_modifier_medecin" layoutX="36.0" layoutY="467.0" mnemonicParsing="false" onAction="#update" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Modifier" textAlignment="CENTER" />
+                  <DatePicker fx:id="date_naiss_medecin" layoutX="125.0" layoutY="286.0" prefHeight="25.0" prefWidth="149.0" promptText="date de naissance" />
+                  <Label layoutX="32.0" layoutY="290.0" text="DateNaissance" />
+               </children>
+            </AnchorPane>
          </children>
          <effect>
             <InnerShadow color="#00000044" />

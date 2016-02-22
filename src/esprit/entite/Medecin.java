@@ -25,7 +25,11 @@ public class Medecin extends Personne {
         this.salaire = salaire;
         this.specialite = specialite;
     }
-
+ public Medecin(float salaire, String specialite, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance) {
+        super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance);
+        this.salaire = salaire;
+        this.specialite = specialite;
+    }
     public float getSalaire() {
         return salaire;
     }

@@ -6,6 +6,7 @@
 package esprit.controllers.admin;
 
 import esprit.dao.ArbitreDAO;
+import esprit.dao.MedecinDAO;
 import esprit.ressources.TFTEffects.TFTTransition;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,8 +20,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import esprit.entite.Arbitre;
+import esprit.entite.Medecin;
 import esprit.entite.Niveau;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +38,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
@@ -70,6 +77,8 @@ public class FXMLAdminController implements Initializable {
      //*************************************************************************************************************
        
     /* --*/
+    @FXML
+    private Button bnt_close_stat;
         @FXML
     private Button boutonGlissantListe;
     @FXML
@@ -98,6 +107,7 @@ public class FXMLAdminController implements Initializable {
     private RadioButton femme;
     @FXML
     private RadioButton homme;
+    
    @FXML
    TextField searchField;
    //*************************** Attrbut arbitre ; 
@@ -143,6 +153,129 @@ public class FXMLAdminController implements Initializable {
      private List<AnchorPane> anchorListe;
     @FXML
     private AnchorPane imageGlobalContainer;
+    
+    @FXML
+    private TextField rech;
+
+    @FXML
+    private TextField nom2;
+
+    @FXML
+    private TextField prenom2;
+
+    @FXML
+    private TextField cin2;
+
+
+    @FXML
+    private Label email;
+
+    @FXML
+    private Button Bnt_stat_btn;
+
+    @FXML
+    private AnchorPane zone_statisque_medecin;
+
+    @FXML
+    private PieChart graph_stat_medecin;
+
+
+    @FXML
+    private TableColumn col_idmed;
+
+    @FXML
+    private TableColumn  col_nom_med;
+
+    @FXML
+    private TableColumn  col_prenom_med;
+
+    @FXML
+    private TableColumn  col_cin_med;
+
+    @FXML
+    private TableColumn col_login_med;
+
+    @FXML
+    private TableColumn   col_pwd_med;
+
+    @FXML
+    private TableColumn<?, ?> col_specialite_med;
+
+    @FXML
+    private TableColumn col_salaire_med;
+
+    @FXML
+    private TableColumn  col_datenaiss_med;
+
+    @FXML
+    private TableColumn  col_sexe_med;
+
+    @FXML
+    private TableColumn  col_mail_med;
+
+    @FXML
+    private TableColumn  col_adress_med;
+
+    @FXML
+    private TableColumn  col_supp_med;
+
+    @FXML
+    private Button boutonGlissantListe1;
+
+    @FXML
+    private Button boutonGlissantImage1;
+
+    @FXML
+    private TableView tab_medecin;
+    @FXML
+    private Label label_medecin;
+
+    @FXML
+    private TextField nom_medecin;
+
+    @FXML
+    private TextField prenom_medecin;
+
+    @FXML
+    private TextField cin_medecin;
+
+    @FXML
+    private Button Button_ajout_medecin;
+
+    @FXML
+    private PasswordField pwd_medecin;
+
+    @FXML
+    private TextField login_medecin;
+
+    @FXML
+    private TextField spec_medecin;
+
+    @FXML
+    private TextField salaire_medecin;
+
+    @FXML
+    private TextField mail_medecin;
+
+    @FXML
+    private TextField adrs_medecin;
+
+    @FXML
+    private RadioButton radio_h;
+
+    @FXML
+    private ToggleGroup sexe;
+
+    @FXML
+    private RadioButton radio_f;
+
+    @FXML
+    private Button Button_modifier_medecin;
+
+    @FXML
+    private DatePicker date_naiss_medecin;
+
+      
          private ObservableList<Arbitre> mainArbitreData;
         private ObservableList<Arbitre> arbitreData_filtree;
         private ObservableList<Arbitre> arbitreData ;
@@ -1028,19 +1161,319 @@ public class FXMLAdminController implements Initializable {
     //***********************************************
     //***********************************************
     
+  
+//---------------------------------------------------------------------- 
+//######################################################################
+//######################################################################
+//#####################|                    |###########################
+ //####################|  GESTION MEDECIN   |###########################
+//#####################|                    |###########################
+//######################################################################
+//######################################################################
+//#####################|     By Wissem      |###########################   
+//----------------------------------------------------------------------     
+     
+     
+     
+//######################################################################
+//################# AJOUT Medecin ######################################
+//######################################################################
+    Medecin m = new Medecin();
+    MedecinDAO mdao=new MedecinDAO();
+    
+   public void AjouterMedecin(ActionEvent event)
+   {
+        RadioButton rd= (RadioButton) sexe.getSelectedToggle();
+        m.setNom(nom_medecin.getText());
+        m.setPrenom(prenom_medecin.getText());
+        m.setCin(cin_medecin.getText());
+        m.setLogin(login_medecin.getText());
+        m.setPassword(pwd_medecin.getText());
+        m.setSpecialite(spec_medecin.getText());
+        m.setSalaire(Integer.parseInt(salaire_medecin.getText()));
+        m.setDatedestruction(java.sql.Date.valueOf(date_naiss_medecin.getValue()));
+        m.setSexe(rd.getText());
+        m.setEmail(mail_medecin.getText());
+        m.setAdresse(adrs_medecin.getText());
+        mdao.save(m);
+        System.out.println("--------- Medecin ajouté  ----------");
+        AfficherMedecin();
+   }
+
    
    
+   
+   
+   
+   
+   
+//######################################################################
+//################# Modifier Medecin ###################################
+//######################################################################
+   int position ;
+ @FXML
+    private void Modifier(MouseEvent event) 
+    {
+         if (tab_medecin != null) {
+         List<Medecin> TAB = tab_medecin.getSelectionModel().getSelectedItems();
+         if (TAB.size() == 1) {
+         final Medecin medecinSelected = TAB.get(0);
+         position = dataMedecin.indexOf(medecinSelected);
+         if (medecinSelected != null)
+         {
+           
+       nom_medecin.setText(medecinSelected.getNom());
+        prenom_medecin.setText(medecinSelected.getPrenom());
+        cin_medecin.setText(medecinSelected.getCin());
+        login_medecin.setText(medecinSelected.getLogin());
+        pwd_medecin.setText(medecinSelected.getPassword());
+        spec_medecin.setText(medecinSelected.getSpecialite());
+        salaire_medecin.setText(String.valueOf( medecinSelected.getSalaire()));
+        
+        Instant instant = Instant.ofEpochMilli(medecinSelected.getDatenaissance().getTime());
+        LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        date_naiss_medecin.setValue(res);
+        
+        RadioButton rd= (RadioButton) sexe.getSelectedToggle();
+        mail_medecin.setText(medecinSelected.getEmail());
+        adrs_medecin.setText(medecinSelected.getAdresse());
+       
+              
+          AfficherMedecin();
+   
+        }}}}
+
+    
+    @FXML
+    private void update(ActionEvent event)  {
+          
+        m.setNom(nom_medecin.getText());
+        m.setPrenom(prenom_medecin.getText());
+        m.setCin(cin_medecin.getText());
+        m.setLogin(login_medecin.getText());
+        m.setPassword(pwd_medecin.getText());
+        m.setSpecialite(spec_medecin.getText());
+        m.setSalaire(Float.parseFloat(salaire_medecin.getText()));
+        m.setDatenaissance(java.sql.Date.valueOf(date_naiss_medecin.getValue()));
+        RadioButton rd= (RadioButton) sexe.getSelectedToggle();
+        m.setSexe(rd.getText());
+        m.setEmail(mail_medecin.getText());
+        m.setAdresse(adrs_medecin.getText());
+        try {
+                mdao.update(m);
+               System.out.println("-----modification effectuée --------- ");
+        } catch (Exception e)
+        {
+            System.out.println("------- ERREUR DE MODIFICATION----- ");
+        }
+  
+ 
+   
+      AfficherMedecin();
+        
+      
+    }
+    
+   
+//######################################################################
+//################# Afficher Medecin ###################################
+//################| supprimer Medecin|##################################
+//######################################################################
+   private ObservableList<Medecin> dataMedecin;    
+   public void AfficherMedecin(){
+  
+       try {
+
+           col_salaire_med.setCellValueFactory(new PropertyValueFactory("salaire"));
+           col_specialite_med.setCellValueFactory(new PropertyValueFactory("specialite"));
+           col_cin_med.setCellValueFactory(new PropertyValueFactory("cin"));
+           col_nom_med.setCellValueFactory(new PropertyValueFactory("nom"));
+           col_prenom_med.setCellValueFactory(new PropertyValueFactory("prenom"));
+           col_adress_med.setCellValueFactory(new PropertyValueFactory("adresse"));
+           col_mail_med.setCellValueFactory(new PropertyValueFactory("email"));
+           col_sexe_med.setCellValueFactory(new PropertyValueFactory("sexe"));
+           col_login_med.setCellValueFactory(new PropertyValueFactory("login"));  
+           col_pwd_med.setCellValueFactory(new PropertyValueFactory("password"));
+           col_datenaiss_med.setCellValueFactory(new PropertyValueFactory("datenaissance"));
+         
+           
+ } catch (Exception e) 
+        { System.out.println("--------- erreur affichage medecin !! ---------");
+       }
+//***************** lajout de boutton supprimer dans la table view *******************************
+ Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactory = 
+ new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
+{
+ @Override
+public TableCell call( final TableColumn<Medecin, String> param )
+{
+                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                    {
+                                             m.setCin(getTableView().getItems().get( getIndex()).getCin()); 
+                                             mdao.delete(m);
+                                             AfficherMedecin();
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             
+            col_supp_med.setCellFactory( cellFactory );
+            dataMedecin = FXCollections.observableArrayList();
+               for (Medecin m : mdao.getList())
+               {
+                   dataMedecin.add(m);
+               }
+            tab_medecin.setItems(dataMedecin);
+
+    }
+
+   
+   
+   
+   
+   
+   
+//######################################################################
+//################# Chercher Medecin ###################################
+//################| supprimer Medecin|##################################
+//######################################################################
+   private ObservableList<Medecin> dataMedecin2;    
+  
+   public void FiltrerMedecin(){
+  
+       try {
+
+           col_salaire_med.setCellValueFactory(new PropertyValueFactory("salaire"));
+           col_specialite_med.setCellValueFactory(new PropertyValueFactory("specialite"));
+           col_cin_med.setCellValueFactory(new PropertyValueFactory("cin"));
+           col_nom_med.setCellValueFactory(new PropertyValueFactory("nom"));
+           col_prenom_med.setCellValueFactory(new PropertyValueFactory("prenom"));
+           col_adress_med.setCellValueFactory(new PropertyValueFactory("adresse"));
+           col_mail_med.setCellValueFactory(new PropertyValueFactory("email"));
+           col_sexe_med.setCellValueFactory(new PropertyValueFactory("sexe"));
+           col_login_med.setCellValueFactory(new PropertyValueFactory("login"));  
+           col_pwd_med.setCellValueFactory(new PropertyValueFactory("password"));
+           col_datenaiss_med.setCellValueFactory(new PropertyValueFactory("datenaissance"));
+         
+           
+ } catch (Exception e) 
+        { System.out.println("--------- erreur affichage medecin !! ---------");
+       }
+
+ Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactory = 
+ new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
+{
+ @Override
+public TableCell call( final TableColumn<Medecin, String> param )
+{
+                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             m.setCin(getTableView().getItems().get( getIndex()).getCin()); 
+                                             mdao.delete(m);
+                                             AfficherMedecin();
+                                             
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             
+            col_supp_med.setCellFactory( cellFactory );
+            dataMedecin2 = FXCollections.observableArrayList();
+               for (Medecin m : mdao.getList())
+               {
+              if ((m.getNom().contains(rech.getText()))||  (m.getPrenom().contains(rech.getText()))||((m.getCin().contains(rech.getText())))  )
+                   dataMedecin2.add(m);
+               }
+            tab_medecin.setItems(dataMedecin2);
+
+    }
+   
+    //################################## Statistique Medecin ###########################################
+       @FXML
+    void afficherStatisque(ActionEvent event)
+    {
+          zone_statisque_medecin.setVisible(true);
+      ObservableList<PieChart.Data> pieChartData =FXCollections.observableArrayList();
+        List<Medecin> list =mdao.getList();
+        for(Medecin mm : list){
+           
+            PieChart.Data data = new PieChart.Data(mm.getPrenom()+" "+mm.getNom(), mm.getSalaire());
+            pieChartData.add(data);
+        }
+    
+
+        graph_stat_medecin.setTitle("Salaire des Medecins ");
+       
+        graph_stat_medecin.setData(pieChartData);  
+
+    }
+     @FXML
+    void close_stat(ActionEvent event)
+    {
+           zone_statisque_medecin.setVisible(false);
+
+    }
+
+   
+
+   //##########################################################################
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       
       anchorListe = new ArrayList<>();
        arbitreNiveau.getItems().addAll("Amateur","National","International");
+        radio_f.setToggleGroup(sexe);
+        radio_h.setToggleGroup(sexe);
        femme.setToggleGroup(groupSexeArbitre);
        homme.setSelected(true);
        homme.setToggleGroup(groupSexeArbitre);
-       
+        AfficherMedecin();
        fillTableArbitre();
-       
+       zone_statisque_medecin.setVisible(false);
     }    
     
 }

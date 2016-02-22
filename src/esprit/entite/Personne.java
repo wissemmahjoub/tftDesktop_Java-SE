@@ -15,8 +15,8 @@ import java.util.Objects;
 public class Personne {
     
     int idpersonne;
-    private String cin;
-    private String nom;
+    String cin;
+    String nom;
     private String prenom;
     private String adresse;
     private String email;
@@ -31,6 +31,21 @@ public class Personne {
     public Personne() {
     }
 
+
+    public Personne(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance) {
+        this.idpersonne = idpersonne;
+        this.cin = cin;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.email = email;
+        this.sexe = sexe;
+        this.login = login;
+        this.password = password;
+        this.datenaissance = datenaissance;
+    }
+    
+    
     public Personne(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction) {
         this.idpersonne = idpersonne;
         this.cin = cin;
