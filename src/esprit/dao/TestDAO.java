@@ -77,13 +77,7 @@ int x;
            pre.setString(1, t.getLibelletest());
            pre.setDate(2, (Date) t.getDatetest());
            pre.executeUpdate();
-       
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Federation Tunisienne de Tennis");
-    
-    alert.setHeaderText("");
-    alert.setContentText("Le Test a été ajouté avec succés");
-    alert.showAndWait();
+
         } catch (SQLException ex) {
             System.out.println("########### Erreur D_insertion ########");
         }
