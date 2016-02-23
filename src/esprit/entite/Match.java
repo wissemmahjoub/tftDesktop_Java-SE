@@ -5,7 +5,7 @@
  */
 package esprit.entite;
 
-import java.sql.Timestamp;
+
 import java.util.Date;
 
 /**
@@ -21,10 +21,10 @@ public class Match {
     private int idarbitre;
     private int idevenement;
     private int idstade;
-    private String lieu;
-    private Timestamp datematch;
+    private Date datematch;
     private Niveau niveau; //enumeration
     private TrancheAge type; //enumeration
+    private Categorie categorie;//enumeration
     private int idscore;
     private int idticket;
     
@@ -32,21 +32,39 @@ public class Match {
     public Match() {
     }
 
-    public Match(int idmatch, int idjoueur1, int idjoueur2, int idcompetition, int idarbitre, int idevenement, String lieu, Timestamp datematch, Niveau niveau, TrancheAge type, int idscore, int idticket) {
+   
+
+    public Match(int idmatch, int idjoueur1, int idjoueur2, int idcompetition, int idarbitre, int idevenement, int idstade, Date datematch, Niveau niveau, TrancheAge type, Categorie categorie,int idscore, int idticket) {
         this.idmatch = idmatch;
         this.idjoueur1 = idjoueur1;
         this.idjoueur2 = idjoueur2;
         this.idcompetition = idcompetition;
         this.idarbitre = idarbitre;
         this.idevenement = idevenement;
-        this.lieu = lieu;
+        this.idstade = idstade;
         this.datematch = datematch;
         this.niveau = niveau;
         this.type = type;
+        this.categorie=categorie;
         this.idscore = idscore;
         this.idticket = idticket;
     }
 
+   
+
+  
+
+    public int getIdstade() {
+        return idstade;
+    }
+
+    public void setIdstade(int idstade) {
+        this.idstade = idstade;
+    }
+
+    
+    
+    
     public int getIdmatch() {
         return idmatch;
     }
@@ -95,19 +113,13 @@ public class Match {
         this.idevenement = idevenement;
     }
 
-    public String getLieu() {
-        return lieu;
-    }
 
-    public void setLieu(String lieu) {
-        this.lieu = lieu;
-    }
 
-    public Timestamp getDatematch() {
+    public Date getDatematch() {
         return datematch;
     }
 
-    public void setDatematch(Timestamp datematch) {
+    public void setDatematch(Date datematch) {
         this.datematch = datematch;
     }
 
@@ -119,6 +131,14 @@ public class Match {
         this.niveau = niveau;
     }
 
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+ 
     public TrancheAge getType() {
         return type;
     }
@@ -145,7 +165,7 @@ public class Match {
 
     @Override
     public String toString() {
-        return "Match{" + "idmatch=" + idmatch + ", idjoueur1=" + idjoueur1 + ", idjoueur2=" + idjoueur2 + ", idcompetition=" + idcompetition + ", idarbitre=" + idarbitre + ", idevenement=" + idevenement + ", lieu=" + lieu + ", datematch=" + datematch + ", niveau=" + niveau + ", type=" + type + ", idscore=" + idscore + ", idticket=" + idticket + '}';
+        return "Match{" + "idmatch=" + idmatch + ", idjoueur1=" + idjoueur1 + ", idjoueur2=" + idjoueur2 + ", idcompetition=" + idcompetition + ", idarbitre=" + idarbitre + ", idevenement=" + idevenement + ", datematch=" + datematch + ", niveau=" + niveau + ", type=" + type + ", idscore=" + idscore + ", idticket=" + idticket + '}';
     }
 
     @Override

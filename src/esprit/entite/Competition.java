@@ -36,6 +36,78 @@ public class Competition {
         this.nbrpoint = nbrpoint;
         this.datedestruction = datedestruction;
     }
+ public Competition(int idcompetition, String libelle, Date datedebut, Date datefin, int nbrpoint, Date datedestruction) {
+        this.idcompetition = idcompetition;
+        this.libelle = libelle;
+        this.datedebut = datedebut;
+        this.datefin = datefin;
+        this.nbrpoint = nbrpoint;
+        this.datedestruction = datedestruction;
+    }
+
+    public int getIdcompetition() {
+        return idcompetition;
+    }
+
+    public void setIdcompetition(int idcompetition) {
+        this.idcompetition = idcompetition;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public Date getDatedebut() {
+        return datedebut;
+    }
+
+    public void setDatedebut(Date datedebut) {
+        this.datedebut = datedebut;
+    }
+
+    public Date getDatefin() {
+        return datefin;
+    }
+
+    public void setDatefin(Date datefin) {
+        this.datefin = datefin;
+    }
+
+    public Niveau getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(Niveau niveau) {
+        this.niveau = niveau;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
+    public int getNbrpoint() {
+        return nbrpoint;
+    }
+
+    public void setNbrpoint(int nbrpoint) {
+        this.nbrpoint = nbrpoint;
+    }
+
+    public Date getDatedestruction() {
+        return datedestruction;
+    }
+
+    public void setDatedestruction(Date datedestruction) {
+        this.datedestruction = datedestruction;
+    }
 
     @Override
     public String toString() {

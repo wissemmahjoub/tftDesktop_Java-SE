@@ -21,13 +21,23 @@ public class Arbitre extends Personne{
         super();
     }
 
+     
+      
+      
     public Arbitre(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction,float salaire, int experience, Niveau niveau) {
-        super(idpersonne, cin, nom,  prenom,  adresse,  email, sexe,  login,  password, datenaissance, role,  avatar, datedestruction) ;
-        
+        super();
         this.salaire = salaire;
         this.experience = experience;
         this.niveau = niveau;
     }
+
+    public Arbitre( int idpersonne, String cin, String nom, String prenom) 
+    {
+        super(idpersonne, cin, nom, prenom);
+      
+    }
+    
+    
 
     public float getSalaire() {
         return salaire;

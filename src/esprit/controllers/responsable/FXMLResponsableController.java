@@ -5,11 +5,22 @@
  */
 package esprit.controllers.responsable;
 
+import esprit.dao.MatchDAO;
 import esprit.dao.StadeDAO;
 import esprit.dao.StadeDAOInterface;
+import esprit.dao.TicketDAO;
+import esprit.entite.Arbitre;
+import esprit.entite.Categorie;
+import esprit.entite.Competition;
+import esprit.entite.Evenement;
+import esprit.entite.Joueur;
+import esprit.entite.Match;
+import esprit.entite.Niveau;
 import esprit.entite.SessionFormation;
 import esprit.entite.Stade;
 import esprit.entite.Surface;
+import esprit.entite.Ticket;
+import esprit.entite.TrancheAge;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -18,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -64,8 +76,7 @@ public class FXMLResponsableController implements Initializable {
    private final String styleMenu = styleMenuPressed + "-fx-background-color: #29778e;";
     
     
-    
-    
+      
     @FXML
     private Button menuCup;
     @FXML
@@ -79,13 +90,86 @@ public class FXMLResponsableController implements Initializable {
     @FXML
     private Button menuClub;
     @FXML
-    private Button menuClub2;
-    @FXML
     private AnchorPane backgroundPane;
     @FXML
     private ImageView optionTailleAgrandir;
     @FXML
     private ImageView optionTailleParDefaut;
+    @FXML
+    private Label Gestion;
+    @FXML
+    private AnchorPane consulterMedecinPane;
+    @FXML
+    private TableView  tab_match;
+    @FXML
+    private TableColumn  col10_id;
+    @FXML
+    private TableColumn  col1_type;
+    
+    
+    @FXML
+    private TableColumn col_12_idmatch;
+    @FXML
+    private TableColumn  col2_niveau;
+    @FXML
+    private TableColumn  col3_categorie;
+    @FXML
+    private TableColumn  col4_competition;
+    @FXML
+    private TableColumn  col5_joueur1;
+    @FXML
+    private TableColumn  col6_joueur2;
+    @FXML
+    private TableColumn  col7_arbitre;
+    @FXML
+    private TableColumn  col8_evenement;
+    @FXML
+    private TableColumn  col9_stade;
+    @FXML
+    private TableColumn  col10_date;
+    @FXML
+    private TableColumn  col11_supp;
+    @FXML
+    private TextField nb_ticket;
+    @FXML
+    private TextField prix_ticket;
+    @FXML
+    private Label label_medecin;
+    @FXML
+    private Button btn_ajouter;
+    @FXML
+    private Button btn_modifier;
+    @FXML
+    private ComboBox  combo_type;
+    @FXML
+    private ComboBox  combo_niveau;
+    @FXML
+    private ComboBox  combo_categorie;
+    @FXML
+    private ComboBox  combo_joueur2;
+    @FXML
+    private ComboBox    combo_joueur1;
+    @FXML
+    private ComboBox combo_arbitre;
+    @FXML
+    private ComboBox combo_evenement;
+    @FXML
+    private ComboBox combo_stade;
+    @FXML
+    private DatePicker date;
+    @FXML
+    private ComboBox  combo_competition;
+    @FXML
+    private Button boutonGlissantListe1;
+    @FXML
+    private Button boutonGlissantImage1;
+    @FXML
+    private TextField rech;
+    @FXML
+    private Label error;
+    
+    
+   
     
     //ATTRIBUTS STADE + SESSION
     @FXML
@@ -811,17 +895,284 @@ public class FXMLResponsableController implements Initializable {
         //tablejoueur.setPlaceholder(new Label("Aucune session pour les joueurs"));
                                       }     
      
+    
+    //#####################################################################################
+    //#####################################################################################
+    //#####################################################################################
+    //--------------------------------- Gestion Matchs -------  author : Wissem  ----------
+    //#####################################################################################
+    //#####################################################################################
+    //----------------------------------Ajouter Match a la base de donnée-------------------
+            Ticket t = new Ticket();
+            TicketDAO tdao=new TicketDAO();
+    
+            
+            
+        public void menuMatch_act(ActionEvent event)
+        {
+        menuMatch.setVisible(true);
+        }
+            
+    
+    public void AjouterTicket() 
+       {
+         
+           
+        t.setNbrticket(Integer.parseInt(nb_ticket.getText()));
+        t.setPrix(Integer.parseInt(prix_ticket.getText()));
+        
+ 
+        tdao.save(t);
+        
+        System.out.println(t.toString());
+        System.out.println("--------- Ticket ajouté  ----------");
+       
+          }
+
+    
+    
+   //####################################################################################### 
+   //----------------------------------Afficher Match -------------------
+   //#######################################################################################
+     private ObservableList<Match> dataMatch; 
+     public void Afficher_Match()
+   {
+     try {
+    
+       
+           col1_type.setCellValueFactory(new PropertyValueFactory("type"));
+           col2_niveau.setCellValueFactory(new PropertyValueFactory("niveau"));
+           col3_categorie.setCellValueFactory(new PropertyValueFactory("categorie"));
+           col4_competition.setCellValueFactory(new PropertyValueFactory("idcompetition"));
+           col5_joueur1.setCellValueFactory(new PropertyValueFactory("idjoueur1"));
+           col6_joueur2.setCellValueFactory(new PropertyValueFactory("idjoueur2"));
+           col7_arbitre.setCellValueFactory(new PropertyValueFactory("idarbitre"));
+           col8_evenement.setCellValueFactory(new PropertyValueFactory("idevenement"));
+           col9_stade.setCellValueFactory(new PropertyValueFactory("idstade"));
+           col10_date.setCellValueFactory(new PropertyValueFactory("datematch"));
+           col_12_idmatch.setCellValueFactory(new PropertyValueFactory("idmatch"));
+           
+           
+           
+           System.out.println("-------- pas derreur lors de la methode affiche_liste_joueurs_invites  --------- ");
+ } catch (Exception e) 
+        { System.out.println("--------- erreur  affiche_liste_joueurs_invites  ---------");
+       }
+        
+    dataMatch = FXCollections.observableArrayList();
+    for (Match m : mdao.getList())
+    {
+     dataMatch.add(m);  
+    }   
+    
+    tab_match.setItems(dataMatch); 
+ 
+   }
+    
+    
+   //####################################################################################### 
+   //----------------------------------Ajouter Match a la base de donnée-------------------
+   //#######################################################################################
+   
+    Match m = new Match();
+    MatchDAO mdao=new MatchDAO();  
+    public void AjouterMatch(ActionEvent event) 
+       {
+          AjouterTicket();
+           Afficher_Match();
+        m.setIdjoueur1(mdao.GetIdByName(ManipuleString((String)combo_joueur1.getSelectionModel().getSelectedItem())));
+        m.setIdjoueur2(mdao.GetIdByName(ManipuleString((String)combo_joueur2.getSelectionModel().getSelectedItem()))); 
+        m.setIdcompetition((ManipuleString((String)combo_competition.getSelectionModel().getSelectedItem())));
+        m.setIdarbitre(mdao.GetIdByName(ManipuleString((String)combo_arbitre.getSelectionModel().getSelectedItem())));
+        m.setIdevenement(ManipuleString((String)combo_evenement.getSelectionModel().getSelectedItem()));
+        m.setIdstade(ManipuleString((String)combo_stade.getSelectionModel().getSelectedItem()));
+        m.setDatematch(java.sql.Date.valueOf(date.getValue()));
+        m.setNiveau(Niveau.valueOf(combo_niveau.getSelectionModel().getSelectedItem().toString()));
+        m.setType(TrancheAge.valueOf(combo_type.getSelectionModel().getSelectedItem().toString()));
+        m.setCategorie(Categorie.valueOf(combo_categorie.getSelectionModel().getSelectedItem().toString()));
+        m.setIdticket(tdao.id_dernier_Ticket());
+ 
+        mdao.save(m);
+        
+        System.out.println(m.toString());
+        System.out.println("--------- Match ajouté  ----------");
      
+    
+          }
+
+   //-------------------------------------------------------------------------------------- 
+   //----------------------------------Remplissage de CompBo-------------------------------
+    //******************************** author : wissem ************************************
+    
+    public int ManipuleString(String ch)
+    {
+    String chaine ="";
+    char c = ':';
+    int i=ch.length();
+    boolean result =false; 
+     do {     
+         i=i-1;
+            chaine=chaine+""+ch.charAt(i);
+            if (ch.charAt(i) == ':')
+            {result=true;}
+           
+        } while (result==false);
      
+            String ch0="";
+        for (int j = 0; j < chaine.length()-1; j++) 
+        {
+             ch0=chaine.charAt(j)+""+ch0;
+        }
+  
+        
+     return Integer.parseInt(ch0);
+    
+    }
+      //################################################################  
+      public ObservableList<String> RemplireComboCompetition()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Competition> listeCom = new ArrayList();
+        listeCom = d.List_Competition_ForComboBox();
+        ObservableList<String> obs = FXCollections.observableArrayList();
+        for(Competition co : listeCom)
+        {
+            obs.add(co.getLibelle()+" :"+co.getIdcompetition());
+        }
+        return obs;
+    }
+ 
+     //################################################################  
+      public ObservableList<String> RemplireComboStade()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Stade> listeStad = new ArrayList();
+        listeStad = d.List_stade_ForComboBox();
+        ObservableList<String> obs = FXCollections.observableArrayList();
+        for(Stade St : listeStad)
+        {
+            obs.add(St.getLibellestade()+" :"+St.getIdstade());
+        }
+        return obs;
+    }
+  //################################################################  
+      public ObservableList<String> RemplireComboEven()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Evenement> listeEven = new ArrayList();
+        listeEven = d.List_evenementForComboBox();
+        ObservableList<String> obs = FXCollections.observableArrayList();
+        for(Evenement Ev : listeEven)
+        {
+            obs.add(Ev.getLibelle()+" :"+Ev.getIdevenement());
+        }
+        return obs;
+    }
+  //################################################################   
+   
+      public ObservableList<String> RemplireComboJoueurHomme()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Joueur> listeM = new ArrayList();
+        listeM = d.List_Joueur_HommesForComboBox();
+        ObservableList<String> obs = FXCollections.observableArrayList();
+        for(Joueur J : listeM)
+        {
+            obs.add(J.getNom()+" :"+J.getCin());
+        }
+        return obs;
+    }
+  //################################################################   
      
+      public ObservableList<String> RemplireComboJoueurFemme()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Joueur> listeM = new ArrayList();
+        listeM = d.List_Joueur_FemmesForComboBox();
+        ObservableList<String> obs = FXCollections.observableArrayList();
+        for(Joueur J : listeM)
+        {
+            obs.add(J.getNom()+" :"+J.getCin());
+        }
+        return obs;
+    }
+  //################################################################   
      
+      public ObservableList<String> RemplireComboJoueurAll()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Joueur> listeM = new ArrayList();
+        listeM = d.List_ALL_JoueurForComboBox();
+        ObservableList<String> obs = FXCollections.observableArrayList();
+        for(Joueur J : listeM)
+        {
+          
+            obs.add(J.getNom()+" :"+J.getCin());
+        }
+        return obs;
+    }
+  //################################################################    
+     
+      public ObservableList<String> RemplireComboArbitre()
+    {
+        MatchDAO d =new MatchDAO();
+        List<Arbitre> listeAr = new ArrayList();
+        listeAr = d.List_ArbitresForComboBox();
+        ObservableList<String> obsAr = FXCollections.observableArrayList();
+        for(Arbitre Arr: listeAr)
+        {
+            obsAr.add(Arr.getNom()+" :"+Arr.getCin());
+        }
+        return obsAr;
+    }
+  //################################################################  
      
      
      
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) 
+    {
+        Afficher_Match();
+  //*************************************************************************
+        ObservableList<String> obsNomJoueur = RemplireComboJoueurAll();
+ //**************************************************************************
+       ObservableList<String> obsCompeti = RemplireComboCompetition();
+ //**************************************************************************
+        ObservableList<String> obsType = FXCollections.observableArrayList();
+        obsType.add("Veteran");
+        obsType.add("Senior");
+        obsType.add("Junior");
+ //************************************************************************** 
+        ObservableList<String> obsNiveau = FXCollections.observableArrayList();
+        obsNiveau.add("Amateur");
+        obsNiveau.add("National");
+        obsNiveau.add("International");
         
+ //************************************************************************** 
+        ObservableList<String> obsCategorie = FXCollections.observableArrayList();
+        obsCategorie.add("Homme");
+        obsCategorie.add("Femme");
+        obsCategorie.add("Mixte");
+ //************************************************************************** 
+      
+     ObservableList<String> obsNomarbitr= RemplireComboArbitre(); 
+  //*************************************************************************
+    ObservableList<String> obserEvenement= RemplireComboEven(); 
+ //*************************************************************************
+    ObservableList<String> obserStad = RemplireComboStade();
+//*************************************************************************
         
+        combo_type.setItems(obsType);
+        combo_joueur1.setItems(obsNomJoueur);
+        combo_joueur2.setItems(obsNomJoueur);
+        combo_niveau.setItems(obsNiveau);
+        combo_categorie.setItems(obsCategorie);
+        combo_arbitre.setItems(obsNomarbitr);
+        combo_evenement.setItems(obserEvenement);
+        combo_stade.setItems(obserStad);
+        combo_competition.setItems(obsCompeti);
+       
+       
         //PARTIE STADE
         afficherDataStade();
         initaliserFieldsStade();
@@ -861,7 +1212,27 @@ public class FXMLResponsableController implements Initializable {
                 System.out.println("Key Pressed: " + chaine);
             }
         });
-
+    
+    
+    
     }    
+
+    @FXML
+    private void handleGlissantButtonListe(ActionEvent event) {
+    }
+
+    @FXML
+    private void Rechercher(KeyEvent event) {
+    }
     
 }
+ 
+     
+     
+     
+     
+     
+     
+      
+    
+

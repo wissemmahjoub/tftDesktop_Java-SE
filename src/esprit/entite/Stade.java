@@ -26,7 +26,16 @@ public class Stade {
 
     public Stade() {
     }
-
+ public Stade(int idstade, String libellestade, String avatar ,String ville, int capacite, Date datecreation, Date datedestruction) {
+        this.idstade = idstade;
+        this.libellestade = libellestade;
+        this.avatar = avatar;
+        this.ville = ville;
+        this.capacite = capacite;
+        this.datecreation = datecreation;
+        this.datedestruction = datedestruction;
+    }
+    
     public Stade(int idstade, String libellestade, String avatar, float latitude, float longidute, String ville, int capacite, Surface surface, Date datecreation, Date datedestruction) {
         this.idstade = idstade;
         this.libellestade = libellestade;

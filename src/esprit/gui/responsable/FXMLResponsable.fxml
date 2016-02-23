@@ -70,7 +70,7 @@
                   <String fx:value="bgMessage" />
                </styleClass>
             </Button>
-            <Button fx:id="menuMatch" layoutY="254.0" mnemonicParsing="false" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Matchs" textFill="WHITE">
+            <Button fx:id="menuMatch" layoutY="254.0" mnemonicParsing="false" onAction="#menuMatch_act" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Matchs" textFill="WHITE">
                <padding>
                   <Insets left="50.0" />
                </padding>
@@ -131,7 +131,7 @@
       </ImageView>
       <Label id="Copyright" layoutX="182.0" layoutY="712.0" text="2016 Copyright" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="182.0" />
       <Label id="Developped By" layoutX="1002.0" layoutY="712.0" text="Developped by MyWishy" textFill="WHITE" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="55.0" />
-      <AnchorPane id="CorpsArbitre" fx:id="consulterStadePane" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsArbitre" fx:id="consulterStadePane" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <TextField fx:id="recherchestade" layoutX="30.0" layoutY="48.0" onKeyReleased="#afficherDataStadeRechcherche" prefHeight="31.0" prefWidth="267.0" promptText="Rechercher par Libellé, Ville" styleClass="inputNormal" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="48.0" />
             <AnchorPane id="tableViewStade" fx:id="listeContainer" layoutX="11.0" layoutY="110.0" prefHeight="436.0" prefWidth="668.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="377.0" AnchorPane.topAnchor="110.0">
@@ -262,6 +262,98 @@
          </children>
          <effect>
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMatch" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+         <children>
+            <AnchorPane id="tableViewMedecin" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="747.0" styleClass="titleListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label layoutX="48.0" layoutY="6.0" text="Liste des matchs" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tab_match" layoutX="-1.0" layoutY="39.0" prefHeight="384.0" prefWidth="661.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="39.0">
+                     <columns>
+                        <TableColumn fx:id="col10_id" minWidth="0.0" prefWidth="0.0" text="id" />
+                        <TableColumn fx:id="col1_type" prefWidth="47.0" text="Type" />
+                        <TableColumn fx:id="col2_niveau" prefWidth="44.0" text="Niveau" />
+                        <TableColumn fx:id="col3_categorie" prefWidth="67.0" text="Catégorie" />
+                        <TableColumn fx:id="col4_competition" prefWidth="75.0" text="Compétition" />
+                        <TableColumn fx:id="col5_joueur1" prefWidth="50.0" text="Joueur1" />
+                        <TableColumn fx:id="col6_joueur2" prefWidth="58.0" text="Joueur2" />
+                        <TableColumn fx:id="col7_arbitre" prefWidth="53.0" text="Arbitre" />
+                        <TableColumn fx:id="col8_evenement" prefWidth="73.0" text="Evenement" />
+                        <TableColumn fx:id="col9_stade" prefWidth="46.0" text="Stade" />
+                        <TableColumn fx:id="col10_date" prefWidth="65.0" text="Date" />
+                        <TableColumn fx:id="col11_supp" editable="false" prefWidth="60.0" text="delete" visible="false" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouterMedecinContainer" layoutX="709.0" layoutY="41.0" prefHeight="504.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="21.0">
+               <children>
+                  <AnchorPane layoutX="7.0" layoutY="323.0" prefHeight="53.0" prefWidth="340.0" style="-fx-background-color: #f9f9f9;">
+                     <children>
+                        <TextField fx:id="nb_ticket" layoutX="25.0" layoutY="27.0" prefHeight="25.0" prefWidth="124.0" promptText="Nombre de ticket" />
+                        <TextField fx:id="prix_ticket" layoutX="202.0" layoutY="27.0" prefHeight="25.0" prefWidth="124.0" promptText="Prix en dt" />
+                        <Label layoutX="36.0" layoutY="6.0" text="Nombre de tickets*" />
+                        <Label layoutX="211.0" layoutY="6.0" text="Prix tickets*" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="4.0" layoutY="153.0" prefHeight="53.0" prefWidth="340.0" style="-fx-background-color: #f9f9f9;" />
+                  <Pane prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css">
+                     <children>
+                        <Label fx:id="label_medecin" layoutX="65.0" layoutY="7.0" text="Ajouter un nouveau match" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button fx:id="btn_ajouter" layoutX="202.0" layoutY="422.0" mnemonicParsing="false" onAction="#AjouterMatch" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Ajouter" textAlignment="CENTER" />
+                  <Button fx:id="btn_modifier" layoutX="43.0" layoutY="422.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Modifier" textAlignment="CENTER" />
+                  <ComboBox fx:id="combo_type" layoutX="29.0" layoutY="64.0" prefHeight="25.0" prefWidth="124.0" />
+                  <ComboBox fx:id="combo_niveau" layoutX="214.0" layoutY="64.0" prefHeight="25.0" prefWidth="124.0" />
+                  <ComboBox fx:id="combo_categorie" layoutX="27.0" layoutY="117.0" prefHeight="25.0" prefWidth="124.0" />
+                  <ComboBox fx:id="combo_joueur2" layoutX="212.0" layoutY="167.0" prefHeight="25.0" prefWidth="124.0" />
+                  <ComboBox fx:id="combo_joueur1" layoutX="27.0" layoutY="167.0" prefHeight="25.0" prefWidth="124.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="154.0" layoutY="171.0" prefHeight="17.0" prefWidth="59.0" text="-Contre-" />
+                  <Label layoutX="31.0" layoutY="47.0" text="Type*" />
+                  <Label layoutX="214.0" layoutY="47.0" text="Niveau*" />
+                  <Label layoutX="29.0" layoutY="97.0" text="Categorie*" />
+                  <Label layoutX="29.0" layoutY="150.0" text="Joueur 1*" />
+                  <ComboBox fx:id="combo_arbitre" layoutX="27.0" layoutY="233.0" prefHeight="25.0" prefWidth="124.0" />
+                  <Label layoutX="34.0" layoutY="216.0" text="Arbitre*" />
+                  <Label layoutX="213.0" layoutY="150.0" text="Joueur 2*" />
+                  <ComboBox fx:id="combo_evenement" layoutX="212.0" layoutY="233.0" prefHeight="25.0" prefWidth="124.0" />
+                  <Label layoutX="212.0" layoutY="216.0" text="Evenement" />
+                  <ComboBox fx:id="combo_stade" layoutX="27.0" layoutY="285.0" prefHeight="25.0" prefWidth="124.0" />
+                  <Label layoutX="29.0" layoutY="268.0" text="Stade*" />
+                  <DatePicker fx:id="date" layoutX="209.0" layoutY="285.0" prefHeight="25.0" prefWidth="132.0" promptText="date match" />
+                  <Label layoutX="209.0" layoutY="268.0" text="Date*" />
+                  <ComboBox fx:id="combo_competition" layoutX="213.0" layoutY="115.0" prefHeight="25.0" prefWidth="124.0" />
+                  <Label layoutX="213.0" layoutY="97.0" text="Compétition" />
+               </children>
+            </AnchorPane>
+            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.rightAnchor="414.0">
+               <children>
+                  <Button fx:id="boutonGlissantListe1" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" onAction="#handleGlissantButtonListe" prefHeight="45.0" prefWidth="82.0" styleClass="boutonGlissantBouton1" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="List" visible="false" />
+                  <Button fx:id="boutonGlissantImage1" layoutY="-3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="72.0" styleClass="boutonGlissantBouton1" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Images" />
+               </children>
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
+               </effect>
+            </Pane>
+            <TextField fx:id="rech" layoutX="22.0" layoutY="44.0" prefHeight="31.0" prefWidth="267.0" promptText="Recherche" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
+            <Label fx:id="error" layoutX="804.0" layoutY="12.0" text="    " />
+         </children>
+         <effect>
+            <InnerShadow color="#00000044" />
          </effect>
       </AnchorPane>
    </children>
