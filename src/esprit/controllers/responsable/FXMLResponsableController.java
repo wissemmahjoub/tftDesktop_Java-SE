@@ -239,7 +239,8 @@ public class FXMLResponsableController implements Initializable {
     private Button boutonGlissantList;
     @FXML
     private WebView googleMap;
-    
+    @FXML
+    private AnchorPane consulterMatch;
 
     private StadeDAO stadedao;
    // private SessionFormationDAO sessiondao;
@@ -275,7 +276,8 @@ public class FXMLResponsableController implements Initializable {
                             }
     public void setInvisibleAllConsult() {
         consulterStadePane.setVisible(false);
-        sessionFormationPane.setVisible(false);
+//        sessionFormationPane.setVisible(false);
+        consulterMatch.setVisible(false);
     }
      
      
@@ -302,11 +304,15 @@ public class FXMLResponsableController implements Initializable {
                 
             case "menuFormation":
                 setInvisibleAllConsult();
-                sessionFormationPane.setVisible(true);
+//                sessionFormationPane.setVisible(true);
                 titelLabel.setText("Gestion des Sessions de formation");
 
                 break;
-
+            case "menuMatch" :
+                setInvisibleAllConsult();
+                consulterMatch.setVisible(true);
+                titelLabel.setText("Gestion des matchs");
+                break;
             default:
                 break;
 
@@ -908,11 +914,7 @@ public class FXMLResponsableController implements Initializable {
     
             
             
-        public void menuMatch_act(ActionEvent event)
-        {
-        menuMatch.setVisible(true);
-        }
-            
+    
     
     public void AjouterTicket() 
        {

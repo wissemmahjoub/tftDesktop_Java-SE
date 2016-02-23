@@ -70,7 +70,7 @@
                   <String fx:value="bgMessage" />
                </styleClass>
             </Button>
-            <Button fx:id="menuMatch" layoutY="254.0" mnemonicParsing="false" onAction="#menuMatch_act" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Matchs" textFill="WHITE">
+            <Button fx:id="menuMatch" layoutY="254.0" mnemonicParsing="false"  onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Matchs" textFill="WHITE">
                <padding>
                   <Insets left="50.0" />
                </padding>
