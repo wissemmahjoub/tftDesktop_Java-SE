@@ -19,10 +19,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane id="grandParent_Pane" fx:id="backgroundPane" prefHeight="768.0" prefWidth="1222.0" styleClass="backGroundPane" stylesheets="@../../ressources/css/mainSheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.responsable.FXMLResponsableController">
+<AnchorPane id="grandParent_Pane" fx:id="backgroundPane" onMouseClicked="#dontshowmailbar" prefHeight="768.0" prefWidth="1222.0" styleClass="backGroundPane" stylesheets="@../../ressources/css/mainSheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="esprit.controllers.responsable.FXMLResponsableController">
    <children>
-      <AnchorPane id="menuContainer" layoutY="108.0" prefHeight="585.0" prefWidth="165.0" AnchorPane.leftAnchor="0.0">
+      <AnchorPane id="menuContainer" layoutY="108.0" onMouseClicked="#dontshowmailbar" prefHeight="585.0" prefWidth="165.0" AnchorPane.leftAnchor="0.0">
          <children>
             <Button fx:id="menuCup" layoutY="164.0" mnemonicParsing="false" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Tournois/Events" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <padding>
@@ -70,7 +71,7 @@
                   <String fx:value="bgMessage" />
                </styleClass>
             </Button>
-            <Button fx:id="menuMatch" layoutY="254.0" mnemonicParsing="false"  onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Matchs" textFill="WHITE">
+            <Button fx:id="menuMatch" layoutY="254.0" mnemonicParsing="false" onMouseClicked="#handleMenuButtonPressed" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Matchs" textFill="WHITE">
                <padding>
                   <Insets left="50.0" />
                </padding>
@@ -91,13 +92,19 @@
          </children>
       </AnchorPane>
       <Pane id="Logo_Pane" prefHeight="108.0" prefWidth="165.0" styleClass="logo" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <AnchorPane id="titlePane" layoutX="166.0" layoutY="54.0" onMouseDragged="#handleonMouseDragged" onMousePressed="#onMousePressed" prefHeight="53.0" prefWidth="1056.0" styleClass="titlePane" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane id="titlePane" layoutX="166.0" layoutY="54.0" onMouseClicked="#dontshowmailbar" onMouseDragged="#handleonMouseDragged" onMousePressed="#onMousePressed" prefHeight="53.0" prefWidth="1056.0" styleClass="titlePane" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label fx:id="titelLabel" layoutX="27.0" layoutY="8.0" text="Gestion ">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
+            <ImageView fx:id="gmail" fitHeight="39.0" fitWidth="45.0" layoutX="954.0" layoutY="7.0" onMouseEntered="#showmailbar" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../ressources/images/gmail.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="1001.0" layoutY="18.0" text="Gmail" />
          </children>
       </AnchorPane>
       <AnchorPane id="Corps" layoutX="166.0" layoutY="107.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
@@ -264,9 +271,9 @@
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane id="CorpsMedecin" fx:id="consulterMatch" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMatch" layoutX="176.0" layoutY="117.0" onMouseClicked="#dontshowmailbar" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
-            <AnchorPane id="tableViewMedecin" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
+            <AnchorPane id="tableViewMedecin" fx:id="AnchorMatchlist" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" visible="false" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
                <children>
                   <Pane prefHeight="39.0" prefWidth="747.0" styleClass="titleListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
@@ -295,7 +302,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane id="ajouterMedecinContainer" layoutX="709.0" layoutY="41.0" prefHeight="504.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="21.0">
+            <AnchorPane id="ajouterMedecinContainer" fx:id="anchorMatch" layoutX="709.0" layoutY="41.0" prefHeight="504.0" prefWidth="350.0" style="-fx-background-color: #FFF;" visible="false" AnchorPane.rightAnchor="21.0">
                <children>
                   <AnchorPane layoutX="7.0" layoutY="323.0" prefHeight="53.0" prefWidth="340.0" style="-fx-background-color: #f9f9f9;">
                      <children>
@@ -340,7 +347,7 @@
                   <Label layoutX="213.0" layoutY="97.0" text="Compétition" />
                </children>
             </AnchorPane>
-            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.rightAnchor="414.0">
+            <Pane fx:id="scrollbar" layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" visible="false" AnchorPane.rightAnchor="414.0">
                <children>
                   <Button fx:id="boutonGlissantListe1" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" onAction="#handleGlissantButtonListe" prefHeight="45.0" prefWidth="82.0" styleClass="boutonGlissantBouton1" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="List" visible="false" />
                   <Button fx:id="boutonGlissantImage1" layoutY="-3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="72.0" styleClass="boutonGlissantBouton1" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Images" />
@@ -349,8 +356,45 @@
                   <InnerShadow blurType="GAUSSIAN" choke="0.18" color="#000000a3" height="17.89" radius="6.890000000000001" width="11.67" />
                </effect>
             </Pane>
-            <TextField fx:id="rech" layoutX="22.0" layoutY="44.0" prefHeight="31.0" prefWidth="267.0" promptText="Recherche" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
+            <TextField fx:id="rech" layoutX="22.0" layoutY="44.0" prefHeight="31.0" prefWidth="267.0" promptText="Recherche" visible="false" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
             <Label fx:id="error" layoutX="804.0" layoutY="12.0" text="    " />
+            <AnchorPane id="Mail AnchorPane" fx:id="mailAnchor" layoutX="677.0" prefHeight="223.0" prefWidth="282.0" style="-fx-background-color: ffffff;" visible="false">
+               <children>
+                  <Button layoutX="153.0" layoutY="99.0" mnemonicParsing="false" onAction="#ClickEnvoieMsg" prefHeight="25.0" prefWidth="115.0" text="Envoyer un mail" />
+                  <Button layoutX="153.0" layoutY="148.0" mnemonicParsing="false" onAction="#ClickConsulterMail" text="Consulter les mails" />
+                  <Label layoutX="42.0" layoutY="32.0" text="Fédération Tunisienne de Tennis" />
+                  <Label layoutX="42.0" layoutY="57.0" text="federationdetennistunisie@gmail.com" />
+                  <ImageView fitHeight="149.0" fitWidth="171.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Desktop/LOGO.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="SendMail" fx:id="SendMail" layoutX="716.0" layoutY="245.0" prefHeight="350.0" prefWidth="348.0" style="-fx-background-color: #FFF;" visible="false">
+               <children>
+                  <Pane prefHeight="20.0" prefWidth="348.0" styleClass="titleListPane" stylesheets="@../../../../../tft-master-/src/frontend/mainSheet.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="-3.0" text="Nouveau Message" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <ImageView id="Fermer" fx:id="btnAnnulesend" fitHeight="10.0" fitWidth="11.0" layoutX="322.0" layoutY="5.0" onMouseClicked="#ClickAnnuleEnvoieMsg" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                           <image>
+                              <Image url="@../../../../../TFTPidev_1/src/esprit/ressources/images/Fermer.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="sendto" layoutY="20.0" prefHeight="45.0" prefWidth="348.0" promptText="Send to" />
+                  <TextField fx:id="subject" layoutY="65.0" prefHeight="45.0" prefWidth="348.0" promptText="Subject" />
+                  <TextField fx:id="textenvoie" layoutY="110.0" prefHeight="213.0" prefWidth="348.0" />
+                  <Button layoutX="122.0" layoutY="324.0" mnemonicParsing="false" onAction="#SendMail" prefHeight="25.0" prefWidth="126.0" text="Send" />
+               </children>
+            </AnchorPane>
+            <WebView fx:id="webgmail" layoutY="1.0" prefHeight="595.0" prefWidth="1064.0" visible="false" />
+            <Button fx:id="btexit" layoutX="1038.0" mnemonicParsing="false" onAction="#ClickBtExit" text="X" visible="false" />
          </children>
          <effect>
             <InnerShadow color="#00000044" />

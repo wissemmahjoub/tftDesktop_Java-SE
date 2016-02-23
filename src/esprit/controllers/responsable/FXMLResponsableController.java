@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,6 +53,13 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Pair;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  * FXML Controller class
@@ -99,6 +107,8 @@ public class FXMLResponsableController implements Initializable {
     private Label Gestion;
     @FXML
     private AnchorPane consulterMedecinPane;
+     @FXML
+    private AnchorPane AnchorMatchlist;
     @FXML
     private TableView  tab_match;
     @FXML
@@ -176,6 +186,8 @@ public class FXMLResponsableController implements Initializable {
     private Label titelLabel;
     @FXML
     private AnchorPane consulterStadePane;
+     @FXML
+    private AnchorPane anchorMatch;
     @FXML
     private AnchorPane googleMapContainer;
     @FXML
@@ -241,6 +253,26 @@ public class FXMLResponsableController implements Initializable {
     private WebView googleMap;
     @FXML
     private AnchorPane consulterMatch;
+       @FXML
+    private AnchorPane SendMail;
+  @FXML
+    private AnchorPane mailAnchor;
+     @FXML
+    private WebView webgmail;
+   @FXML
+    private ImageView gmail;
+    @FXML
+    private TextField sendto;
+         @FXML
+    private TextField subject;
+           @FXML
+    private TextField textenvoie;
+               
+    @FXML
+    private Button btexit;
+      @FXML
+    private Button SendEmail;
+    
 
     private StadeDAO stadedao;
    // private SessionFormationDAO sessiondao;
@@ -1223,6 +1255,99 @@ public class FXMLResponsableController implements Initializable {
     private void handleGlissantButtonListe(ActionEvent event) {
     }
 
+    @FXML
+    private void PressMatch(ActionEvent event) {
+       // tab_match.setVisible(true);
+        rech.setVisible(true);
+        anchorMatch.setVisible(true);
+        AnchorMatchlist.setVisible(true);
+        
+    }
+    
+     // Mail
+      @FXML
+    private void showmailbar(MouseEvent event)
+    {
+        
+    mailAnchor.setVisible(true);
+                
+    }
+    
+     @FXML
+    private void dontshowmailbar(MouseEvent event)
+    {
+        
+    mailAnchor.setVisible(false);
+                
+    }
+     
+    
+     @FXML
+    private void ClickConsulterMail(ActionEvent event)
+    {
+        mailAnchor.setVisible(false);
+        btexit.setVisible(true);
+        webgmail.setVisible(true);
+        webgmail.getEngine().load("http://mail.google.com/mail/#inbox");
+    
+    }
+     
+   @FXML
+        private void ClickBtExit(ActionEvent event)
+    {
+        mailAnchor.setVisible(false);
+        webgmail.setVisible(false);
+    
+    btexit.setVisible(false);
+    }
+     
+      @FXML
+        private void SendMail(ActionEvent event)
+    {
+         String host = "smtp.gmail.com";
+       Properties prop = System.getProperties();
+       prop.put("mail.smtp.starttls.enable", "true");
+       prop.put("mail.smtp.host", "smtp.gmail.com");
+      prop.put("mail.smtp.socketFactory.port", "587");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+       prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.auth", "true");
+        Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+                 protected PasswordAuthentication getPasswordAuthentication(){
+                 return new PasswordAuthentication("federationdetennistunisie@gmail.com", "Yassine1994");
+                   
+                 }
+             
+             });
+        MimeMessage mimeMessage2 = new MimeMessage(session);
+        try {
+          Message msg = new MimeMessage (session);
+           msg.setFrom(new InternetAddress(sendto.getText()) );
+          msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendto.getText()));
+          msg.setSubject(subject.getText());
+           msg.setText(textenvoie.getText());
+           prop.put("mail.smtp.starttls.enable", "true");
+           Transport.send(msg);
+       
+        } catch (MessagingException ex) {
+            System.out.println(ex);  }
+                
+                
+    }
+     
+         @FXML
+        private void ClickEnvoieMsg(ActionEvent event)
+    {
+       SendMail.setVisible(true);
+    }
+           @FXML
+        private void ClickAnnuleEnvoieMsg(MouseEvent event)
+    {
+       SendMail.setVisible(false);
+    }
+    
+    
     @FXML
     private void Rechercher(KeyEvent event) {
     }
