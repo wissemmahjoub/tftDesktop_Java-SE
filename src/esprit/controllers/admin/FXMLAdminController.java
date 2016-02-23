@@ -5,6 +5,8 @@
  */
 package esprit.controllers.admin;
 
+
+import esprit.controllers.responsable.FXMLResponsableController;
 import esprit.dao.ArbitreDAO;
 import esprit.dao.MedecinDAO;
 import esprit.ressources.TFTEffects.TFTTransition;
@@ -22,7 +24,11 @@ import javafx.stage.Stage;
 import esprit.entite.Arbitre;
 import esprit.entite.Medecin;
 import esprit.entite.Niveau;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,11 +42,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
@@ -87,6 +96,11 @@ public class FXMLAdminController implements Initializable {
     private Button menuMedecin;
      @FXML
     private Button menuJoueur;
+     
+     
+      @FXML
+    private Button parcourir_image;
+     
      @FXML
      private Button menuArbitre;
     @FXML
@@ -156,6 +170,8 @@ public class FXMLAdminController implements Initializable {
     
     @FXML
     private TextField rech;
+    @FXML
+    private Label labb;
 
     @FXML
     private TextField nom2;
@@ -165,8 +181,8 @@ public class FXMLAdminController implements Initializable {
 
     @FXML
     private TextField cin2;
-
-
+@FXML
+private ImageView imagepr;
     @FXML
     private Label email;
 
@@ -178,7 +194,8 @@ public class FXMLAdminController implements Initializable {
 
     @FXML
     private PieChart graph_stat_medecin;
-
+   @FXML
+    private TableColumn imgch;
 
     @FXML
     private TableColumn col_idmed;
@@ -191,7 +208,8 @@ public class FXMLAdminController implements Initializable {
 
     @FXML
     private TableColumn  col_cin_med;
-
+@FXML
+    private TableColumn col_path;
     @FXML
     private TableColumn col_login_med;
 
@@ -274,6 +292,11 @@ public class FXMLAdminController implements Initializable {
 
     @FXML
     private DatePicker date_naiss_medecin;
+
+
+    @FXML
+    private Button menuArbitre121;
+    
 
       
          private ObservableList<Arbitre> mainArbitreData;
@@ -1161,10 +1184,7 @@ public class FXMLAdminController implements Initializable {
        }
         
      }
-    //***********************************************
-    //***********************************************
-    
-  
+   
 //---------------------------------------------------------------------- 
 //######################################################################
 //######################################################################
@@ -1184,9 +1204,97 @@ public class FXMLAdminController implements Initializable {
     Medecin m = new Medecin();
     MedecinDAO mdao=new MedecinDAO();
     
+    public void viderChamp()
+    {
+    m.setNom(nom_medecin.getText());
+        m.setPrenom("");
+        m.setCin("");
+        m.setLogin("");
+        m.setPassword("");
+        m.setSpecialite("");
+        m.setSalaire(0);
+        m.setEmail("");
+        m.setAdresse("");
+        m.setAvatar("");
+    
+    }
+    
+    //################### changement de couleur de bordure de text fild ##########
+   
+    public void testCin(KeyEvent event)
+    {
+     
+        if ((cin_medecin.getText().length()!=8) || (cin_medecin.getText().matches("[0-9]*")==false))
+       {
+           cin_medecin.setStyle("-fx-border-color: red;");
+
+       }
+        else{   cin_medecin.setStyle("-fx-border-color: #0ad200;");}
+    }
+    
+     public void testPwd(KeyEvent event)
+    {
+     
+        if (pwd_medecin.getText().length()<8) 
+       {
+           pwd_medecin.setStyle("-fx-border-color: red;");
+           
+       }
+        else{   pwd_medecin.setStyle("-fx-border-color: #0ad200;");}
+    }
+     
+
+   
+     //#######################################################
+    
+    
    public void AjouterMedecin(ActionEvent event)
-   {
-        RadioButton rd= (RadioButton) sexe.getSelectedToggle();
+   { int x =1;
+       //########### LES CONTROLS DE SAISIE ################
+       if (
+           nom_medecin.getText().equals("")  || 
+           prenom_medecin.getText().equals("")||
+           cin_medecin.getText().equals("") ||
+           login_medecin.getText().equals("")||
+           pwd_medecin.getText().equals("") ||
+           spec_medecin.getText().equals("")||
+           mail_medecin.getText().equals("")||
+           adrs_medecin.getText().equals("")
+            ) 
+        {
+       x=0;
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Federation Tunisienne de Tennis");
+        alert.setHeaderText(" Vous devez remplir tous les champs ");
+        alert.setContentText("TFT");
+        alert.showAndWait();
+        }
+         
+       
+       else if (!(cin_medecin.getText().length()== 8) || (cin_medecin.getText().matches("[0-9]*")==false)) 
+       {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Federation Tunisienne de Tennis");
+        alert.setHeaderText(" CIN Non Valide  ");
+        alert.setContentText("Condition CIN : taille =8 chiffres");
+        alert.showAndWait(); 
+        x=0;
+       }
+       
+        
+       else if ((pwd_medecin.getText().length()<8)) 
+       {
+     x=0;
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+       alert.setTitle("Federation Tunisienne de Tennis");
+       alert.setHeaderText(" Mot de passe Non Valide  ");
+       alert.setContentText("Condition Password : taille min = 8 caractéres");
+       alert.showAndWait(); 
+       }
+       else if (x==1)
+        {
+           
+         RadioButton rd= (RadioButton) sexe.getSelectedToggle();
         m.setNom(nom_medecin.getText());
         m.setPrenom(prenom_medecin.getText());
         m.setCin(cin_medecin.getText());
@@ -1198,9 +1306,32 @@ public class FXMLAdminController implements Initializable {
         m.setSexe(rd.getText());
         m.setEmail(mail_medecin.getText());
         m.setAdresse(adrs_medecin.getText());
+        m.setAvatar(labb.getText());
+        
         mdao.save(m);
-        System.out.println("--------- Medecin ajouté  ----------");
+      
+        viderChamp();
         AfficherMedecin();
+        System.out.println("--------- Medecin ajouté  ----------");
+        
+    String chaine =prenom_medecin.getText()+" "+nom_medecin.getText()+" est ajouté(e) a la base de données";  
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Federation Tunisienne de Tennis");
+    alert.setHeaderText(chaine);
+    alert.setContentText("TFT");
+    alert.showAndWait();
+        
+          }
+
+        
+    
+     
+        
+
+       
+       
+       
+       
    }
 
    
@@ -1298,7 +1429,7 @@ public class FXMLAdminController implements Initializable {
            col_login_med.setCellValueFactory(new PropertyValueFactory("login"));  
            col_pwd_med.setCellValueFactory(new PropertyValueFactory("password"));
            col_datenaiss_med.setCellValueFactory(new PropertyValueFactory("datenaissance"));
-         
+          col_path.setCellValueFactory(new PropertyValueFactory("avatar"));
            
  } catch (Exception e) 
         { System.out.println("--------- erreur affichage medecin !! ---------");
@@ -1343,6 +1474,75 @@ public TableCell call( final TableColumn<Medecin, String> param )
             
              
             col_supp_med.setCellFactory( cellFactory );
+            
+            /////////////////////////////////////////////
+            
+             Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactoryModifyyy = 
+                new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Medecin, String> param )
+                    {
+                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
+                        {
+
+                            final Button afficherimage = new Button( "image" );
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    afficherimage.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                    
+                                             Stage stageModify = new Stage();
+                                            stageModify.setResizable(false);
+                                            ImageView img=new ImageView();
+//                               String f = (getTableView().getItems().get(getIndex()).getAvatar()); 
+                 String f = (getTableView().getItems().get(getIndex()).getAvatar()); 
+                                System.out.println("le path est : " + f);
+                               InputStream inputStream = null;
+                                        try {
+                                            inputStream = new FileInputStream(f);
+                                        } catch (FileNotFoundException ex) {
+                                            Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                 Image imgg = new Image(inputStream);
+               
+                                 img.setImage(imgg);
+                                                    Scene scene = new Scene(new Group());
+                                                     VBox root = new VBox();    
+                                   root.getChildren().addAll(img);
+                                                      scene.setRoot(root);
+                                            stageModify.setScene(scene);
+                                  
+                     
+                                                   stageModify.show();
+                                             
+                                    } );
+                                    setGraphic( afficherimage );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                }; 
+            
+            imgch.setCellFactory(cellFactoryModifyyy);
+            
+      
+            
+                
+            
+            
+            
             dataMedecin = FXCollections.observableArrayList();
                for (Medecin m : mdao.getList())
                {
@@ -1434,8 +1634,9 @@ public TableCell call( final TableColumn<Medecin, String> param )
             tab_medecin.setItems(dataMedecin2);
 
     }
-   
-    //################################## Statistique Medecin ###########################################
+   //##################################################################################################
+    //################################## Statistique Medecin ##########################################
+   //#################################################################################################
        @FXML
     void afficherStatisque(ActionEvent event)
     {
@@ -1460,7 +1661,35 @@ public TableCell call( final TableColumn<Medecin, String> param )
            zone_statisque_medecin.setVisible(false);
 
     }
+ //######################################################################################
+ //########################## Parcourir IMAGE ###########################################
+    @FXML
+    private void parcourirImage(ActionEvent event) throws IOException 
+    
+    {
+         Stage pstage=null;
+         FileChooser fileChooser = new FileChooser();
 
+
+ FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+File file = fileChooser.showOpenDialog(null);
+            String path = file.getAbsolutePath();
+             
+            try {
+                InputStream inputStream = new FileInputStream(path);
+                Image img = new Image(inputStream);
+               
+                imagepr.setImage(img);
+                labb.setText(path);
+           } catch (FileNotFoundException ex) {
+                Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+
+        
+    }
    
 
    //##########################################################################

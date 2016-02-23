@@ -190,7 +190,7 @@
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="176.0" layoutY="119.0" prefHeight="586.0" prefWidth="1035.0" styleClass="corpsPane" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="166.0" layoutY="109.0" prefHeight="586.0" prefWidth="1080.0" styleClass="corpsPane" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <AnchorPane id="tableViewMedecin" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
                <children>
@@ -215,8 +215,10 @@
                         <TableColumn fx:id="col_datenaiss_med" prefWidth="97.0" text="date naissance" />
                         <TableColumn fx:id="col_sexe_med" prefWidth="45.0" text="Sexe" />
                         <TableColumn fx:id="col_mail_med" minWidth="5.0" prefWidth="51.0" text="Mail" />
-                        <TableColumn fx:id="col_adress_med" prefWidth="68.0" text="Adresse" />
-                        <TableColumn fx:id="col_supp_med" prefWidth="84.0" />
+                        <TableColumn fx:id="col_adress_med" prefWidth="37.0" text="Adresse" />
+                        <TableColumn fx:id="imgch" prefWidth="47.0" text="images" />
+                        <TableColumn fx:id="col_path" prefWidth="28.0" text="Column X" visible="false" />
+                        <TableColumn fx:id="col_supp_med" prefWidth="69.0" />
                      </columns>
                   </TableView>
                   <AnchorPane fx:id="zone_statisque_medecin" layoutX="22.0" layoutY="-47.0" prefHeight="425.0" prefWidth="487.0" style="-fx-background-color: #9aa9ad;">
@@ -225,7 +227,7 @@
                         <Button fx:id="bnt_close_stat" layoutX="474.0" layoutY="2.0" mnemonicParsing="false" onAction="#close_stat" prefHeight="25.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" />
                      </children>
                   </AnchorPane>
-                  <Button fx:id="Bnt_stat_btn" layoutX="543.0" layoutY="-25.0" mnemonicParsing="false" onAction="#afficherStatisque" onMouseClicked="#handleMenuButtonPressed" prefHeight="25.0" prefWidth="151.0" style="-fx-alignment: baseline-left;" stylesheets="@../../../../../TFTPidev_1/src/esprit/ressources/css/mainSheet.css" text="Statistique" textFill="WHITE">
+                  <Button fx:id="Bnt_stat_btn" layoutX="543.0" layoutY="-25.0" mnemonicParsing="false" onAction="#afficherStatisque" onMouseClicked="#handleMenuButtonPressed" prefHeight="25.0" prefWidth="151.0" style="-fx-alignment: baseline-left;" stylesheets="@../../ressources/css/mainSheet.css" text="Statistique" textFill="WHITE">
                      <padding>
                         <Insets left="60.0" />
                      </padding>
@@ -236,7 +238,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../../../../TFTPidev_1/src/esprit/ressources/css/mainSheet.css" AnchorPane.rightAnchor="414.0">
+            <Pane layoutX="505.0" layoutY="44.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" stylesheets="@../../ressources/css/mainSheet.css" AnchorPane.rightAnchor="414.0">
                <children>
                   <Button fx:id="boutonGlissantListe1" layoutX="89.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="82.0" styleClass="boutonGlissantBouton1" text="List" visible="false" />
                   <Button fx:id="boutonGlissantImage1" layoutY="-3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="72.0" styleClass="boutonGlissantBouton1" text="Images" />
@@ -259,13 +261,13 @@
                   </Pane>
                   <TextField fx:id="nom_medecin" layoutX="122.0" layoutY="65.0" promptText="nom" />
                   <TextField fx:id="prenom_medecin" layoutX="123.0" layoutY="94.0" promptText="prenom" />
-                  <TextField fx:id="cin_medecin" layoutX="123.0" layoutY="123.0" promptText="CIN" />
+                  <TextField fx:id="cin_medecin" layoutX="123.0" layoutY="123.0" onKeyPressed="#testCin" onKeyReleased="#testCin" promptText="CIN" />
                   <Button fx:id="Button_ajout_medecin" layoutX="202.0" layoutY="467.0" mnemonicParsing="false" onAction="#AjouterMedecin" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Envoyer" textAlignment="CENTER" />
                   <Label layoutX="68.0" layoutY="69.0" prefHeight="17.0" prefWidth="30.0" text="Nom" />
                   <Label layoutX="50.0" layoutY="98.0" text="Prenom" />
                   <Label layoutX="75.0" layoutY="127.0" prefHeight="17.0" prefWidth="30.0" text="CIN" />
                   <Label layoutX="50.0" layoutY="190.0" text="Password" />
-                  <PasswordField fx:id="pwd_medecin" layoutX="123.0" layoutY="186.0" promptText="password" />
+                  <PasswordField fx:id="pwd_medecin" layoutX="123.0" layoutY="186.0" onKeyPressed="#testPwd" onKeyReleased="#testPwd" promptText="password" />
                   <TextField fx:id="login_medecin" layoutX="123.0" layoutY="154.0" promptText="Login" />
                   <Label layoutX="70.0" layoutY="158.0" text="Login" />
                   <Label layoutX="48.0" layoutY="222.0" text="Specialité" />
@@ -286,6 +288,8 @@
                   <Button fx:id="Button_modifier_medecin" layoutX="36.0" layoutY="467.0" mnemonicParsing="false" onAction="#update" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Modifier" textAlignment="CENTER" />
                   <DatePicker fx:id="date_naiss_medecin" layoutX="125.0" layoutY="286.0" prefHeight="25.0" prefWidth="149.0" promptText="date de naissance" />
                   <Label layoutX="32.0" layoutY="290.0" text="DateNaissance" />
+                  <Label fx:id="labb" layoutX="206.0" layoutY="429.0" text="Label" visible="false" />
+                  <Button fx:id="parcourir_image" layoutX="143.0" layoutY="415.0" mnemonicParsing="false" onAction="#parcourirImage" prefHeight="45.0" prefWidth="110.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" text="Avatar" textAlignment="CENTER" />
                </children>
             </AnchorPane>
          </children>
@@ -370,5 +374,6 @@
             <Label layoutX="33.0" layoutY="45.0" text="Administrateur" textFill="WHITE" />
          </children>
       </AnchorPane>
+      <ImageView fx:id="imagepr" fitHeight="150.0" fitWidth="200.0" layoutX="804.0" layoutY="676.0" pickOnBounds="true" preserveRatio="true" visible="false" />
    </children>
 </AnchorPane>

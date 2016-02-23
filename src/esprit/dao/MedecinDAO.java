@@ -54,7 +54,7 @@ public class MedecinDAO implements ICrudDAO<Medecin>{
            pre.setString(10,m.getPassword()); 
            pre.setDate(11, (Date) m.getDatedestruction()); 
            pre.setString(12,"medecin"); 
-           pre.setString(13,"image_profil"); 
+           pre.setString(13,m.getAvatar()); 
 
        
            pre.executeUpdate();
@@ -133,7 +133,7 @@ public class MedecinDAO implements ICrudDAO<Medecin>{
     public List<Medecin> getList() {
         List<Medecin> M = new ArrayList<>();
          
-        String req4= "SELECT idpersonne,salaire ,specialite,cin,nom,prenom,adresse,email,sexe,login,password,datenaissance  FROM personne WHERE role = 'medecin' and datedestruction is NULL";
+        String req4= "SELECT idpersonne,salaire ,specialite,cin,nom,prenom,adresse,email,sexe,login,password,datenaissance ,avatar FROM personne WHERE role = 'medecin' and datedestruction is NULL";
         try {
             ResultSet res =  stmnt.executeQuery(req4);
             while (res.next()) {
@@ -152,7 +152,8 @@ public class MedecinDAO implements ICrudDAO<Medecin>{
                         res.getString("sexe"),
                         res.getString("login"),
                         res.getString("password"),
-                        res.getDate("datenaissance")
+                        res.getDate("datenaissance"),
+                       res.getString("avatar")
                 );
               
                M.add(m);

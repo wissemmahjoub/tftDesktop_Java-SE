@@ -32,7 +32,7 @@ public class Personne {
     }
 
 
-    public Personne(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance) {
+    public Personne(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance ,String avatar) {
         this.idpersonne = idpersonne;
         this.cin = cin;
         this.nom = nom;
@@ -43,6 +43,7 @@ public class Personne {
         this.login = login;
         this.password = password;
         this.datenaissance = datenaissance;
+        this.avatar = avatar;
     }
     
     
