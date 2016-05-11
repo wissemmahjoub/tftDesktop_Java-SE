@@ -68,7 +68,7 @@ public class MatchDAO implements ICrudDAO<Match>{
           try {
              
 
-           String req1 = "INSERT INTO `match` ( `idjoueur1`, `idjoueur2`,`idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`,`niveau`,`type`,`categorie`,`idticket`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+           String req1 = "INSERT INTO `matchs` ( `idjoueur1`, `idjoueur2`,`idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`,`niveau`,`type`,`categorie`,`idticket`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
            pre = connexion.prepareStatement(req1);     
            pre.setInt(1, M.getIdjoueur1());
            pre.setInt(2, M.getIdjoueur2());
@@ -109,7 +109,7 @@ public class MatchDAO implements ICrudDAO<Match>{
          
      
      
-        String req4= "SELECT `idmatch`, `idjoueur1`, `idjoueur2`, `categorie`, `idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`, `niveau`, `type`, `idscore`, `idticket` FROM `match` WHERE `datedestruction` is NULL ";
+        String req4= "SELECT `idmatch`, `idjoueur1`, `idjoueur2`, `categorie`, `idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`, `niveau`, `type`, `idscore`, `idticket` FROM `matchs` WHERE `datedestruction` is NULL ";
         try {
             ResultSet res =  ste.executeQuery(req4);
             while (res.next()) {

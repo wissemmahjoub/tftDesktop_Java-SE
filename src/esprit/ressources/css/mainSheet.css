@@ -7,7 +7,13 @@ and open the template in the editor.
     Created on : 4 févr. 2016, 12:54:39
     Author     : Mustapha
 */
-
+.note
+{
+     -fx-border:none;
+     -fx-background: transparent;
+    -fx-background-image: url(../../ressources/images/notebg7.png);
+    -fx-background-repeat: repeat;
+}
 .errorTextField{
     -fx-background-color: #FFF0F0;
     -fx-border-color: #DBB1B1;

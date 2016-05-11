@@ -43,9 +43,13 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
              // public Arbitre(int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, 
              //Date datenaissance, String role, String avatar, Date datedestruction,float salaire, int experience, Niveau niveau) 
              //
+            LocalDateTime timePoint = LocalDateTime.now(); 
+            String format = "dd/MM/yyyy";
+             System.out.println(timePoint.format(DateTimeFormatter.ISO_DATE));
+            java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat( format ); 
+              String req1 = "insert into personne (nom,prenom,adresse,sexe,login,password,role,niveau,cin,idpersonne,avatar,datecreation) VALUES (?,?,?,?,?,?,?,?,?,?,?,now()) ";
            
-           String req1 = "insert into personne (nom,prenom,adresse,sexe,login,password,role,niveau,cin,idpersonne,avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?) ";
-           pre = connexion.prepareStatement(req1);     
+              pre = connexion.prepareStatement(req1);     
            
            pre.setString(1, t.getNom());
            pre.setString(2, t.getPrenom());
@@ -58,7 +62,6 @@ public class ArbitreDAO implements ICrudDAO<Arbitre>{
            pre.setString(9, t.getCin());
            pre.setInt(10, t.getIdpersonne());
            pre.setString(11, t.getAvatar());
-            
             
             pre.execute();
             

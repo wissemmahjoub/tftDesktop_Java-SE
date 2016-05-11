@@ -5,10 +5,8 @@
  */
 package esprit.controllers.admin;
 
-
-import esprit.controllers.responsable.FXMLResponsableController;
+import esprit.controllers.authentification.FXMLauthentificationController;
 import esprit.dao.ArbitreDAO;
-import esprit.dao.MedecinDAO;
 import esprit.ressources.TFTEffects.TFTTransition;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,17 +20,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import esprit.entite.Arbitre;
-import esprit.entite.Medecin;
 import esprit.entite.Niveau;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,14 +35,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
@@ -86,8 +82,6 @@ public class FXMLAdminController implements Initializable {
      //*************************************************************************************************************
        
     /* --*/
-    @FXML
-    private Button bnt_close_stat;
         @FXML
     private Button boutonGlissantListe;
     @FXML
@@ -96,11 +90,6 @@ public class FXMLAdminController implements Initializable {
     private Button menuMedecin;
      @FXML
     private Button menuJoueur;
-     
-     
-      @FXML
-    private Button parcourir_image;
-     
      @FXML
      private Button menuArbitre;
     @FXML
@@ -121,7 +110,6 @@ public class FXMLAdminController implements Initializable {
     private RadioButton femme;
     @FXML
     private RadioButton homme;
-    
    @FXML
    TextField searchField;
    //*************************** Attrbut arbitre ; 
@@ -167,138 +155,21 @@ public class FXMLAdminController implements Initializable {
      private List<AnchorPane> anchorListe;
     @FXML
     private AnchorPane imageGlobalContainer;
+    @FXML
+    private TextArea note;
+     @FXML
+    WebView browser;
+    @FXML
+    PieChart pieChart;
+    @FXML
+    private Button menuDashboard;
+    @FXML
+    private AnchorPane consulterDashboardPane;
+    @FXML
+    private AnchorPane stat2;
+    @FXML
+    private BarChart barChart;
     
-    @FXML
-    private TextField rech;
-    @FXML
-    private Label labb;
-
-    @FXML
-    private TextField nom2;
-
-    @FXML
-    private TextField prenom2;
-
-    @FXML
-    private TextField cin2;
-@FXML
-private ImageView imagepr;
-    @FXML
-    private Label email;
-
-    @FXML
-    private Button Bnt_stat_btn;
-
-    @FXML
-    private AnchorPane zone_statisque_medecin;
-
-    @FXML
-    private PieChart graph_stat_medecin;
-   @FXML
-    private TableColumn imgch;
-
-    @FXML
-    private TableColumn col_idmed;
-
-    @FXML
-    private TableColumn  col_nom_med;
-
-    @FXML
-    private TableColumn  col_prenom_med;
-
-    @FXML
-    private TableColumn  col_cin_med;
-@FXML
-    private TableColumn col_path;
-    @FXML
-    private TableColumn col_login_med;
-
-    @FXML
-    private TableColumn   col_pwd_med;
-
-    @FXML
-    private TableColumn<?, ?> col_specialite_med;
-
-    @FXML
-    private TableColumn col_salaire_med;
-
-    @FXML
-    private TableColumn  col_datenaiss_med;
-
-    @FXML
-    private TableColumn  col_sexe_med;
-
-    @FXML
-    private TableColumn  col_mail_med;
-
-    @FXML
-    private TableColumn  col_adress_med;
-
-    @FXML
-    private TableColumn  col_supp_med;
-
-    @FXML
-    private Button boutonGlissantListe1;
-
-    @FXML
-    private Button boutonGlissantImage1;
-
-    @FXML
-    private TableView tab_medecin;
-    @FXML
-    private Label label_medecin;
-
-    @FXML
-    private TextField nom_medecin;
-
-    @FXML
-    private TextField prenom_medecin;
-
-    @FXML
-    private TextField cin_medecin;
-
-    @FXML
-    private Button Button_ajout_medecin;
-
-    @FXML
-    private PasswordField pwd_medecin;
-
-    @FXML
-    private TextField login_medecin;
-
-    @FXML
-    private TextField spec_medecin;
-
-    @FXML
-    private TextField salaire_medecin;
-
-    @FXML
-    private TextField mail_medecin;
-
-    @FXML
-    private TextField adrs_medecin;
-
-    @FXML
-    private RadioButton radio_h;
-
-    @FXML
-    private ToggleGroup sexe;
-
-    @FXML
-    private RadioButton radio_f;
-
-    @FXML
-    private Button Button_modifier_medecin;
-
-    @FXML
-    private DatePicker date_naiss_medecin;
-
-
-    @FXML
-    private Button menuArbitre121;
-    
-
-      
          private ObservableList<Arbitre> mainArbitreData;
         private ObservableList<Arbitre> arbitreData_filtree;
         private ObservableList<Arbitre> arbitreData ;
@@ -323,6 +194,7 @@ private ImageView imagepr;
         menuJoueur.setStyle(styleMenu);
         menuArbitre.setStyle(styleMenu);
         menuMedecin.setStyle(styleMenu);
+        menuDashboard.setStyle(styleMenu);
         
     }
     private void setInvisibleAllConsult()
@@ -330,7 +202,7 @@ private ImageView imagepr;
         consulterArbitrePane.setVisible(false);
         consulterMedecinPane.setVisible(false);
         consulterJoueurPane.setVisible(false);
-        //consulterDashboardPane.setVisible(false);
+       consulterDashboardPane.setVisible(false);
     }
     
     @FXML
@@ -359,7 +231,12 @@ private ImageView imagepr;
                 consulterJoueurPane.setVisible(true);
                 titelLabel.setText("Gestion des Joueurs");
                 break;
-                
+            case "menuDashboard" :
+                setInvisibleAllConsult();
+                consulterDashboardPane.setVisible(true);
+                  titelLabel.setText("Tableau de board");
+                  loadCharts();
+                break;
             default:
                 break;
                 
@@ -367,6 +244,48 @@ private ImageView imagepr;
         
         
     }
+    private void loadCharts()
+    {
+        //barChart
+        CategoryAxis xBar = new CategoryAxis();
+                  xBar.setLabel("Nombre des comptes");
+                  NumberAxis yBar = new NumberAxis();
+                  yBar.setLabel("Comptes");
+                  barChart = new BarChart(xBar, yBar);
+                  barChart.setPrefSize(stat2.getPrefWidth() - 20,stat2.getPrefHeight() - 20);
+                  barChart.setLayoutY(30);
+                  stat2.getChildren().add(barChart);
+                      ObservableList<XYChart.Data> barData= FXCollections.observableArrayList(
+                    new XYChart.Data("Medecin",200,"#FFF"),
+                    new XYChart.Data("Joueur",100),
+                    new XYChart.Data("Arbitre",300)
+            );
+                      XYChart.Series serie = new XYChart.Series("Serie",barData);
+                    barChart.getData().add(serie);
+                    
+                    //PieChart
+                    ObservableList<PieChart.Data> list = FXCollections.observableArrayList(       
+        new PieChart.Data("Arbitre", 50),
+        new PieChart.Data("Joueur", 60),
+        new PieChart.Data("Medecin", 30),
+        new PieChart.Data("Inactifs", 20)
+        );
+        pieChart.setData(list);
+    }
+      @FXML
+     private void deconnexion(MouseEvent event)
+     {
+         Stage stage = getStage();
+           Parent rootAuth;
+       try {
+           rootAuth = FXMLLoader.load(getClass().getResource("/esprit/gui/authentification/FXMLauthentificationv2.fxml"));
+            Scene scene = new Scene(rootAuth);
+            stage.setScene(scene);
+       } catch (IOException ex) {
+           Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
+     }
     //--------------------------------------------------    
     
     //------------------------------------------------ Configuration d'affichage genrerale -------------------------------------------------------------
@@ -382,7 +301,6 @@ private ImageView imagepr;
      
    }
    
-  AnchorPane zon_ajout_medecin;
     @FXML
     // Mettre la fenetre en plein ecran et Changer la source de l'icone Agrandir
     private void handleAgrandir(MouseEvent event)
@@ -391,8 +309,7 @@ private ImageView imagepr;
        stage = getStage();
        stage.setMaximized(true);
        optionTailleAgrandir.setVisible(false);
-       optionTailleParDefaut.setVisible(true);
-       zon_ajout_medecin.setLayoutX(825);
+       optionTailleParDefaut.setVisible(true);    
     }
     @FXML
     //retourner la taille par defaut
@@ -403,7 +320,6 @@ private ImageView imagepr;
        stage.setMaximized(false);
        optionTailleAgrandir.setVisible(true);
        optionTailleParDefaut.setVisible(false);
-       zon_ajout_medecin.setLayoutX(740);
     }
      @FXML
     private void onMousePressed( MouseEvent event)
@@ -595,6 +511,7 @@ private ImageView imagepr;
          ArbitreDAO arbitreDAO = new ArbitreDAO();
          arbitreDAO.save(arbitre);
          fillTableArbitre();
+         fillImagesArbitre();
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Federation Tunisienne de Tennis");
@@ -1081,15 +998,18 @@ private ImageView imagepr;
                     vbLabels.setAlignment(Pos.CENTER);
                             
                    Label nomAndprenom = new Label(aIterator.getNom()+" "+aIterator.getPrenom());
-                   //nomAndprenom.setLayoutX(65);
-                   //nomAndprenom.setLayoutY(142);
                    Label lblNiveau = new Label(aIterator.getNiveau().toString());
-                  // lblNiveau.setLayoutX(81);
-                   //lblNiveau.setLayoutY(174);
                    
-                   vbLabels.getChildren().addAll(nomAndprenom,lblNiveau);
+                   ImageView avatar = new ImageView("/esprit/ressources/images/avatar.png");
+                 
+                   avatar.setFitHeight(100);
+                   avatar.setFitWidth(100);
+                   avatar.setLayoutY(20);
+                   avatar.setLayoutX(218/4);
+                    vbLabels.getChildren().addAll(nomAndprenom,lblNiveau);
                    vbLabels.setLayoutY(142);
                    vbLabels.setLayoutX((218 / nomAndprenom.getText().length()) + 20 );
+                   
                    /**
                     * Creation des boutons.
                     */
@@ -1141,7 +1061,7 @@ private ImageView imagepr;
                    imageContainer.setLayoutY(ligneY);
                    
                    imageGlobalContainer.getChildren().add(imageContainer);
-                   imageContainer.getChildren().addAll(imgContainerModiferButton,imgContainerSuppButton, vbLabels);
+                   imageContainer.getChildren().addAll(avatar,imgContainerModiferButton,imgContainerSuppButton, vbLabels);
                    anchorListe.add(imageContainer);
                    ligneX += 218; 
                    
@@ -1170,542 +1090,81 @@ private ImageView imagepr;
     
      
      
-     @FXML
-     private void deconnexion(MouseEvent event)
-     {
-         Stage stage = getStage();
-           Parent rootAuth;
-       try {
-           rootAuth = FXMLLoader.load(getClass().getResource("/esprit/gui/authentification/FXMLauthentificationv2.fxml"));
-            Scene scene = new Scene(rootAuth);
-            stage.setScene(scene);
-       } catch (IOException ex) {
-           Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
-       }
-        
-     }
-   
-//---------------------------------------------------------------------- 
-//######################################################################
-//######################################################################
-//#####################|                    |###########################
- //####################|  GESTION MEDECIN   |###########################
-//#####################|                    |###########################
-//######################################################################
-//######################################################################
-//#####################|     By Wissem      |###########################   
-//----------------------------------------------------------------------     
-     
-     
-     
-//######################################################################
-//################# AJOUT Medecin ######################################
-//######################################################################
-    Medecin m = new Medecin();
-    MedecinDAO mdao=new MedecinDAO();
-    
-    public void viderChamp()
-    {
-    m.setNom(nom_medecin.getText());
-        m.setPrenom("");
-        m.setCin("");
-        m.setLogin("");
-        m.setPassword("");
-        m.setSpecialite("");
-        m.setSalaire(0);
-        m.setEmail("");
-        m.setAdresse("");
-        m.setAvatar("");
-    
-    }
-    
-    //################### changement de couleur de bordure de text fild ##########
-   
-    public void testCin(KeyEvent event)
-    {
-     
-        if ((cin_medecin.getText().length()!=8) || (cin_medecin.getText().matches("[0-9]*")==false))
-       {
-           cin_medecin.setStyle("-fx-border-color: red;");
+  private void readNote()
+  {
+      String filePath = "src\\esprit\\ressources\\font\\noteFile";
+      String text= "";
+        try{
+        // Création du flux bufférisé sur un FileReader, immédiatement suivi par un 
+        // try/finally, ce qui permet de ne fermer le flux QUE s'il le reader
+        // est correctement instancié (évite les NullPointerException)
+        BufferedReader buff = new BufferedReader(new FileReader(filePath));
 
-       }
-        else{   cin_medecin.setStyle("-fx-border-color: #0ad200;");}
-    }
-    
-     public void testPwd(KeyEvent event)
-    {
-     
-        if (pwd_medecin.getText().length()<8) 
-       {
-           pwd_medecin.setStyle("-fx-border-color: red;");
-           
-       }
-        else{   pwd_medecin.setStyle("-fx-border-color: #0ad200;");}
-    }
-     
-
-   
-     //#######################################################
-    
-    
-   public void AjouterMedecin(ActionEvent event)
-   { int x =1;
-       //########### LES CONTROLS DE SAISIE ################
-       if (
-           nom_medecin.getText().equals("")  || 
-           prenom_medecin.getText().equals("")||
-           cin_medecin.getText().equals("") ||
-           login_medecin.getText().equals("")||
-           pwd_medecin.getText().equals("") ||
-           spec_medecin.getText().equals("")||
-           mail_medecin.getText().equals("")||
-           adrs_medecin.getText().equals("")
-            ) 
-        {
-       x=0;
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Federation Tunisienne de Tennis");
-        alert.setHeaderText(" Vous devez remplir tous les champs ");
-        alert.setContentText("TFT");
-        alert.showAndWait();
-        }
-         
-       
-       else if (!(cin_medecin.getText().length()== 8) || (cin_medecin.getText().matches("[0-9]*")==false)) 
-       {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Federation Tunisienne de Tennis");
-        alert.setHeaderText(" CIN Non Valide  ");
-        alert.setContentText("Condition CIN : taille =8 chiffres");
-        alert.showAndWait(); 
-        x=0;
-       }
-       
-        
-       else if ((pwd_medecin.getText().length()<8)) 
-       {
-     x=0;
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-       alert.setTitle("Federation Tunisienne de Tennis");
-       alert.setHeaderText(" Mot de passe Non Valide  ");
-       alert.setContentText("Condition Password : taille min = 8 caractéres");
-       alert.showAndWait(); 
-       }
-       else if (x==1)
-        {
-           
-         RadioButton rd= (RadioButton) sexe.getSelectedToggle();
-        m.setNom(nom_medecin.getText());
-        m.setPrenom(prenom_medecin.getText());
-        m.setCin(cin_medecin.getText());
-        m.setLogin(login_medecin.getText());
-        m.setPassword(pwd_medecin.getText());
-        m.setSpecialite(spec_medecin.getText());
-        m.setSalaire(Integer.parseInt(salaire_medecin.getText()));
-        m.setDatedestruction(java.sql.Date.valueOf(date_naiss_medecin.getValue()));
-        m.setSexe(rd.getText());
-        m.setEmail(mail_medecin.getText());
-        m.setAdresse(adrs_medecin.getText());
-        m.setAvatar(labb.getText());
-        
-        mdao.save(m);
-      
-        viderChamp();
-        AfficherMedecin();
-        System.out.println("--------- Medecin ajouté  ----------");
-        
-    String chaine =prenom_medecin.getText()+" "+nom_medecin.getText()+" est ajouté(e) a la base de données";  
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Federation Tunisienne de Tennis");
-    alert.setHeaderText(chaine);
-    alert.setContentText("TFT");
-    alert.showAndWait();
-        
-          }
-
-        
-    
-     
-        
-
-       
-       
-       
-       
-   }
-
-   
-   
-   
-   
-   
-   
-   
-//######################################################################
-//################# Modifier Medecin ###################################
-//######################################################################
-   int position ;
- @FXML
-    private void Modifier(MouseEvent event) 
-    {
-         if (tab_medecin != null) {
-         List<Medecin> TAB = tab_medecin.getSelectionModel().getSelectedItems();
-         if (TAB.size() == 1) {
-         final Medecin medecinSelected = TAB.get(0);
-         position = dataMedecin.indexOf(medecinSelected);
-         if (medecinSelected != null)
-         {
-           
-       nom_medecin.setText(medecinSelected.getNom());
-        prenom_medecin.setText(medecinSelected.getPrenom());
-        cin_medecin.setText(medecinSelected.getCin());
-        login_medecin.setText(medecinSelected.getLogin());
-        pwd_medecin.setText(medecinSelected.getPassword());
-        spec_medecin.setText(medecinSelected.getSpecialite());
-        salaire_medecin.setText(String.valueOf( medecinSelected.getSalaire()));
-        
-        Instant instant = Instant.ofEpochMilli(medecinSelected.getDatenaissance().getTime());
-        LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
-        date_naiss_medecin.setValue(res);
-        
-        RadioButton rd= (RadioButton) sexe.getSelectedToggle();
-        mail_medecin.setText(medecinSelected.getEmail());
-        adrs_medecin.setText(medecinSelected.getAdresse());
-       
-              
-          AfficherMedecin();
-   
-        }}}}
-
-    
-    @FXML
-    private void update(ActionEvent event)  {
-          
-        m.setNom(nom_medecin.getText());
-        m.setPrenom(prenom_medecin.getText());
-        m.setCin(cin_medecin.getText());
-        m.setLogin(login_medecin.getText());
-        m.setPassword(pwd_medecin.getText());
-        m.setSpecialite(spec_medecin.getText());
-        m.setSalaire(Float.parseFloat(salaire_medecin.getText()));
-        m.setDatenaissance(java.sql.Date.valueOf(date_naiss_medecin.getValue()));
-        RadioButton rd= (RadioButton) sexe.getSelectedToggle();
-        m.setSexe(rd.getText());
-        m.setEmail(mail_medecin.getText());
-        m.setAdresse(adrs_medecin.getText());
         try {
-                mdao.update(m);
-               System.out.println("-----modification effectuée --------- ");
-        } catch (Exception e)
-        {
-            System.out.println("------- ERREUR DE MODIFICATION----- ");
-        }
-  
- 
-   
-      AfficherMedecin();
-        
-      
-    }
-    
-   
-//######################################################################
-//################# Afficher Medecin ###################################
-//################| supprimer Medecin|##################################
-//######################################################################
-   private ObservableList<Medecin> dataMedecin;    
-   public void AfficherMedecin(){
-  
-       try {
-
-           col_salaire_med.setCellValueFactory(new PropertyValueFactory("salaire"));
-           col_specialite_med.setCellValueFactory(new PropertyValueFactory("specialite"));
-           col_cin_med.setCellValueFactory(new PropertyValueFactory("cin"));
-           col_nom_med.setCellValueFactory(new PropertyValueFactory("nom"));
-           col_prenom_med.setCellValueFactory(new PropertyValueFactory("prenom"));
-           col_adress_med.setCellValueFactory(new PropertyValueFactory("adresse"));
-           col_mail_med.setCellValueFactory(new PropertyValueFactory("email"));
-           col_sexe_med.setCellValueFactory(new PropertyValueFactory("sexe"));
-           col_login_med.setCellValueFactory(new PropertyValueFactory("login"));  
-           col_pwd_med.setCellValueFactory(new PropertyValueFactory("password"));
-           col_datenaiss_med.setCellValueFactory(new PropertyValueFactory("datenaissance"));
-          col_path.setCellValueFactory(new PropertyValueFactory("avatar"));
-           
- } catch (Exception e) 
-        { System.out.println("--------- erreur affichage medecin !! ---------");
-       }
-//***************** lajout de boutton supprimer dans la table view *******************************
- Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactory = 
- new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
-{
- @Override
-public TableCell call( final TableColumn<Medecin, String> param )
-{
-                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
-                        {
-
-                            final Button btn = new Button( "Supprimer" );
-
-                            @Override
-                            public void updateItem( String item, boolean empty )
-                            {
-                                super.updateItem( item, empty );
-                                if ( empty )
-                                {
-                                    setGraphic( null );
-                                    setText( null );
-                                }
-                                else
-                                {
-                                    btn.setOnAction( ( ActionEvent event ) ->
-                                    {
-                                             m.setCin(getTableView().getItems().get( getIndex()).getCin()); 
-                                             mdao.delete(m);
-                                             AfficherMedecin();
-                                    } );
-                                    setGraphic( btn );
-                                    setText( null );
-                                }
-                            }
-                        };
-                        return cell;
-                    }
-                };
-            
-             
-            col_supp_med.setCellFactory( cellFactory );
-            
-            /////////////////////////////////////////////
-            
-             Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactoryModifyyy = 
-                new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
-                {
-                    @Override
-                    public TableCell call( final TableColumn<Medecin, String> param )
-                    {
-                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
-                        {
-
-                            final Button afficherimage = new Button( "image" );
-                            @Override
-                            public void updateItem( String item, boolean empty )
-                            {
-                                super.updateItem( item, empty );
-                                if ( empty )
-                                {
-                                    setGraphic( null );
-                                    setText( null );
-                                }
-                                else
-                                {
-                                    afficherimage.setOnAction( ( ActionEvent event ) ->
-                                            {
-                                    
-                                             Stage stageModify = new Stage();
-                                            stageModify.setResizable(false);
-                                            ImageView img=new ImageView();
-//                               String f = (getTableView().getItems().get(getIndex()).getAvatar()); 
-                 String f = (getTableView().getItems().get(getIndex()).getAvatar()); 
-                                System.out.println("le path est : " + f);
-                               InputStream inputStream = null;
-                                        try {
-                                            inputStream = new FileInputStream(f);
-                                        } catch (FileNotFoundException ex) {
-                                            Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-                                 Image imgg = new Image(inputStream);
-               
-                                 img.setImage(imgg);
-                                                    Scene scene = new Scene(new Group());
-                                                     VBox root = new VBox();    
-                                   root.getChildren().addAll(img);
-                                                      scene.setRoot(root);
-                                            stageModify.setScene(scene);
-                                  
-                     
-                                                   stageModify.show();
-                                             
-                                    } );
-                                    setGraphic( afficherimage );
-                                    setText( null );
-                                }
-                            }
-                        };
-                        return cell;
-                    }
-                }; 
-            
-            imgch.setCellFactory(cellFactoryModifyyy);
-            
-      
-            
-                
-            
-            
-            
-            dataMedecin = FXCollections.observableArrayList();
-               for (Medecin m : mdao.getList())
-               {
-                   dataMedecin.add(m);
-               }
-            tab_medecin.setItems(dataMedecin);
-
-    }
-
-   
-   
-   
-   
-   
-   
-//######################################################################
-//################# Chercher Medecin ###################################
-//################| supprimer Medecin|##################################
-//######################################################################
-   private ObservableList<Medecin> dataMedecin2;    
-  
-   public void FiltrerMedecin(){
-  
-       try {
-
-           col_salaire_med.setCellValueFactory(new PropertyValueFactory("salaire"));
-           col_specialite_med.setCellValueFactory(new PropertyValueFactory("specialite"));
-           col_cin_med.setCellValueFactory(new PropertyValueFactory("cin"));
-           col_nom_med.setCellValueFactory(new PropertyValueFactory("nom"));
-           col_prenom_med.setCellValueFactory(new PropertyValueFactory("prenom"));
-           col_adress_med.setCellValueFactory(new PropertyValueFactory("adresse"));
-           col_mail_med.setCellValueFactory(new PropertyValueFactory("email"));
-           col_sexe_med.setCellValueFactory(new PropertyValueFactory("sexe"));
-           col_login_med.setCellValueFactory(new PropertyValueFactory("login"));  
-           col_pwd_med.setCellValueFactory(new PropertyValueFactory("password"));
-           col_datenaiss_med.setCellValueFactory(new PropertyValueFactory("datenaissance"));
-         
-           
- } catch (Exception e) 
-        { System.out.println("--------- erreur affichage medecin !! ---------");
-       }
-
- Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactory = 
- new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
-{
- @Override
-public TableCell call( final TableColumn<Medecin, String> param )
-{
-                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
-                        {
-
-                            final Button btn = new Button( "Supprimer" );
-
-                            @Override
-                            public void updateItem( String item, boolean empty )
-                            {
-                                super.updateItem( item, empty );
-                                if ( empty )
-                                {
-                                    setGraphic( null );
-                                    setText( null );
-                                }
-                                else
-                                {
-                                    btn.setOnAction( ( ActionEvent event ) ->
-                                            {
-                                             m.setCin(getTableView().getItems().get( getIndex()).getCin()); 
-                                             mdao.delete(m);
-                                             AfficherMedecin();
-                                             
-                                    } );
-                                    setGraphic( btn );
-                                    setText( null );
-                                }
-                            }
-                        };
-                        return cell;
-                    }
-                };
-            
-             
-            col_supp_med.setCellFactory( cellFactory );
-            dataMedecin2 = FXCollections.observableArrayList();
-               for (Medecin m : mdao.getList())
-               {
-              if ((m.getNom().contains(rech.getText()))||  (m.getPrenom().contains(rech.getText()))||((m.getCin().contains(rech.getText())))  )
-                   dataMedecin2.add(m);
-               }
-            tab_medecin.setItems(dataMedecin2);
-
-    }
-   //##################################################################################################
-    //################################## Statistique Medecin ##########################################
-   //#################################################################################################
-       @FXML
-    void afficherStatisque(ActionEvent event)
-    {
-          zone_statisque_medecin.setVisible(true);
-      ObservableList<PieChart.Data> pieChartData =FXCollections.observableArrayList();
-        List<Medecin> list =mdao.getList();
-        for(Medecin mm : list){
-           
-            PieChart.Data data = new PieChart.Data(mm.getPrenom()+" "+mm.getNom(), mm.getSalaire());
-            pieChartData.add(data);
-        }
-    
-
-        graph_stat_medecin.setTitle("Salaire des Medecins ");
+        String line;
+        // Lecture du fichier ligne par ligne. Cette boucle se termine
+        // quand la méthode retourne la valeur null.
+        while ((line = buff.readLine()) != null) {
+        text += line + "\n";
        
-        graph_stat_medecin.setData(pieChartData);  
-
-    }
-     @FXML
-    void close_stat(ActionEvent event)
-    {
-           zone_statisque_medecin.setVisible(false);
-
-    }
- //######################################################################################
- //########################## Parcourir IMAGE ###########################################
-    @FXML
-    private void parcourirImage(ActionEvent event) throws IOException 
+        //faites ici votre traitement
+        }
+        } finally {
+             note.setText(text);
+        // dans tous les cas, on ferme nos flux
+        buff.close();
+        }
+        } catch (IOException ioe) {
+        // erreur de fermeture des flux
+        System.out.println("Erreur --" + ioe.toString());
+        }
+  }
+  
+  @FXML
+  private void saveNote(KeyEvent event)
+  {
+                FileWriter writer = null;
+          String texte = note.getText();
+          try{
+               writer = new FileWriter("src\\esprit\\ressources\\font\\noteFile",false);
+               writer.write(texte,0,texte.length());
+          }catch(IOException ex){
+              ex.printStackTrace();
+          }
+            if(writer != null){
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                     }
+                
+  }
+  
+  
+    //***********************************************
+    //***********************************************
     
-    {
-         Stage pstage=null;
-         FileChooser fileChooser = new FileChooser();
-
-
- FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-            fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-File file = fileChooser.showOpenDialog(null);
-            String path = file.getAbsolutePath();
-             
-            try {
-                InputStream inputStream = new FileInputStream(path);
-                Image img = new Image(inputStream);
-               
-                imagepr.setImage(img);
-                labb.setText(path);
-           } catch (FileNotFoundException ex) {
-                Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-
-        
-    }
    
-
-   //##########################################################################
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       
       anchorListe = new ArrayList<>();
        arbitreNiveau.getItems().addAll("Amateur","National","International");
-        radio_f.setToggleGroup(sexe);
-        radio_h.setToggleGroup(sexe);
        femme.setToggleGroup(groupSexeArbitre);
        homme.setSelected(true);
        homme.setToggleGroup(groupSexeArbitre);
-        AfficherMedecin();
+       
        fillTableArbitre();
-       zone_statisque_medecin.setVisible(false);
+      
+        WebEngine webEngine = browser.getEngine();
+        webEngine.load("http://api.openweathermap.org/data/2.5/weather?q=tunisia&mode=html&appid=826ceb3f1368a4e375a339c8c6c3a598");
+           
+        
+            
+          
+        readNote();
     }    
     
 }
