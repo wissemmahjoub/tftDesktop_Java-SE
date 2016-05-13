@@ -507,7 +507,7 @@ public class FXMLAdminController implements Initializable {
                 arbitrePassword.getText(),null,"Arbitre",
                 "Sans avatar",null,0,0,Niveau.valueOf(arbitreNiveau.getValue().toString())
         );
-         
+         System.out.println(Niveau.valueOf(arbitreNiveau.getValue().toString()));
          ArbitreDAO arbitreDAO = new ArbitreDAO();
          arbitreDAO.save(arbitre);
          fillTableArbitre();

@@ -19,8 +19,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import esprit.dao.ArbitreDAO;
 import esprit.entite.Arbitre;
+import esprit.controllers.outils.Cryptage;
+import esprit.dao.Login;
+import esprit.entite.Medecin;
 import esprit.ressources.TFTEffects.TFTTransition;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -33,6 +37,8 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 /**
  * FXML Controller class
  *
@@ -42,6 +48,8 @@ public class FXMLauthentificationController implements Initializable {
 
      private double initialX;
    private double initialY;
+   public static Medecin sessionMedecin;
+   public static Arbitre sessionArbitre;
     @FXML
     AnchorPane arbitreContainer;
     @FXML
@@ -69,6 +77,10 @@ public class FXMLauthentificationController implements Initializable {
     private String etatTransition = "choix";
     private String compteSelected = "null";
     private boolean alreadyClicked = false;
+    /* HASHAGE
+    */
+    
+    
     
     private Stage getStage()
     {
@@ -421,9 +433,10 @@ public class FXMLauthentificationController implements Initializable {
             case "arbitre" :
                     ArbitreDAO arbitreDao = new ArbitreDAO();
                     Arbitre formArbitre = new Arbitre();
-                    if(!(formLogin.getText().isEmpty()) && !(formPwd.getText().isEmpty()))
+                    this.sessionArbitre = Login. findLoginArbitre(formLogin.getText(),formPwd.getText()) ;
+                    if(!(formLogin.getText().isEmpty()) && !(formPwd.getText().isEmpty()) && this.sessionArbitre != null)
                     {
-                      
+                        
                               formArbitre.setLogin(formLogin.getText());
                               formArbitre.setPassword(formPwd.getText());
                                Arbitre sessionArbitre = arbitreDao.find(formArbitre);
@@ -457,10 +470,34 @@ public class FXMLauthentificationController implements Initializable {
                     }
                     break;
             case "medecin":
-                    System.out.println("Not supported yet !");
+                this.sessionMedecin = Login. findLoginMedecin(formLogin.getText(),formPwd.getText()) ;
+                     if(sessionMedecin != null && !(formPwd.getText().isEmpty()) && !(formLogin.getText().isEmpty())  )
+                    {
+                                                Stage stage = getStage();
+                                                Parent root;
+                           try {
+                               root = FXMLLoader.load(getClass().getResource("/esprit/gui/medecin/FXMLMedecin.fxml"));
+                               Scene scene = new Scene(root);
+                               stage.setScene(scene);
+                           } catch (IOException ex) {
+                               Logger.getLogger(FXMLauthentificationController.class.getName()).log(Level.SEVERE, null, ex);
+                           }
+
+                                   
+                                
+                    }else
+                    {
+                                 note.setText("Champs Invalides !"); 
+                                  note.setVisible(true);
+                                  note.setStyle("-fx-background-color:#ff4c4c");
+                                  fadeNote(true);
+                                  alreadyClicked = true;
+                                  valider.setDisable(true);
+                    }
                     break;
             case "responsable":
-                   if((formLogin.getText().equals("responsable")) && !(formPwd.getText().isEmpty()))
+                
+                   if(Login. findLoginResponsable(formPwd.getText()).equals("1") && !(formPwd.getText().isEmpty()))
                     {
                                                 Stage stage = getStage();
                                                 Parent root;
@@ -485,7 +522,9 @@ public class FXMLauthentificationController implements Initializable {
                     }
                     break;
             case "admin":
-                      if((formLogin.getText().equals("admin")) && !(formPwd.getText().isEmpty()))
+                 
+                    
+                      if(    Login. findLoginAdmin(formPwd.getText()).equals("1") && !(formLogin.getText().isEmpty()))
                     {
                                                 Stage stage = getStage();
                                                 Parent root;
@@ -501,6 +540,7 @@ public class FXMLauthentificationController implements Initializable {
                                 
                     }else
                     {
+                        System.out.println(Cryptage.getSHA512("abcd","{q6o0dam7f2sscsgswsgk0k44wgo4sos}"));
                                  note.setText("Champs Invalides !"); 
                                   note.setVisible(true);
                                   note.setStyle("-fx-background-color:#ff4c4c");

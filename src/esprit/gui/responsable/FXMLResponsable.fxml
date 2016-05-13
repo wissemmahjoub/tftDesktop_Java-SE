@@ -52,7 +52,7 @@
                   <String fx:value="bgFormation" />
                </styleClass>
             </Button>
-            <Button layoutY="495.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Deconnexion" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button layoutY="495.0" mnemonicParsing="false" onMouseClicked="#deconnexion" prefHeight="45.0" prefWidth="165.0" style="-fx-alignment: baseline-left;" text="Deconnexion" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <padding>
                   <Insets left="60.0" />
                </padding>
