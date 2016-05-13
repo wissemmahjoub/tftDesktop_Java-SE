@@ -16,17 +16,52 @@ public class Competition {
  
     private int idcompetition;
     private String libelle;
+    private TrancheAge type;
     private Date datedebut;
     private Date datefin;
     private Niveau niveau;
     private Categorie categorie;
     private int nbrpoint;
+
+    public TrancheAge getType() {
+        return type;
+    }
+
+    public void setType(TrancheAge type) {
+        this.type = type;
+    }
     private Date datedestruction;
+
+    public Competition(String libelle, TrancheAge type, Date datedebut, Date datefin, Niveau niveau, Categorie categorie, int nbrpoint) {
+        this.libelle = libelle;
+        this.type = type;
+        this.datedebut = datedebut;
+        this.datefin = datefin;
+        this.niveau = niveau;
+        this.categorie = categorie;
+        this.nbrpoint = nbrpoint;
+    }
 
     public Competition() {
     }
 
-    public Competition(int idcompetition, String libelle, Date datedebut, Date datefin, Niveau niveau, Categorie categorie, int nbrpoint, Date datedestruction) {
+    public Competition(int idcompetition) {
+        this.idcompetition = idcompetition;
+    }
+
+    public Competition(int idcompetition, String libelle, TrancheAge type, Date datedebut, Date datefin, Niveau niveau, Categorie categorie, int nbrpoint) {
+        this.idcompetition = idcompetition;
+        this.libelle = libelle;
+        this.type = type;
+        this.datedebut = datedebut;
+        this.datefin = datefin;
+        this.niveau = niveau;
+        this.categorie = categorie;
+        this.nbrpoint = nbrpoint;
+   
+    }
+
+    public Competition(int idcompetition, String libelle, Date datedebut, Date datefin, Niveau niveau, Categorie categorie, int nbrpoint) {
         this.idcompetition = idcompetition;
         this.libelle = libelle;
         this.datedebut = datedebut;
@@ -34,7 +69,7 @@ public class Competition {
         this.niveau = niveau;
         this.categorie = categorie;
         this.nbrpoint = nbrpoint;
-        this.datedestruction = datedestruction;
+       
     }
  public Competition(int idcompetition, String libelle, Date datedebut, Date datefin, int nbrpoint, Date datedestruction) {
         this.idcompetition = idcompetition;

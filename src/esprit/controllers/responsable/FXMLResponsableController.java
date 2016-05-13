@@ -5,7 +5,7 @@
  */
 package esprit.controllers.responsable;
 
-import esprit.controllers.admin.FXMLAdminController;
+import esprit.dao.CompetitionDAO;
 import esprit.dao.MatchDAO;
 import esprit.dao.StadeDAO;
 import esprit.dao.StadeDAOInterface;
@@ -22,7 +22,6 @@ import esprit.entite.Stade;
 import esprit.entite.Surface;
 import esprit.entite.Ticket;
 import esprit.entite.TrancheAge;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -31,9 +30,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -44,10 +44,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -91,6 +88,10 @@ public class FXMLResponsableController implements Initializable {
    private final String styleMenu = styleMenuPressed + "-fx-background-color: #29778e;";
     
     
+   
+   private LocalDate datedeb;
+    private LocalDate datefin;
+   
       
     @FXML
     private Button menuCup;
@@ -104,16 +105,23 @@ public class FXMLResponsableController implements Initializable {
     private Button menuFormation;
     @FXML
     private Button menuClub;
+    @FXML 
+    private Button btnaddcompt;
+    
+    @FXML 
+    private Button btnSuivantM1;
+       @FXML 
+    private Button btnAnnulerM1;
+     @FXML 
+    private Button btnAnnulerC1 ;
+    @FXML 
+    private Button  btnSuivantC1;
     @FXML
     private AnchorPane backgroundPane;
     @FXML
     private ImageView optionTailleAgrandir;
     @FXML
     private ImageView optionTailleParDefaut;
-    @FXML
-    private Label Gestion;
-    @FXML
-    private AnchorPane consulterMedecinPane;
      @FXML
     private AnchorPane AnchorMatchlist;
     @FXML
@@ -124,14 +132,11 @@ public class FXMLResponsableController implements Initializable {
     private TableColumn  col1_type;
     
     
-    @FXML
     private TableColumn col_12_idmatch;
     @FXML
     private TableColumn  col2_niveau;
     @FXML
     private TableColumn  col3_categorie;
-    @FXML
-    private TableColumn  col4_competition;
     @FXML
     private TableColumn  col5_joueur1;
     @FXML
@@ -153,6 +158,10 @@ public class FXMLResponsableController implements Initializable {
     @FXML
     private Label label_medecin;
     @FXML
+    private Label labelNbMatch;
+    @FXML
+    private Label LabelWarning;
+    @FXML
     private Button btn_ajouter;
     @FXML
     private Button btn_modifier;
@@ -173,7 +182,11 @@ public class FXMLResponsableController implements Initializable {
     @FXML
     private ComboBox combo_stade;
     @FXML
+    private ComboBox comboNBmatch;
+    @FXML
     private DatePicker date;
+    @FXML
+    private Label labelListematch;
     @FXML
     private ComboBox  combo_competition;
     @FXML
@@ -195,10 +208,7 @@ public class FXMLResponsableController implements Initializable {
     private AnchorPane consulterStadePane;
      @FXML
     private AnchorPane anchorMatch;
-    @FXML
     private AnchorPane googleMapContainer;
-    @FXML
-    private AnchorPane sessionFormationPane;
     @FXML
     private DatePicker datecreationstade;
     @FXML
@@ -213,8 +223,6 @@ public class FXMLResponsableController implements Initializable {
     private ComboBox<String> txtsurface;
     @FXML
     private ComboBox<String> txtville;
-    @FXML
-    private ComboBox<String> txtnivsecsession;
     @FXML
     private TextField recherchestade;
     //tableview STADE
@@ -239,24 +247,11 @@ public class FXMLResponsableController implements Initializable {
     @FXML
     private Hyperlink clear;
     @FXML
-    private TextField recherchesession;
-    @FXML
-    private TextField txtlibellesession;
-    @FXML
-    private TextField txtcapacitesession;
-    @FXML
-    private TextField txtlieusession;
-    @FXML
-    private DatePicker datedebutsession;
-    @FXML
-    private DatePicker datefinsession;
-    @FXML
-    private ComboBox<String> txtciblesession;
-    @FXML
     private Button boutonGlissantMap;
+       @FXML
+    private Button btnModifierCompe;
     @FXML
     private Button boutonGlissantList;
-    @FXML
     private WebView googleMap;
     @FXML
     private AnchorPane consulterMatch;
@@ -277,29 +272,16 @@ public class FXMLResponsableController implements Initializable {
                
     @FXML
     private Button btexit;
-      @FXML
-    private Button SendEmail;
+    @FXML
+    private AnchorPane EspaceCompetition;
     
-        @FXML
-     private void deconnexion(MouseEvent event)
-     {
-         Stage stage = getStage();
-           Parent rootAuth;
-       try {
-           rootAuth = FXMLLoader.load(getClass().getResource("/esprit/gui/authentification/FXMLauthentificationv2.fxml"));
-            Scene scene = new Scene(rootAuth);
-            stage.setScene(scene);
-       } catch (IOException ex) {
-           Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
-       }
-        
-     }
 
     private StadeDAO stadedao;
    // private SessionFormationDAO sessiondao;
     private Dialog<Pair<String, String>> dialog;
     private Alert alert;
     private SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+    
     private ObservableList<Stade> dataStade;
     private ObservableList<Stade> dataStadeRecherche;
     private ObservableList<String> listeVilles;
@@ -312,8 +294,227 @@ public class FXMLResponsableController implements Initializable {
     private LocalDate datestade;
     private Instant instant;
     private Date dteStade;
+    @FXML
+    private AnchorPane listeContainer;
+    @FXML
+    private Pane scrollbar;
+    @FXML
+    private ImageView btnAnnulesend;
+    @FXML
+    private TableColumn columnSupp;
+    @FXML
+    private AnchorPane AnchorCompetition;
+    private TextField nomcompetition;
+    private TextField nbrpointCompA;
+    @FXML
+    private RadioButton hommecompetition1;
+    @FXML
+    private RadioButton femmecompetition1;
+    @FXML
+    private RadioButton mixtecompetition1;
+    @FXML
+    private AnchorPane Anchormatchcompetition;
+    @FXML
+    private Label label_medecin1;
+    @FXML
+    private Button menuCompetition;
+    @FXML
+    private Separator separator;
+    @FXML
+    private AnchorPane AnchorCompetitionajout;
+    @FXML
+    private RadioButton amateurcompetition1;
+    @FXML
+    private ToggleGroup groupeniveau1;
+    @FXML
+    private RadioButton nationalcompetition1;
+    @FXML
+    private RadioButton INcompetition1;
+    @FXML
+    private ToggleGroup groupecategorie1;
+    @FXML
+    private DatePicker datedebutcompetition1;
+    @FXML
+    private DatePicker datefincompetition1;
+    @FXML
+    private TextField nbrpoint1;
+    @FXML
+    private ToggleGroup groupetype1;
+    @FXML
+    private TextField nomcompetition1;
+    @FXML
+    private ImageView etape1;
+    @FXML
+    private AnchorPane Anchornewmatchcompet;
+    @FXML
+    private Label label_medecin11;
+    @FXML
+    private DatePicker date11;
+    @FXML
+    private TextField nb_ticket11;
+    @FXML
+    private TextField prix_ticket11;
+    @FXML
+    private ImageView etape2;
+    @FXML
+    private Pane AnchorButtons;
+    @FXML
+    private Button btn_modifier2;
+    @FXML
+    private Button btn_modifier3;
+    @FXML
+    private ImageView etape3;
+    @FXML
+    private Label label_medecin2;
+    @FXML
+    private Pane AnchorListMatch;
     
-    
+  
+    @FXML
+    private RadioButton juniorcompetition1;
+    @FXML
+    private RadioButton seniorcompetition1;
+    @FXML
+    private RadioButton veterancompetition1;
+    @FXML
+    private ComboBox combojoueur2;
+    @FXML
+    private ComboBox combojoueur1;
+    @FXML
+    private ComboBox comboarbitre;
+    @FXML
+    private ComboBox combostade;
+     Competition Comp = new Competition();
+     CompetitionDAO CompDAO = new CompetitionDAO();
+     MatchDAO d =new MatchDAO();
+  
+     
+     List<Arbitre> listeAr = new ArrayList();
+     List<Joueur> ListJoueur = new ArrayList();
+     List<Stade> ListStade = new ArrayList();
+    @FXML
+    private AnchorPane AnchorEtape3;
+    @FXML
+    private AnchorPane AnchorEtape2;
+    @FXML
+    private AnchorPane AnchorEtape1;
+    @FXML
+    private AnchorPane AnchorEtape0;
+     @FXML
+    private TableView tab_match_compettion;
+    @FXML
+    private TableColumn  c0_id;
+    @FXML
+    private TableColumn  c1_competition;
+    @FXML
+    private TableColumn  c2_j1;
+    @FXML
+    private TableColumn  c3_j2;
+    @FXML
+    private TableColumn  c4_arbitre;
+    @FXML
+    private TableColumn  c5_stade;
+    @FXML
+    private TableColumn  c6_date;
+    @FXML
+    private TableColumn c7_delete;
+    @FXML
+    private TableView tablelistecompetition;
+    @FXML
+    private TableColumn c00_id_competition;
+    @FXML
+    private TableColumn c11_libelle_competition;
+        @FXML
+    private TableColumn c12_type_competition;
+    @FXML
+    private TableColumn  c22_date_deb_competition;
+    @FXML
+    private TableColumn  c33_date_fin_competition;
+    @FXML
+    private TableColumn  c44_niveau_competition;
+    @FXML
+    private TableColumn c55_categorie_competition;
+    @FXML
+    private TableColumn  c66_point_competition;
+    @FXML
+    private TableView tableListematchConfirm;
+    @FXML
+    private TableColumn  co0_id;
+    @FXML
+    private TableColumn  co1_comp;
+    @FXML
+    private TableColumn  co2_j1;
+    @FXML
+    private TableColumn  co2_j2;
+    @FXML
+    private TableColumn  co3_arbitre;
+    @FXML
+    private TableColumn  co4_stade;
+    @FXML
+    private TableColumn  co5_date;
+    @FXML
+    private TextField  nomcompetitionA;
+    @FXML
+    private RadioButton amateurcompetitionA;
+    @FXML
+    private ToggleGroup groupeniveauA;
+    @FXML
+    private RadioButton nationalcompetitionA;
+    @FXML
+    private RadioButton INcompetitionA;
+    @FXML
+    private RadioButton hommecompetitionA;
+    @FXML
+    private ToggleGroup groupecategorieA;
+    @FXML
+    private RadioButton femmecompetitionA;
+    @FXML
+    private RadioButton mixtecompetitionA;
+    @FXML
+    private DatePicker datedebutcompetitionA;
+    @FXML
+    private DatePicker datefincompetitionA;
+    @FXML
+    private RadioButton JuniorcompetitionA;
+    @FXML
+    private ToggleGroup groupetypeA;
+    @FXML
+    private RadioButton Seniorcompetition2;
+    @FXML
+    private RadioButton Veternoncompetition2;
+    @FXML
+    private TextField nbrpointA;
+    @FXML
+    private Button btn_modifierMatch;
+    @FXML
+    private ComboBox combo_modifjoueur2;
+    @FXML
+    private ComboBox  combo_modifjoueur1;
+    @FXML
+    private ComboBox  combo_modifarbitre;
+    @FXML
+    private ComboBox combo_modifstade;
+    @FXML
+    private DatePicker datemodif;
+    @FXML
+    private TextField nb_modifticket;
+    @FXML
+    private TextField prix_modifticket;
+    @FXML
+    private TableColumn cprix;
+    @FXML
+    private TableColumn  cnbrtick;
+    @FXML
+    private Label labelnotif;
+    @FXML
+    private TableColumn  c00_idticket;
+    @FXML
+    private Label labelnotifRed;
+   @FXML
+    private Label  labelnotifmatchRed;
+
+
+
      private void setMenuStyleNormal()
     {
         menuCup.setStyle(styleMenu);
@@ -331,6 +532,10 @@ public class FXMLResponsableController implements Initializable {
         consulterStadePane.setVisible(false);
 //        sessionFormationPane.setVisible(false);
         consulterMatch.setVisible(false);
+        EspaceCompetition.setVisible(false);
+       
+        
+        
     }
      
      
@@ -361,10 +566,23 @@ public class FXMLResponsableController implements Initializable {
                 titelLabel.setText("Gestion des Sessions de formation");
 
                 break;
+                
+            case  "menuCompetition" : 
+                setInvisibleAllConsult();
+                EspaceCompetition.setVisible(true);
+                AnchorEtape0.setVisible(true);
+                AnchorEtape1.setVisible(false);
+                AnchorEtape2.setVisible(false);
+                AnchorEtape3.setVisible(false);
+                afficher_Competition();
+                
+                titelLabel.setText("Gestion des Compétitions");
+                break;
             case "menuMatch" :
                 setInvisibleAllConsult();
                 consulterMatch.setVisible(true);
                 titelLabel.setText("Gestion des matchs");
+                Afficher_Match();
                 break;
             default:
                 break;
@@ -968,21 +1186,14 @@ public class FXMLResponsableController implements Initializable {
             
             
     
-    
+    //################ AJOUT TICKET #############################
     public void AjouterTicket() 
        {
-         
-           
         t.setNbrticket(Integer.parseInt(nb_ticket.getText()));
         t.setPrix(Integer.parseInt(prix_ticket.getText()));
-        
- 
         tdao.save(t);
-        
-        System.out.println(t.toString());
-        System.out.println("--------- Ticket ajouté  ----------");
-       
-          }
+        System.out.println("Ticket ajouté avec succes");
+       }
 
     
     
@@ -993,31 +1204,85 @@ public class FXMLResponsableController implements Initializable {
      public void Afficher_Match()
    {
      try {
-    
-       
+
+           col10_id.setCellValueFactory(new PropertyValueFactory("idmatch"));
            col1_type.setCellValueFactory(new PropertyValueFactory("type"));
            col2_niveau.setCellValueFactory(new PropertyValueFactory("niveau"));
            col3_categorie.setCellValueFactory(new PropertyValueFactory("categorie"));
-           col4_competition.setCellValueFactory(new PropertyValueFactory("idcompetition"));
-           col5_joueur1.setCellValueFactory(new PropertyValueFactory("idjoueur1"));
-           col6_joueur2.setCellValueFactory(new PropertyValueFactory("idjoueur2"));
-           col7_arbitre.setCellValueFactory(new PropertyValueFactory("idarbitre"));
-           col8_evenement.setCellValueFactory(new PropertyValueFactory("idevenement"));
-           col9_stade.setCellValueFactory(new PropertyValueFactory("idstade"));
+           col5_joueur1.setCellValueFactory(new PropertyValueFactory("nomj1"));
+           col6_joueur2.setCellValueFactory(new PropertyValueFactory("nomj2"));
+           col7_arbitre.setCellValueFactory(new PropertyValueFactory("nomArb"));
+           col8_evenement.setCellValueFactory(new PropertyValueFactory("libelleevennement"));
+           col9_stade.setCellValueFactory(new PropertyValueFactory("libellestade"));
            col10_date.setCellValueFactory(new PropertyValueFactory("datematch"));
-           col_12_idmatch.setCellValueFactory(new PropertyValueFactory("idmatch"));
-           
-           
+          
+
            
            System.out.println("-------- pas derreur lors de la methode affiche_liste_joueurs_invites  --------- ");
  } catch (Exception e) 
         { System.out.println("--------- erreur  affiche_liste_joueurs_invites  ---------");
        }
-        
+     
+          //************************************************************************************************
+          //***************** lajout de boutton supprimer dans la table view *******************************
+          //************************************************************************************************
+     
+     
+ Callback<TableColumn<Match, String>, TableCell<Match, String>> cellFactory = new Callback<TableColumn<Match, String>, TableCell<Match, String>>()
+{
+ @Override
+public TableCell call( final TableColumn<Match, String> param )
+{
+                        final TableCell<Match, String> cell = new TableCell<Match, String>()
+                        { final Button btn = new Button( "Supprimer" );
+                     @Override
+                            public void updateItem( String item, boolean empty )
+                            {super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                 setGraphic( null );
+                                 setText( null );
+                                }
+                                else
+                                { btn.setOnAction( ( ActionEvent event ) ->
+                                    {        m.setIdmatch(getTableView().getItems().get( getIndex()).getIdmatch()); 
+                                    // boite de dialog ( confirmation ) *************************
+                                    
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Confirmation de suppression");
+                                    alert.setHeaderText("Attention! Etes-vous sur de supprimer le Match ?");
+                                    Optional<ButtonType> result = alert.showAndWait();
+                                    if (result.get() == ButtonType.OK){
+                                                  mdao.delete(m);
+                                                  Afficher_Match();
+                                                  labelnotifmatchRed.setVisible(true);
+                                                  labelnotifmatchRed.setText("-Match supprimé-");
+                                    } else {
+                                                  labelnotifmatchRed.setVisible(true);
+                                                  labelnotifmatchRed.setText("suppression annulée");
+                                    }
+                                    //************** fin de confirmation **************************     
+                                    
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             
+            col11_supp.setCellFactory( cellFactory );
+            
+            /////////////////////////////////////////////   
+     
     dataMatch = FXCollections.observableArrayList();
     for (Match m : mdao.getList())
     {
-     dataMatch.add(m);  
+     dataMatch.add(m); 
+       
     }   
     
     tab_match.setItems(dataMatch); 
@@ -1026,21 +1291,23 @@ public class FXMLResponsableController implements Initializable {
     
     
    //####################################################################################### 
-   //----------------------------------Ajouter Match a la base de donnée-------------------
+   //----------------------------------Ajouter Match amical a la base de données-------------------
    //#######################################################################################
-   
+  
     Match m = new Match();
     MatchDAO mdao=new MatchDAO();  
+    @FXML
     public void AjouterMatch(ActionEvent event) 
        {
           AjouterTicket();
-           Afficher_Match();
-        m.setIdjoueur1(mdao.GetIdByName(ManipuleString((String)combo_joueur1.getSelectionModel().getSelectedItem())));
-        m.setIdjoueur2(mdao.GetIdByName(ManipuleString((String)combo_joueur2.getSelectionModel().getSelectedItem()))); 
-        m.setIdcompetition((ManipuleString((String)combo_competition.getSelectionModel().getSelectedItem())));
-        m.setIdarbitre(mdao.GetIdByName(ManipuleString((String)combo_arbitre.getSelectionModel().getSelectedItem())));
+         
+        m.setIdjoueur1( getIdFromListeJoueur((String)combo_joueur1.getSelectionModel().getSelectedItem()));
+        m.setIdjoueur2( getIdFromListeJoueur((String)combo_joueur2.getSelectionModel().getSelectedItem()));
+        m.setIdarbitre( getIdFromListeArbitre((String)combo_arbitre.getSelectionModel().getSelectedItem()));
+        m.setIdcompetition(0);
         m.setIdevenement(ManipuleString((String)combo_evenement.getSelectionModel().getSelectedItem()));
-        m.setIdstade(ManipuleString((String)combo_stade.getSelectionModel().getSelectedItem()));
+        m.setIdstade(getIdFromListeStade((String)combo_stade.getSelectionModel().getSelectedItem()));
+       
         m.setDatematch(java.sql.Date.valueOf(date.getValue()));
         m.setNiveau(Niveau.valueOf(combo_niveau.getSelectionModel().getSelectedItem().toString()));
         m.setType(TrancheAge.valueOf(combo_type.getSelectionModel().getSelectedItem().toString()));
@@ -1051,14 +1318,95 @@ public class FXMLResponsableController implements Initializable {
         
         System.out.println(m.toString());
         System.out.println("--------- Match ajouté  ----------");
-     
+      Afficher_Match();
     
           }
+    
+ /*________________________________________________________________________   
+ --------------------------------------------------------------------------
+ - *Auteur        : Wissem                                                 -                  
+ - *Methode       : SelectMatchAmicalForModif                              -     
+ -                                                                         -   
+ - *Description   : le but de cette methode est de remplire automatiquement-                                                       -     
+                    le formulaire de modification d'un match amical        -
+                    dés que le responsable TFT clique sur un match         -
+                    a partir de la tableView                               -
+ //------------------------------------------------------------------------
+ //************************************************************************/  
+    @FXML
+    private void SelectMatchAmicalForModif(MouseEvent event) 
+    {
+         
+         //--- MatchSelected est un (OBJET : Match) selectionné de la tableView
+         List<Match> TAB = tab_match.getSelectionModel().getSelectedItems();
+         final Match MatchSelected = TAB.get(0);
+         
+         if (MatchSelected != null)
+         {
+        Instant instant = Instant.ofEpochMilli(MatchSelected.getDatematch().getTime());
+        LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        date.setValue(res);
+        nb_ticket.setText(""+MatchSelected.getNombreTicket());
+        prix_ticket.setText(""+MatchSelected.getPrixTicket());
+        }}
+    
+    
+    Ticket Tt1 = new Ticket();
+    TicketDAO TDao1=new TicketDAO();
+    Match amical = new Match();
+    MatchDAO amicalDao = new MatchDAO();
+ /*___________________________________________________________________________   
+ -------------------------------------------------------------------------------                                                      -                  
+ - *Methode     : ModifierMatchAmical                                   
+ -                                                                                
+ - *Description : cette methode permet tout simplement de Modifier un match
+                    amical  selectionné       
+ //-----------------------------------------------------------------------------
+ //************************************************************************/ 
+    @FXML
+    public void ModifierMatchAmical( ActionEvent event) 
+       {
+
+         List<Match> TAB = tab_match.getSelectionModel().getSelectedItems();
+         final Match MatchSelected = TAB.get(0);
+    
+        amical.setIdjoueur1( getIdFromListeJoueur((String)combo_joueur1.getSelectionModel().getSelectedItem()));
+        amical.setIdjoueur2( getIdFromListeJoueur((String)combo_joueur2.getSelectionModel().getSelectedItem()));
+        amical.setIdarbitre( getIdFromListeArbitre((String)combo_arbitre.getSelectionModel().getSelectedItem()));
+        amical.setIdstade(getIdFromListeStade((String)combo_stade.getSelectionModel().getSelectedItem()));
+        amical.setDatematch(java.sql.Date.valueOf(date.getValue()));
+        amical.setIdmatch(MatchSelected.getIdmatch());
+// modifier ticket -------
+        Tt1.setNbrticket(Integer.parseInt( nb_ticket.getText()));
+        Tt1.setPrix(Integer.parseInt( prix_ticket.getText()));
+        Tt1.setIdticket(MatchSelected.getIdticket());
+        TDao.update(Tt1);
+ //-----------------------       
+        amicalDao.update(amical);
+        Afficher_Match();
+        tab_match.refresh();
+        labelnotifmatchRed.setVisible(true);
+        labelnotifmatchRed.setText("Match Modifié avec succé");
+
+        System.out.println("-Match amical  modifié -");
+
+       }
+    
+
+    
+    
+    
 
    //-------------------------------------------------------------------------------------- 
    //----------------------------------Remplissage de CompBo-------------------------------
-    //******************************** author : wissem ************************************
-    
+   //******************************** author : wissem ************************************
+  
+    //-------------------------------------------------------
+    // Methode ManipuleString(String ch)
+    // cette methode permet de recuperer le cin 
+    // a partir dune chaine qui contient  "Nom : cin"
+    // principe : parcour de chaine et "extract" cin a partir de separateur ':'
+    //-------------------------------------------------------
     public int ManipuleString(String ch)
     {
     String chaine ="";
@@ -1106,7 +1454,7 @@ public class FXMLResponsableController implements Initializable {
         ObservableList<String> obs = FXCollections.observableArrayList();
         for(Stade St : listeStad)
         {
-            obs.add(St.getLibellestade()+" :"+St.getIdstade());
+            obs.add(St.getLibellestade());
         }
         return obs;
     }
@@ -1126,14 +1474,14 @@ public class FXMLResponsableController implements Initializable {
   //################################################################   
    
       public ObservableList<String> RemplireComboJoueurHomme()
-    {
+    { 
         MatchDAO d =new MatchDAO();
         List<Joueur> listeM = new ArrayList();
         listeM = d.List_Joueur_HommesForComboBox();
         ObservableList<String> obs = FXCollections.observableArrayList();
         for(Joueur J : listeM)
         {
-            obs.add(J.getNom()+" :"+J.getCin());
+          obs.add(J.getNom()+" "+J.getPrenom());
         }
         return obs;
     }
@@ -1147,7 +1495,7 @@ public class FXMLResponsableController implements Initializable {
         ObservableList<String> obs = FXCollections.observableArrayList();
         for(Joueur J : listeM)
         {
-            obs.add(J.getNom()+" :"+J.getCin());
+             obs.add(J.getNom()+" "+J.getPrenom());
         }
         return obs;
     }
@@ -1155,14 +1503,11 @@ public class FXMLResponsableController implements Initializable {
      
       public ObservableList<String> RemplireComboJoueurAll()
     {
-        MatchDAO d =new MatchDAO();
-        List<Joueur> listeM = new ArrayList();
-        listeM = d.List_ALL_JoueurForComboBox();
         ObservableList<String> obs = FXCollections.observableArrayList();
-        for(Joueur J : listeM)
+        for(Joueur J : ListJoueur)
         {
           
-            obs.add(J.getNom()+" :"+J.getCin());
+            obs.add(J.getNom()+" "+J.getPrenom());
         }
         return obs;
     }
@@ -1170,13 +1515,12 @@ public class FXMLResponsableController implements Initializable {
      
       public ObservableList<String> RemplireComboArbitre()
     {
-        MatchDAO d =new MatchDAO();
-        List<Arbitre> listeAr = new ArrayList();
-        listeAr = d.List_ArbitresForComboBox();
+       
+       
         ObservableList<String> obsAr = FXCollections.observableArrayList();
         for(Arbitre Arr: listeAr)
         {
-            obsAr.add(Arr.getNom()+" :"+Arr.getCin());
+            obsAr.add(Arr.getNom()+" "+Arr.getPrenom());
         }
         return obsAr;
     }
@@ -1184,12 +1528,919 @@ public class FXMLResponsableController implements Initializable {
      
      
      
-    @Override
-    public void initialize(URL url, ResourceBundle rb) 
+  
+
+
+    @FXML
+    private void handleGlissantButtonListe(ActionEvent event) {
+    }
+
+    private void PressMatch(ActionEvent event) {
+       // tab_match.setVisible(true);
+        rech.setVisible(true);
+        anchorMatch.setVisible(true);
+        AnchorMatchlist.setVisible(true);
+        
+    }
+    
+     // Mail
+      @FXML
+    private void showmailbar(MouseEvent event)
     {
+        
+    mailAnchor.setVisible(true);
+                
+    }
+     @FXML
+    private void buttonAjouterCompetition(ActionEvent event)
+    {
+        nbmatch=1;
+        AnchorEtape1.setVisible(true);
+        AnchorEtape0.setVisible(false);
+   
+    }
+    
+   
+   
+  
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     @FXML
+    private void dontshowmailbar(MouseEvent event)
+    {
+        
+    mailAnchor.setVisible(false);
+                
+    }
+     
+    
+     @FXML
+    private void ClickConsulterMail(ActionEvent event)
+    {
+        mailAnchor.setVisible(false);
+        btexit.setVisible(true);
+        webgmail.setVisible(true);
+        webgmail.getEngine().load("http://mail.google.com/mail/#inbox");
+    
+    }
+     
+   @FXML
+        private void ClickBtExit(ActionEvent event)
+    {
+        mailAnchor.setVisible(false);
+        webgmail.setVisible(false);
+    
+    btexit.setVisible(false);
+    }
+     
+      @FXML
+        private void SendMail(ActionEvent event)
+    {
+         String host = "smtp.gmail.com";
+       Properties prop = System.getProperties();
+       prop.put("mail.smtp.starttls.enable", "true");
+       prop.put("mail.smtp.host", "smtp.gmail.com");
+       prop.put("mail.smtp.socketFactory.port", "587");
+       prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+       prop.put("mail.smtp.port", "587");
+       prop.put("mail.smtp.auth", "true");
+       Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+                 protected PasswordAuthentication getPasswordAuthentication(){
+                 return new PasswordAuthentication("federationdetennistunisie@gmail.com", "Yassine1994");
+                   
+                 }
+             
+             });
+        MimeMessage mimeMessage2 = new MimeMessage(session);
+        try {
+          Message msg = new MimeMessage (session);
+           msg.setFrom(new InternetAddress(sendto.getText()) );
+          msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendto.getText()));
+          msg.setSubject(subject.getText());
+           msg.setText(textenvoie.getText());
+           prop.put("mail.smtp.starttls.enable", "true");
+           Transport.send(msg);
+       
+        } catch (MessagingException ex) {
+            System.out.println(ex);  }
+                
+                
+    }
+     
+         @FXML
+        private void ClickEnvoieMsg(ActionEvent event)
+    {
+       SendMail.setVisible(true);
+    }
+           @FXML
+        private void ClickAnnuleEnvoieMsg(MouseEvent event)
+    {
+       SendMail.setVisible(false);
+    }
+ 
+//############################################################################################################################################
+//############################################################################################################################################
+//#################|                Competition                   |###########################################################################
+//############################################################################################################################################
+//############################################################################################################################################
+  
+ /*____________________________________________________________________________   
+ ------------------------------------------------------------------------------                                         -                  
+ - *Methode     : AjouterCompetition                                          -     
+ -                                                                            -   
+ - *Description :  Cette methode permet tout simplement d'ajouter une compétition
+ //-----------------------------------------------------------------------------
+ //************************************************************************/  
+      @FXML
+    private void AjouterCompetition( ActionEvent event)
+    {     
+   try{
+        Date dtedeb = java.sql.Date.valueOf(datedeb);
+        Date dtefin = java.sql.Date.valueOf(datefin);
+    
+        RadioButton Niv = (RadioButton) (groupeniveau1).getSelectedToggle();
+        RadioButton Cat = (RadioButton) (groupecategorie1).getSelectedToggle();
+        RadioButton Typ = (RadioButton) (groupetype1).getSelectedToggle();
+      
+      Comp.setLibelle(nomcompetition1.getText());
+      Comp.setDatedebut(dtedeb);
+      Comp.setDatefin(dtefin);
+      Comp.setNiveau(Niveau.valueOf(Niv.getText()));
+      Comp.setCategorie(Categorie.valueOf(Cat.getText()));
+      Comp.setType(TrancheAge.valueOf(Typ.getText())); 
+      Comp.setNbrpoint(Integer.parseInt(nbrpoint1.getText()));
+
+      CompDAO.save(Comp);
+      LabelWarning.setVisible(false);
+      AnchorEtape1.setVisible(false);
+      AnchorEtape2.setVisible(true);
+      labelNbMatch.setText("MATCH "+nbmatch+"/"+(String)comboNBmatch.getSelectionModel().getSelectedItem());
+      
+    }catch(Exception ex){
+          
+          LabelWarning.setVisible(true);
+          LabelWarning.setText("ATTENTION : Vous devez vérifier tous les champs !");
+          
+    }
+     
+    
+    }
+    
+    
+    
+ /*____________________________________________________________________________   
+ ------------------------------------------------------------------------------                                                          -                  
+ - *Methode     : ajoutermachCompet                                            -     
+ -                                                                             -   
+ - *Description : pour chaque compétition on doit ajouter un ensemble des matchs 
+                  cette methode permet d'ajouter des matchs a la base données .
+                  et le nombre des matchs depend au choix selectionné lors de la   
+                  creation d'une compétition.
+ //-----------------------------------------------------------------------------
+ //************************************************************************/          
+    int nbmatch ;
+   
+   @FXML
+    public void ajoutermachCompet( ActionEvent event) 
+       {
+ try{
+         List<Competition> ls = new ArrayList<Competition>();
+         ls = CompDAO.getListCompetition(Comp.getLibelle().toString(), (java.sql.Date) Comp.getDatedebut());
+         AjouterTicketMatchCompetition();
+           
+        m.setIdjoueur1( getIdFromListeJoueur((String)combojoueur1.getSelectionModel().getSelectedItem()));
+        m.setIdjoueur2( getIdFromListeJoueur((String)combojoueur2.getSelectionModel().getSelectedItem()));
+        m.setIdcompetition(ls.get(0).getIdcompetition());
+        m.setIdarbitre( getIdFromListeArbitre((String)comboarbitre.getSelectionModel().getSelectedItem()));
+        m.setIdevenement(0);
+        m.setIdstade(getIdFromListeStade((String)combostade.getSelectionModel().getSelectedItem()));
+        m.setDatematch(java.sql.Date.valueOf(date11.getValue()));
+        m.setNiveau(Comp.getNiveau());
+        m.setType(Comp.getType());
+        m.setCategorie(Comp.getCategorie());
+        m.setIdticket(tdao.id_dernier_Ticket());
+
+         nbmatch=nbmatch+1;  
+         Integer  NombreMatchCombo= Integer.parseInt((String)comboNBmatch.getSelectionModel().getSelectedItem());
+          if (NombreMatchCombo >= (nbmatch))
+        { 
+          labelNbMatch.setText("MATCH "+(nbmatch)+"/"+NombreMatchCombo);
+        }
+        if (NombreMatchCombo >= (nbmatch-1))
+        { 
+        System.out.println("NombreMatchCombo = "+NombreMatchCombo+"  -  "+ "nbmatch   = "+nbmatch);
+        mdao.save(m); 
+        LabelWarning.setVisible(false);
+        System.out.println("match -->"+m.toString());
+        System.out.println(" Match ajouté ");
+        }
+        else 
+        {
+        AnchorEtape2.setVisible(false);
+        AnchorEtape3.setVisible(true);
+        afficher_MatchCompetitionConfirmation();
+        label_medecin2.setText("Liste des Matchs de la compétition "+Comp.getLibelle());
+        }
+        }
+      catch(Exception e)
+        {  LabelWarning.setVisible(true);
+          LabelWarning.setText("ATTENTION : Vous devez remplir tous les champs !");}
+      
+       }
+    //********************************************************************************
+    //************mettre invisible le label dans competition et match amical *********
+    //********************************************************************************
+    @FXML
+    public void setlabelinvisible(MouseEvent event)
+    {labelnotif.setVisible(false);
+    labelnotifRed.setVisible(false);}
+    //********************************************************************************
+     @FXML
+    public void setlabelMatchinvisible(MouseEvent event)
+    {labelnotifmatchRed.setVisible(false);
+    labelnotifmatchRed.setVisible(false);}
+    //****************************************************************
+    
+ 
+    Ticket Tt = new Ticket();
+    TicketDAO TDao=new TicketDAO();
+ /*___________________________________________________________________________   
+ -------------------------------------------------------------------------------                                                      -                  
+ - *Methode     : ModifiermachCompet                                    
+ -                                                                                
+ - *Description : cette methode permet tout simplement de Modifier un match
+                    d'une Competition  selectionnée       
+ //-----------------------------------------------------------------------------
+ //************************************************************************/ 
+    @FXML
+    public void ModifiermachCompet( ActionEvent event) 
+       {
+               
+          
+         List<Match> TAB = tab_match_compettion.getSelectionModel().getSelectedItems();
+         final Match MatchSelected = TAB.get(0);
+    
+        m.setIdjoueur1( getIdFromListeJoueur((String)combo_modifjoueur1.getSelectionModel().getSelectedItem()));
+        m.setIdjoueur2( getIdFromListeJoueur((String)combo_modifjoueur2.getSelectionModel().getSelectedItem()));
+        m.setIdarbitre( getIdFromListeArbitre((String)combo_modifarbitre.getSelectionModel().getSelectedItem()));
+        m.setIdstade(getIdFromListeStade((String)combo_modifstade.getSelectionModel().getSelectedItem()));
+        m.setDatematch(java.sql.Date.valueOf(datemodif.getValue()));
+        m.setIdmatch(MatchSelected.getIdmatch());
+// modifier ticket -------
+        Tt.setNbrticket(Integer.parseInt( nb_modifticket.getText()));
+        Tt.setPrix(Integer.parseInt( prix_modifticket.getText()));
+        Tt.setIdticket(MatchSelected.getIdticket());
+        TDao.update(Tt);
+ //-----------------------       
+        mdao.update(m);
+        afficher_MatchCompetition();
+        tab_match_compettion.refresh();
+        labelnotif.setVisible(true);
+        labelnotif.setText("Match Modifié avec succé");
+
+        System.out.println("-Match Modifié -");
+
+       }
+    
+
+    
+   /*___________________________________________________________________________   
+ -------------------------------------------------------------------------------                                                      -                  
+ - *Methode     : AjouterTicketMatchCompetition                                -     
+ -                                                                             -   
+ - *Description : cette methode permet tout simplement d'ajouter Ticket        -
+ //-----------------------------------------------------------------------------
+ //************************************************************************/        
+      public void AjouterTicketMatchCompetition() 
+       {
+        t.setNbrticket(Integer.parseInt(nb_ticket11.getText()));
+        t.setPrix(Integer.parseInt(prix_ticket11.getText()));
+        tdao.save(t);
+        System.out.println("-Ticket ajouté-");
+       }       
+ /*____________________________________________________________________________   
+ ------------------------------------------------------------------------------                                                           -                  
+ - *Methode     : afficher_Competition                                         -     
+ -                                                                             -   
+ - *Description : cette methode permet tout simplement d'afficher              -
+                   la liste des compétition a partir de la base :)             -
+ //----------------------------------------------------------------------------
+ //************************************************************************/  
+     private ObservableList<Competition> dataCompetition; 
+     public void afficher_Competition()
+   {
+     try {
+           c00_id_competition.setCellValueFactory(new PropertyValueFactory("idcompetition"));
+           c11_libelle_competition.setCellValueFactory(new PropertyValueFactory("libelle"));
+           c12_type_competition.setCellValueFactory(new PropertyValueFactory("type"));
+           c22_date_deb_competition.setCellValueFactory(new PropertyValueFactory("datedebut"));
+           c33_date_fin_competition.setCellValueFactory(new PropertyValueFactory("datefin"));
+           c44_niveau_competition.setCellValueFactory(new PropertyValueFactory("niveau"));
+           c55_categorie_competition.setCellValueFactory(new PropertyValueFactory("categorie"));
+           c66_point_competition.setCellValueFactory(new PropertyValueFactory("nbrpoint"));
+
+           System.out.println("-------- pas derreur lors de la methode afficher_Competition()  --------- ");
+ } catch (Exception e) 
+        { System.out.println("--------- erreur  afficher_Competition() ---------");
+       }
+     
+     
+          //************************************************************************************************
+          //***************** lajout de boutton supprimer dans la table view *******************************
+          //************************************************************************************************
+     
+     
+ Callback<TableColumn<Competition, String>, TableCell<Competition, String>> cellFactory = new Callback<TableColumn<Competition, String>, TableCell<Competition, String>>()
+{
+ @Override
+public TableCell call( final TableColumn<Competition, String> param )
+{
+                        final TableCell<Competition, String> cell = new TableCell<Competition, String>()
+                        { final Button btn = new Button( "Supprimer" );
+                     @Override
+                            public void updateItem( String item, boolean empty )
+                            {super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                 setGraphic( null );
+                                 setText( null );
+                                }
+                                else
+                                { btn.setOnAction( ( ActionEvent event ) ->
+                                    {  compet.setIdcompetition(getTableView().getItems().get( getIndex()).getIdcompetition()); 
+                                    // boite de dialog ( confirmation ) *************************
+                                    
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Confirmation de suppression");
+                                    alert.setHeaderText("Attention! Etes-vous sur de supprimer la competition?");
+                                    Optional<ButtonType> result = alert.showAndWait();
+                                    if (result.get() == ButtonType.OK){
+                                                 CompDAO.delete(compet);
+                                            
+                                             afficher_Competition();
+                                             labelnotifRed.setVisible(true);
+                                             labelnotifRed.setText("Competition supprimée");
+                                    } else {
+                                                  labelnotifmatchRed.setVisible(true);
+                                                  labelnotifmatchRed.setText("suppression annulée");
+                                    }
+                                    //************** fin de confirmation **************************    
+                                    
+                                             
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             
+            columnSupp.setCellFactory( cellFactory );
+            
+            /////////////////////////////////////////////
+
+    dataCompetition = FXCollections.observableArrayList();
+    for (Competition c : CompDAO.getList())
+    {
+     dataCompetition.add(c);
+    }   
+    
+    tablelistecompetition.setItems(dataCompetition); 
+    //c juste pour reflechir la page 
+      tablelistecompetition.refresh();
+   }
+    
+ /*____________________________________________________________________________   
+ ------------------------------------------------------------------------------                                                   -                  
+ - *Methode     : afficher_MatchCompetition                                   -     
+ -                                                                            -   
+ - *Description : le role de cette methode est d'afficher les Matchs d'une    -
+                   Competition selectionné a partir de tableView on utilisant -
+                    L'idcompetition                                           -  
+ //----------------------------------------------------------------------------
+ //************************************************************************/      
+     
+     private ObservableList<Match> dataMatchCompetition; 
+     public void afficher_MatchCompetition()
+   {
+         List<Competition> TAB = tablelistecompetition.getSelectionModel().getSelectedItems();
+         final Competition CompetitionSelected = TAB.get(0); 
+     try {
+           c0_id.setCellValueFactory(new PropertyValueFactory("idmatch"));
+           c00_idticket.setCellValueFactory(new PropertyValueFactory("idticket"));
+           c1_competition.setCellValueFactory(new PropertyValueFactory("libellecompetition"));
+           c2_j1.setCellValueFactory(new PropertyValueFactory("nomj1"));
+           c3_j2.setCellValueFactory(new PropertyValueFactory("nomj2"));
+           c4_arbitre.setCellValueFactory(new PropertyValueFactory("nomArb"));
+           c5_stade.setCellValueFactory(new PropertyValueFactory("libellestade"));
+           c6_date.setCellValueFactory(new PropertyValueFactory("datematch"));
+           cprix.setCellValueFactory(new PropertyValueFactory("prixTicket"));
+           cnbrtick.setCellValueFactory(new PropertyValueFactory("nombreTicket"));
+ } catch (Exception e) 
+        { System.out.println("--------- erreur  afficher_MatchCompetition ---------");
+       }
+    
+     //***************** lajout de boutton supprimer dans la table view *******************************
+ Callback<TableColumn<Match, String>, TableCell<Match, String>> cellFactory = new Callback<TableColumn<Match, String>, TableCell<Match, String>>()
+{
+ @Override
+public TableCell call( final TableColumn<Match, String> param )
+{
+         final TableCell<Match, String> cell = new TableCell<Match, String>()
+              {
+                 final Button btn = new Button( "Supprimer" );
+                             @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                    {
+                                             m.setIdmatch(getTableView().getItems().get( getIndex()).getIdmatch()); 
+                                              // boite de dialog ( confirmation ) *************************
+                                    
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Confirmation de suppression");
+                                    alert.setHeaderText("Attention! Etes-vous sur de supprimer le Match ?");
+                                    Optional<ButtonType> result = alert.showAndWait();
+                                    if (result.get() == ButtonType.OK){
+                                              mdao.delete(m);
+                                             afficher_MatchCompetition();
+                                             labelnotifRed.setVisible(true);
+                                             labelnotifRed.setText("Match supprimé");
+                                    } else {
+                                                  labelnotifmatchRed.setVisible(true);
+                                                  labelnotifmatchRed.setText("suppression annulée");
+                                    }
+                                    //************** fin de confirmation ************************** 
+                                             
+                                    } 
+                                    );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             
+            c7_delete.setCellFactory( cellFactory );
+            
+            /////////////////////////////////////////////
+     
+
+    dataMatchCompetition = FXCollections.observableArrayList();
+    for (Match m : mdao.getListMatchCompetition(CompetitionSelected.getIdcompetition()))
+    {
+     dataMatchCompetition.add(m);
+    }   
+    tab_match_compettion.setItems(dataMatchCompetition); 
+   }
+
+ /*________________________________________________________________________   
+ --------------------------------------------------------------------------
+ - *Auteur        : Wissem                                                 -                  
+ - *Methode       : SelectCompetitionForModif et  SelectMatchForModif                            -     
+ -                                                                         -   
+ - *Description   : le but de cette methode est de remplire automatiquement-                                                       -     
+                    le formulaire de modification d'une competition/match  -
+                    dés que le responsable TFT clique sur une competition  -
+                    un match a partir de la tableView                               -
+ //------------------------------------------------------------------------
+ //************************************************************************/ 
+
+ @FXML
+    private void SelectCompetitionForModif(MouseEvent event) 
+    {
+         afficher_MatchCompetition();
+         //--- CompetitionSelected est un (OBJET : competition) selectionné de la tableView
+         List<Competition> TAB = tablelistecompetition.getSelectionModel().getSelectedItems();
+         final Competition CompetitionSelected = TAB.get(0);
+         //---- mettre ENABLE les elements de COMPETITION  ----        
+         labelListematch.setText("Liste des matchs de la compétition : "+CompetitionSelected.getLibelle());
+         tab_match_compettion.setDisable(false);
+         labelListematch.setDisable(false);
+         Anchormatchcompetition.setDisable(false);
+         AnchorCompetition.setDisable(false);
+         
+         if (CompetitionSelected != null)
+         {
+           
+        nomcompetitionA.setText(CompetitionSelected.getLibelle());
+        // -- date debut
+        Instant instant = Instant.ofEpochMilli(CompetitionSelected.getDatedebut().getTime());
+        LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        datedebutcompetitionA.setValue(res);
+        
+        // -- date fin
+        Instant instant2 = Instant.ofEpochMilli(CompetitionSelected.getDatefin().getTime());
+        LocalDate res2 = LocalDateTime.ofInstant(instant2, ZoneId.systemDefault()).toLocalDate();
+        datefincompetitionA.setValue(res2);
+        
+         RadioButton grpniv= (RadioButton) groupeniveauA.getSelectedToggle();
+         RadioButton grpcat= (RadioButton) groupecategorieA.getSelectedToggle();
+         RadioButton grptyp= (RadioButton) groupetypeA.getSelectedToggle();
+        
+         nbrpointA.setText(""+CompetitionSelected.getNbrpoint());
+        }}
+    
+ //************************************************************************/ 
+
+    @FXML
+    private void SelectMatchForModif(MouseEvent event) 
+    {
+         
+         //--- MatchSelected est un (OBJET : Match) selectionné de la tableView
+         List<Match> TAB = tab_match_compettion.getSelectionModel().getSelectedItems();
+         final Match MatchSelected = TAB.get(0);
+         
+         if (MatchSelected != null)
+         {
+        Instant instant = Instant.ofEpochMilli(MatchSelected.getDatematch().getTime());
+        LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        datemodif.setValue(res);
+        nb_modifticket.setText(""+MatchSelected.getNombreTicket());
+       prix_modifticket.setText(""+MatchSelected.getPrixTicket());
+        }}
+    
+    
+    Competition compet = new Competition() ; 
+    CompetitionDAO compDao  = new CompetitionDAO();
+ /*___________________________________________________________________________________   
+  ####################################################################################  
+ -------------------------------------------------------------------------------------
+ -     Auteur   : Wissem                                                                                     -                  
+ -     Methode  : modifierCompetition                              -     
+ -     Principe : modifier competition qui posséde l'id qui egale a celle selectionné-   
+ //-----------------------------------------------------------------------------------
+ //***********************************************************************************/
+   
+    @FXML
+    private void modifierCompetition(ActionEvent event)  {
+      
+        
+        List<Competition> TAB = tablelistecompetition.getSelectionModel().getSelectedItems();
+        Competition CompetitionSelected = TAB.get(0);
+        try {   
+      Date dtedebu = java.sql.Date.valueOf(datedebutcompetitionA.getValue());
+      Date dtefinn = java.sql.Date.valueOf(datefincompetitionA.getValue());
+  
+      RadioButton Niv = (RadioButton) (groupeniveauA).getSelectedToggle();
+      RadioButton Cat = (RadioButton) (groupecategorieA).getSelectedToggle();
+      RadioButton Typ = (RadioButton) (groupetypeA).getSelectedToggle();
+
+      compet.setLibelle(nomcompetitionA.getText());
+      compet.setDatedebut(dtedebu);
+      compet.setDatefin(dtefinn);
+      compet.setNiveau(Niveau.valueOf(Niv.getText()));
+      compet.setCategorie(Categorie.valueOf(Cat.getText()));
+      compet.setType(TrancheAge.valueOf(Typ.getText())); 
+      compet.setNbrpoint(Integer.parseInt(nbrpointA.getText()));
+      compet.setIdcompetition(CompetitionSelected.getIdcompetition());
+   
+      compDao.update(compet);
+      afficher_Competition();
+  //****** pour modifier Niveau+Categorie+Type *** de match qui appartient a cette competition ***
+  m.setNiveau(Niveau.valueOf(Niv.getText()));
+  m.setCategorie(Categorie.valueOf(Cat.getText()));
+  m.setType(TrancheAge.valueOf(Typ.getText())); 
+  mdao.ModifMatchDepuisCompetition(m, CompetitionSelected.getIdcompetition());
+  //**********************************************************************************************
+      labelnotif.setVisible(true);
+      labelnotif.setText("Compétition Modifiée avec succé");
+      
+       /*-------------
+        la variable CompetitionSelected :
+      contient  la competition selectionné a partir de la tableView
+        -------------------------------------------------------
+       */
+           System.out.println("modification Competition effectuée  ");
+        } catch (Exception e){
+           System.out.println("ERREUR DE MODIFICATION Competition !!! ");
+           Logger.getLogger(Competition.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+      
+    }
+    
+ 
+ /*___________________________________________________________________________________   
+  ####################################################################################  
+ -------------------------------------------------------------------------------------
+ -     Auteur   : Wissem                                                                                     -                  
+ -     Methode  : afficher_MatchCompetitionConfirmation                                 
+ -     Principe : afficher la liste des match d'une competition qui est en cours de creation    
+                  au but de verification avant la confirmation
+ //-----------------------------------------------------------------------------------
+ //***********************************************************************************/
+     private ObservableList<Match> dataMatchCompetitionConfirmation; 
+     public void afficher_MatchCompetitionConfirmation()
+   {
+       
+     try {
+           co0_id.setCellValueFactory(new PropertyValueFactory("idmatch"));
+           co1_comp.setCellValueFactory(new PropertyValueFactory("libellecompetition"));
+           co2_j1.setCellValueFactory(new PropertyValueFactory("nomj1"));
+           co2_j2.setCellValueFactory(new PropertyValueFactory("nomj2"));
+           co3_arbitre.setCellValueFactory(new PropertyValueFactory("nomArb"));
+           co4_stade.setCellValueFactory(new PropertyValueFactory("libellestade"));
+           co5_date.setCellValueFactory(new PropertyValueFactory("datematch"));
+ } catch (Exception e) 
+        { System.out.println("--------- erreur  afficher_MatchCompetitionConfirmation ---------");
+       }
+        
+    dataMatchCompetitionConfirmation = FXCollections.observableArrayList();
+    List<Competition> lss = new ArrayList<Competition>();
+    lss = CompDAO.getListCompetition(Comp.getLibelle().toString(), (java.sql.Date) Comp.getDatedebut());
+    
+    for (Match mat : mdao.getListMatchCompetition(lss.get(0).getIdcompetition()))
+    {
+     dataMatchCompetitionConfirmation.add(mat);  
+    }   
+    
+    tableListematchConfirm.setItems(dataMatchCompetitionConfirmation); 
+ 
+   }
+          
+    
+    /*------------------------------------------------------------------------------
+    //******************************************************************************
+    les 3 methodes  : - getIdFromListeArbitre(String chaine) 
+                      - getIdFromListeJoueur(String chaine) 
+                      - getIdFromListeStade(String chaine)
+     
+    * Roles: - puisqu'on a besoin de l'id de : joueur1+joueur2+arbitre , pour qu'on puisse les ajouter dans la base 
+              ces 3 methodes sont utilisées dans la methode "ajouter match competition" 
+    
+            -  ces 3 methodes ont pour role de recuperer L'idpersonne on comparaison 
+               la chaine de comboBox qui contient : "nom prenom" avec la concatination de nom et prenom de l'objet qui ce trouve dans une liste
+   
+    
+    ------------------------------------------------------------------------------*/
+    //###################### getIdFromListeArbitre #################################
+    public int getIdFromListeArbitre(String chaine){
+        int x = 0;
+     for (Arbitre A : listeAr)
+    {
+     if ( (A.getNom() + " " + A.getPrenom()).equals(chaine))
+     {
+          x = A.getIdpersonne();
+     }
+    }  
+       return x;
+    }
+    
+     //###################### getIdFromListeJoueur #################################
+    public int getIdFromListeJoueur(String chaine){
+        int x = 0;
+     for (Joueur J : ListJoueur)
+    {
+     if ( (J.getNom() + " " + J.getPrenom()).equals(chaine))
+     {
+          x = J.getIdpersonne();
+     }
+    }  
+       return x;
+    }
+      //###################### getIdFromListeStade #################################
+    public int getIdFromListeStade(String chaine){
+        int x = 0;
+     for (Stade S : ListStade)
+    {
+     if ( S.getLibellestade().equals(chaine))
+     {
+          x = S.getIdstade();
+     }
+    }  
+       return x;
+    }
+ /*#############################################################################
+ ###############################################################################
+ ###############################################################################
+ ###############################################################################   
+    */
+    @FXML
+   public void RetourEtape0Competition(ActionEvent event)
+   {
+   tablelistecompetition.refresh();
+   AnchorEtape0.setVisible(true);
+   AnchorEtape1.setVisible(false);
+   AnchorEtape2.setVisible(false);
+   AnchorEtape3.setVisible(false);
+   
+   }
+   
+    @FXML
+   public void SupprimerCompetitionNonCree(ActionEvent event)
+   {
+   AnchorEtape0.setVisible(true);
+   AnchorEtape1.setVisible(false);
+   AnchorEtape2.setVisible(false);
+   AnchorEtape3.setVisible(false);
+   CompDAO.DeleteCompetition(nomcompetition1.getText(), java.sql.Date.valueOf(datedebutcompetition1.getValue()));
+   } 
+    
+   
+   /*###########################################################
+   -------------------------------------------------------------
+   -------------------------------------------------------------
+   
+   methode : 
+   listeOfJoueurNotDuplicated( ObservableList<String> obs, String ch ) 
+   Role :
+   Assurer de selectionner joueur1 != joueur2
+   ***************************************************************
+   methode : choice
+   a letat initial , il faut afficher la liste de toutes les joueurs 
+   en modifiant la variable 'etat' utilisé dans la methode : listeOfJoueurNotDuplicated
+   --------------------------------------------------------------
+   --------------------------------------------------------------
+   ##############################################################
+   */
+   
+   int etat= 0;
+   //#####
+   @FXML
+   public void Choice(MouseEvent event)
+   {etat=1;}
+   
+  public ObservableList<String> listeOfJoueurNotDuplicated( ObservableList<String> obs, String ch )
+  {
+    ObservableList<String> resulta = FXCollections.observableArrayList();
+
+    int x=(obs.size());
+      for (int i = 0; i <x; i++) 
+      {
+          if(!(obs.get(i).equals(ch)))
+          {resulta.add(obs.get(i));}
+      } 
+      
+      if( x==0)
+      {
+          resulta= obs;
+      }
+     return resulta;
+  }
+ 
+   
+     
+     
+      
+    
+    
+ //{{{{{{{{{{{{{{{{Remplire COMBO pour les joueurs de dajout match competitions }}}}}}}}}}}}}}
+  @FXML
+  public void remplireComboJ2(MouseEvent event)
+          
+  {
+       RadioButton Cat = (RadioButton) (groupecategorie1).getSelectedToggle();
+    ObservableList<String> obsNom = FXCollections.observableArrayList();
+    
+      if(Cat.getText().equals("Homme"))
+  {
+       obsNom = RemplireComboJoueurHomme();
+  }
+      else if(Cat.getText().equals("Femme"))
+  {
+    obsNom = RemplireComboJoueurFemme();
+  } 
+      else
+  {
+   obsNom = RemplireComboJoueurAll();
+  } 
+      ObservableList<String> obsNomJoueurNotDUPLICATE = listeOfJoueurNotDuplicated(obsNom,(String) combojoueur1.getSelectionModel().getSelectedItem());
+      combojoueur2.setItems(obsNomJoueurNotDUPLICATE);
+  
+  }
+   @FXML
+  public void remplireComboJ1(MouseEvent event)
+          
+ {
+      RadioButton Cat = (RadioButton) (groupecategorie1).getSelectedToggle();
+    ObservableList<String> obsNom = FXCollections.observableArrayList();
+      
+ 
+      if(Cat.getText().equals("Homme"))
+  {
+       obsNom = RemplireComboJoueurHomme();
+  }
+      else if(Cat.getText().equals("Femme"))
+  {
+    obsNom = RemplireComboJoueurFemme();
+  } 
+      else
+  {
+   obsNom = RemplireComboJoueurAll();
+  }  
+      ObservableList<String> obsNomJoueurNotDUPLICATE = listeOfJoueurNotDuplicated(obsNom,(String) combojoueur2.getSelectionModel().getSelectedItem());
+      combojoueur1.setItems(obsNomJoueurNotDUPLICATE);
+  
+  } 
+  //{{{{{{{{{{{{{{{{Remplire COMBO pour les joueurs de modif match competitions }}}}}}}}}}}}}}
+  @FXML
+  public void remplireComboJ2_modif(MouseEvent event)
+          
+  {
+   ObservableList<String> obsNom = FXCollections.observableArrayList();
+   obsNom = RemplireComboJoueurAll();
+   ObservableList<String> obsNomJoueurNotDUPLICATE = listeOfJoueurNotDuplicated(obsNom,(String) combo_modifjoueur1.getSelectionModel().getSelectedItem());
+   combo_modifjoueur2.setItems(obsNomJoueurNotDUPLICATE);
+  }
+   @FXML
+  public void remplireComboJ1_modif(MouseEvent event)      
+ {  
+   ObservableList<String> obsNom = FXCollections.observableArrayList();
+   obsNom = RemplireComboJoueurAll();
+   ObservableList<String> obsNomJoueurNotDUPLICATE = listeOfJoueurNotDuplicated(obsNom,(String) combo_modifjoueur2.getSelectionModel().getSelectedItem());
+   combo_modifjoueur1.setItems(obsNomJoueurNotDUPLICATE);
+  
+  }  
+  
+  //{{{{{{{{{{{{{{{{Remplire COMBO pour les joueurs de modif match competitions }}}}}}}}}}}}}}
+  @FXML
+  public void remplireComboJMatchamicalJ1(MouseEvent event)
+          
+  {
+   ObservableList<String> obsNom = FXCollections.observableArrayList();
+   obsNom = RemplireComboJoueurAll();
+   ObservableList<String> obsNomJoueurNotDUPLICATE = listeOfJoueurNotDuplicated(obsNom,(String) combo_joueur2.getSelectionModel().getSelectedItem());
+   combo_joueur1.setItems(obsNomJoueurNotDUPLICATE);
+  }
+   @FXML
+  public void remplireComboJMatchamicalJ2(MouseEvent event)      
+ {  
+   ObservableList<String> obsNom = FXCollections.observableArrayList();
+   obsNom = RemplireComboJoueurAll();
+   ObservableList<String> obsNomJoueurNotDUPLICATE = listeOfJoueurNotDuplicated(obsNom,(String) combo_joueur1.getSelectionModel().getSelectedItem());
+   combo_joueur2.setItems(obsNomJoueurNotDUPLICATE);
+  
+  }  
+  
+  
+   /*###########################################################################
+ ###############################################################################
+ ###############################################################################
+ ###############################################################################   
+    */
+          
+          @Override
+    public void initialize(URL url, ResourceBundle rb) {
+ //mettre DISABLE les elements de COMPETITION , tant que le responsable n'a pas encore cliquer sur une competition
+    tab_match_compettion.setDisable(true);
+    Anchormatchcompetition.setDisable(true);
+    AnchorCompetition.setDisable(true);
+    labelListematch.setDisable(true);
+    
+             listeAr = d.List_ArbitresForComboBox();
+             ListJoueur = d.List_ALL_JoueurForComboBox();
+             ListStade=d.List_stade_ForComboBox();
+             
+             datedebutcompetition1.setOnAction(event -> {
+             datedeb = datedebutcompetition1.getValue();
+           });
+             datefincompetition1.setOnAction(event -> {
+        datefin = datefincompetition1.getValue();
+        });
+             
+             
+        amateurcompetition1.setToggleGroup(groupeniveau1);
+        nationalcompetition1.setToggleGroup(groupeniveau1);
+        INcompetition1.setToggleGroup(groupeniveau1);
+     
+        
+          hommecompetition1.setToggleGroup(groupecategorie1);
+          femmecompetition1.setToggleGroup(groupecategorie1);
+          mixtecompetition1.setToggleGroup(groupecategorie1);
+          
+          
+        juniorcompetition1.setToggleGroup(groupetype1);
+        seniorcompetition1.setToggleGroup(groupetype1);
+        veterancompetition1.setToggleGroup(groupetype1);
+  
         Afficher_Match();
   //*************************************************************************
         ObservableList<String> obsNomJoueur = RemplireComboJoueurAll();
+              System.out.println("obsNomJoueur ----> :" + obsNomJoueur);
  //**************************************************************************
        ObservableList<String> obsCompeti = RemplireComboCompetition();
  //**************************************************************************
@@ -1208,6 +2459,13 @@ public class FXMLResponsableController implements Initializable {
         obsCategorie.add("Homme");
         obsCategorie.add("Femme");
         obsCategorie.add("Mixte");
+//************************************************************************** 
+
+        ObservableList<String> obsNbMatch = FXCollections.observableArrayList();
+        obsNbMatch.add("5");
+        obsNbMatch.add("10");
+        obsNbMatch.add("15");
+   
  //************************************************************************** 
       
      ObservableList<String> obsNomarbitr= RemplireComboArbitre(); 
@@ -1216,9 +2474,10 @@ public class FXMLResponsableController implements Initializable {
  //*************************************************************************
     ObservableList<String> obserStad = RemplireComboStade();
 //*************************************************************************
-        
+        comboNBmatch.setItems(obsNbMatch);
         combo_type.setItems(obsType);
         combo_joueur1.setItems(obsNomJoueur);
+     
         combo_joueur2.setItems(obsNomJoueur);
         combo_niveau.setItems(obsNiveau);
         combo_categorie.setItems(obsCategorie);
@@ -1226,7 +2485,21 @@ public class FXMLResponsableController implements Initializable {
         combo_evenement.setItems(obserEvenement);
         combo_stade.setItems(obserStad);
         combo_competition.setItems(obsCompeti);
-       
+
+        combojoueur1.setItems(obsNomJoueur);
+        combojoueur2.setItems(obsNomJoueur);
+        comboarbitre.setItems(obsNomarbitr);
+        combostade.setItems(obserStad);
+     
+        combo_modifjoueur1.setItems(obsNomJoueur);
+        combo_modifjoueur2.setItems(obsNomJoueur);
+        combo_modifarbitre.setItems(obsNomarbitr);
+        combo_modifstade.setItems(obserStad);
+        
+        
+
+
+   
        
         //PARTIE STADE
         afficherDataStade();
@@ -1268,110 +2541,13 @@ public class FXMLResponsableController implements Initializable {
             }
         });
     
-    
-    
-    }    
-
-    @FXML
-    private void handleGlissantButtonListe(ActionEvent event) {
-    }
-
-    @FXML
-    private void PressMatch(ActionEvent event) {
-       // tab_match.setVisible(true);
-        rech.setVisible(true);
-        anchorMatch.setVisible(true);
-        AnchorMatchlist.setVisible(true);
-        
-    }
-    
-     // Mail
-      @FXML
-    private void showmailbar(MouseEvent event)
-    {
-        
-    mailAnchor.setVisible(true);
-                
-    }
-    
-     @FXML
-    private void dontshowmailbar(MouseEvent event)
-    {
-        
-    mailAnchor.setVisible(false);
-                
-    }
-     
-    
-     @FXML
-    private void ClickConsulterMail(ActionEvent event)
-    {
-        mailAnchor.setVisible(false);
-        btexit.setVisible(true);
-        webgmail.setVisible(true);
-        webgmail.getEngine().load("http://mail.google.com/mail/#inbox");
+     afficher_Competition();
     
     }
-     
-   @FXML
-        private void ClickBtExit(ActionEvent event)
-    {
-        mailAnchor.setVisible(false);
-        webgmail.setVisible(false);
     
-    btexit.setVisible(false);
-    }
-     
-      @FXML
-        private void SendMail(ActionEvent event)
-    {
-         String host = "smtp.gmail.com";
-       Properties prop = System.getProperties();
-       prop.put("mail.smtp.starttls.enable", "true");
-       prop.put("mail.smtp.host", "smtp.gmail.com");
-      prop.put("mail.smtp.socketFactory.port", "587");
-        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-
-       prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
-                 protected PasswordAuthentication getPasswordAuthentication(){
-                 return new PasswordAuthentication("federationdetennistunisie@gmail.com", "Yassine1994");
-                   
-                 }
-             
-             });
-        MimeMessage mimeMessage2 = new MimeMessage(session);
-        try {
-          Message msg = new MimeMessage (session);
-           msg.setFrom(new InternetAddress(sendto.getText()) );
-          msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendto.getText()));
-          msg.setSubject(subject.getText());
-           msg.setText(textenvoie.getText());
-           prop.put("mail.smtp.starttls.enable", "true");
-           Transport.send(msg);
        
-        } catch (MessagingException ex) {
-            System.out.println(ex);  }
-                
-                
-    }
-     
-         @FXML
-        private void ClickEnvoieMsg(ActionEvent event)
-    {
-       SendMail.setVisible(true);
-    }
-           @FXML
-        private void ClickAnnuleEnvoieMsg(MouseEvent event)
-    {
-       SendMail.setVisible(false);
-    }
+
     
-    
-    @FXML
-    private void Rechercher(KeyEvent event) {
-    }
     
 }
  

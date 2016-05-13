@@ -48,7 +48,7 @@ public class InvitationDAO implements ICrudDAO<Invitation>{
     public boolean save(Invitation t) {
        try {
              
-           String req1 = "insert into invitation (idtest,idjoueur,dateinvitation)VALUES (?,?,NOW())";
+           String req1 = "insert into invitation (idtest_invitation,idjoueur,dateinvitation)VALUES (?,?,NOW())";
           
            pre = connexion.prepareStatement(req1);   
            
@@ -58,7 +58,7 @@ public class InvitationDAO implements ICrudDAO<Invitation>{
            pre.executeUpdate();
 
         } catch (SQLException ex) {
-            System.out.println("########### Erreur D_insertion ########");
+            System.out.println("########### Erreur D_insertion ###erreur DAO#####");
         }
         return false;
        
@@ -99,7 +99,7 @@ public class InvitationDAO implements ICrudDAO<Invitation>{
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {
-                //depuis constructeur 2 :  int idpersonne , String cin, String nom, String prenom
+             
                Joueur joueurrr = new Joueur(
                         res.getInt("idpersonne"),
                         res.getString("cin"),
@@ -128,7 +128,7 @@ public class InvitationDAO implements ICrudDAO<Invitation>{
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {
-                //depuis constructeur 2 :  int idpersonne , String cin, String nom, String prenom
+              
                Joueur Jhasard = new Joueur(
                         res.getInt("idpersonne"),
                         res.getString("cin"),

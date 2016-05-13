@@ -62,12 +62,19 @@ public class Personne {
         this.avatar = avatar;
         this.datedestruction = datedestruction;
     }
-    public Personne (int idpersonne , String cin, String nom, String prenom)
+    public Personne (int idpersonne ,  String nom, String prenom)
     {
     this.idpersonne = idpersonne;
-    this.cin = cin;
+   
     this.nom = nom;
     this.prenom = prenom;
+    }
+
+    public Personne(int idpersonne, String cin, String nom, String prenom) {
+        this.idpersonne = idpersonne;
+        this.cin = cin;
+        this.nom = nom;
+        this.prenom = prenom;
     }
 
     public int getIdpersonne() {
@@ -104,6 +111,11 @@ public class Personne {
 
     public String getAdresse() {
         return adresse;
+    }
+
+    public Personne(String nom, String prenom) {
+        this.nom = nom;
+        this.prenom = prenom;
     }
 
     public void setAdresse(String adresse) {

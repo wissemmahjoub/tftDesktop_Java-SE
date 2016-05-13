@@ -1,6 +1,5 @@
 package esprit.controllers.medecin;
 
-import esprit.controllers.authentification.FXMLauthentificationController;
 import esprit.dao.TestDAO;
 import esprit.dao.InvitationDAO;
 import esprit.entite.Joueur;
@@ -314,6 +313,7 @@ private Stage getStage()
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("OK");
         
 
     }

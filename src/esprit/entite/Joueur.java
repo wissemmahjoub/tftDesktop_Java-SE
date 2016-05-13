@@ -21,6 +21,9 @@ public class Joueur extends Personne {
     
     public Joueur(int idpersonne , String cin, String nom, String prenom )
     {super(idpersonne, cin, nom, prenom);}
+    public Joueur(int idpersonne , String nom, String prenom )
+    {super(idpersonne,  nom, prenom);}
+
 
     public Joueur(Niveau niveau, TrancheAge section, int idclub, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction) {
         super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance, role, avatar, datedestruction);

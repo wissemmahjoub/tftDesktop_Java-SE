@@ -39,7 +39,10 @@ public class Arbitre extends Personne{
       
     }
     
-    
+    public Arbitre(int idpersonne, String nom, String prenom) {
+        super(idpersonne, nom, prenom);
+    }
+
 
     public float getSalaire() {
         return salaire;

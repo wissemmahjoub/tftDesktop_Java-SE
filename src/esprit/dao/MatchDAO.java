@@ -68,7 +68,7 @@ public class MatchDAO implements ICrudDAO<Match>{
           try {
              
 
-           String req1 = "INSERT INTO `matchs` ( `idjoueur1`, `idjoueur2`,`idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`,`niveau`,`type`,`categorie`,`idticket`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+           String req1 = "INSERT INTO `matchs` ( `idjoueur1`, `idjoueur2`,`idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`,`niveau`,`type`,`categorie`,`idticket`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
            pre = connexion.prepareStatement(req1);     
            pre.setInt(1, M.getIdjoueur1());
            pre.setInt(2, M.getIdjoueur2());
@@ -79,7 +79,7 @@ public class MatchDAO implements ICrudDAO<Match>{
            pre.setDate(7,(java.sql.Date) M.getDatematch());
            pre.setString(8,M.getNiveau().toString());
            pre.setString(9,M.getType().toString());
-            pre.setString(10,M.getCategorie().toString());
+           pre.setString(10,M.getCategorie().toString());
            pre.setInt(11,M.getIdticket());
 
            pre.execute();
@@ -91,44 +91,121 @@ public class MatchDAO implements ICrudDAO<Match>{
         return false;
     }
 
-    @Override
-    public boolean delete(Match t) {
+     @Override
+    public boolean delete(Match m) {
+         try {
+         ste.executeUpdate("UPDATE  `matchs` SET  `datedestruction` =  now() WHERE  `idmatch` ='"+m.getIdmatch()+"'");
+        } catch (SQLException ex) {
+         System.out.println(ex);
+             System.out.println("erreur lors de suppression de match");
+        }
         return false;
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean update(Match t) {
-        return false;
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public boolean update(Match m) {
+    
+             
+        try { 
+            String req_modif="UPDATE `matchs` SET "
+                    + "`idjoueur1`=?,"
+                    + "`idjoueur2`=?,"
+                    + "`idarbitre`=?,"
+                    + "`idstade`=?,"
+                    + "`datematch`=? "
+                    + "WHERE `idmatch` = ?";
+           
+            PreparedStatement pre;
+            pre = connexion.prepareStatement(req_modif);
+        
+            pre.setInt(1,m.getIdjoueur1());
+            pre.setInt(2,m.getIdjoueur2());
+            pre.setInt(3,m.getIdarbitre());
+            pre.setInt(4,m.getIdstade());
+            pre.setDate(5,(java.sql.Date) m.getDatematch());
+            pre.setInt(6,m.getIdmatch());
 
+          pre.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Match.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERREUR MODIF MatchDAO");
+        }
+        return false;}
+
+    
+    
+
+    public boolean ModifMatchDepuisCompetition(Match m , int x) {
+    
+             
+        try { 
+            String req_modif="UPDATE `matchs` SET "
+                    + "`niveau`=?,"
+                    + "`categorie`=?,"
+                    + "`type`=? "
+                    + "WHERE `idcompetition`= "+x;
+           
+            PreparedStatement pre;
+            pre = connexion.prepareStatement(req_modif);
+        
+            pre.setString(1,m.getNiveau().toString());
+            pre.setString(2,m.getCategorie().toString());
+            pre.setString(3,m.getType().toString());
+       
+            
+          pre.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(Match.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERREUR ModifMatchDepuisCompetition");
+        }
+        return false;}  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @Override
     public List<Match> getList() {
     List<Match> M = new ArrayList<>();
-         
-     
-     
-        String req4= "SELECT `idmatch`, `idjoueur1`, `idjoueur2`, `categorie`, `idcompetition`, `idarbitre`, `idevenement`, `idstade`, `datematch`, `niveau`, `type`, `idscore`, `idticket` FROM `matchs` WHERE `datedestruction` is NULL ";
-        try {
+ String req4="SELECT idmatch,m.type,m.niveau,m.categorie,t.idticket idticket, p1.nom joueur1, p2.nom joueur2, a1.nom arbitre, e.libelle,s.libellestade, m.datematch, t.nbrticket, t.prix\n" +
+"FROM personne p1, personne p2, personne a1,  `matchs` m, stade s,evenement e, ticket t\n" +
+"WHERE p1.idpersonne = m.idjoueur1\n" +
+"AND p2.idpersonne = m.idjoueur2\n" +
+"AND m.idcompetition = 0 \n" +
+"AND m.idevenement=e.idevenement\n" +
+"AND a1.idpersonne = m.idarbitre\n" +
+"AND m.idstade = s.idstade\n" +
+"AND m.idticket = t.idticket\n" +
+"AND m.datedestruction IS NULL" ;
+       try {
             ResultSet res =  ste.executeQuery(req4);
             while (res.next()) {
 
                Match m = new Match
                 (
                         res.getInt("idmatch"),
-                        res.getInt("idjoueur1"),
-                        res.getInt("idjoueur2"),
-                        res.getInt("idcompetition"),
-                        res.getInt("idarbitre"),
-                        res.getInt("idevenement"),
-                        res.getInt("idstade"),
-                        res.getDate("datematch"),
-                        Niveau.valueOf(res.getString("niveau")),
                         TrancheAge.valueOf(res.getString("type")),
+                        Niveau.valueOf(res.getString("niveau")),
                         Categorie.valueOf(res.getString("categorie")),
-                        res.getInt("idscore"),
-                        res.getInt("idticket")
+                        res.getInt("idticket"),
+                        res.getString("joueur1"),
+                        res.getString("joueur2"),
+                        res.getString("arbitre"),
+                        res.getString("libelle"),
+                        res.getString("libellestade"),
+                        res.getDate("datematch"),
+                        res.getInt("nbrticket"),
+                        res.getInt("prix")
+             
+                        
                 );
               
                M.add(m);
@@ -139,6 +216,56 @@ public class MatchDAO implements ICrudDAO<Match>{
             Logger.getLogger(MatchDAO.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
             System.out.println("erreur affichage match ");
+        }
+      
+        return M;
+    }
+     
+   //################## Afichage match de competition #####################   
+ public List<Match> getListMatchCompetition(int i) {
+List<Match> M = new ArrayList<>();
+
+String req4="SELECT idmatch,m.type,m.niveau,m.categorie,t.idticket idticket, l.libelle libelleCompetition, p1.nom joueur1, p2.nom joueur2, a1.nom arbitre, s.libellestade, m.datematch, t.nbrticket, t.prix\n" +
+"FROM personne p1, personne p2, personne a1,  `matchs` m, stade s, competition l, ticket t\n" +
+"WHERE p1.idpersonne = m.idjoueur1\n" +
+"AND p2.idpersonne = m.idjoueur2\n" +
+"AND a1.idpersonne = m.idarbitre\n" +
+"AND m.idstade = s.idstade\n" +
+"AND m.idticket = t.idticket\n" +
+"AND l.idcompetition = m.idcompetition\n" +
+"AND m.datedestruction IS NULL \n" +
+" AND l.idcompetition like  " + i;
+        try {
+            ResultSet res =  ste.executeQuery(req4);
+            while (res.next()) {
+
+               Match m = new Match
+                (
+                        res.getInt("idmatch"),
+                        TrancheAge.valueOf(res.getString("type")),
+                        Niveau.valueOf(res.getString("niveau")),
+                        Categorie.valueOf(res.getString("categorie")),
+                        res.getInt("idticket"),
+                        res.getString("libelleCompetition"),
+                        res.getString("joueur1"),
+                        res.getString("joueur2"),
+                        res.getString("arbitre"),
+                        res.getString("libellestade"),
+                        res.getDate("datematch"),
+                        res.getInt("nbrticket"),
+                        res.getInt("prix")
+                       
+                );
+              
+               M.add(m);
+              
+             
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            System.out.println("erreur affichage matchCompetion ");
         }
       
         return M;
@@ -281,10 +408,9 @@ public class MatchDAO implements ICrudDAO<Match>{
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {
-// public Arbitre(Niveau niveau, int idpersonne, String cin, String nom, String prenom)             
+           
                Arbitre ar = new Arbitre(
                         res.getInt("idpersonne"),
-                        res.getString("cin"),
                         res.getString("nom"),
                         res.getString("prenom")
                 );
@@ -317,7 +443,7 @@ public class MatchDAO implements ICrudDAO<Match>{
                
                Joueur Jou = new Joueur(
                         res.getInt("idpersonne"),
-                        res.getString("cin"),
+                      
                         res.getString("nom"),
                         res.getString("prenom")
                 );
@@ -345,7 +471,7 @@ public class MatchDAO implements ICrudDAO<Match>{
             while (res.next()) {
                Joueur Jou = new Joueur(
                         res.getInt("idpersonne"),
-                        res.getString("cin"),
+                      
                         res.getString("nom"),
                         res.getString("prenom")
                 );
@@ -373,7 +499,7 @@ public class MatchDAO implements ICrudDAO<Match>{
             while (res.next()) {
                Joueur Jou = new Joueur(
                         res.getInt("idpersonne"),
-                        res.getString("cin"),
+                        
                         res.getString("nom"),
                         res.getString("prenom")
                 );

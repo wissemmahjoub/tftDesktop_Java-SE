@@ -68,7 +68,7 @@ public class ArbitreDAO implements ICrudDAO<Arbitre> {
 
             pre.setString(12, "");
             pre.setDate(13, null);
-            pre.setString(14, "a:1:{i:0;s:12:\"ROLE_MEDECIN\";}");
+            pre.setString(14, "a:1:{i:0;s:12:\"ROLE_ARBITRE\";}");
             pre.setInt(15, 0);
             pre.setDate(16, null);
 
