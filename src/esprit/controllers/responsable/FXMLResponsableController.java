@@ -5,6 +5,7 @@
  */
 package esprit.controllers.responsable;
 
+import esprit.controllers.admin.FXMLAdminController;
 import esprit.dao.CompetitionDAO;
 import esprit.dao.MatchDAO;
 import esprit.dao.StadeDAO;
@@ -22,6 +23,7 @@ import esprit.entite.Stade;
 import esprit.entite.Surface;
 import esprit.entite.Ticket;
 import esprit.entite.TrancheAge;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -44,7 +46,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -87,7 +92,20 @@ public class FXMLResponsableController implements Initializable {
                 "-fx-alignment : baseline-left;";
    private final String styleMenu = styleMenuPressed + "-fx-background-color: #29778e;";
     
-    
+     @FXML
+     private void deconnexion(MouseEvent event)
+     {
+         Stage stage = getStage();
+           Parent rootAuth;
+       try {
+           rootAuth = FXMLLoader.load(getClass().getResource("/esprit/gui/authentification/FXMLauthentificationv2.fxml"));
+            Scene scene = new Scene(rootAuth);
+            stage.setScene(scene);
+       } catch (IOException ex) {
+           Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
+     }
    
    private LocalDate datedeb;
     private LocalDate datefin;
