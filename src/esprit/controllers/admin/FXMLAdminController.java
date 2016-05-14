@@ -8,6 +8,7 @@ package esprit.controllers.admin;
 import esprit.controllers.authentification.FXMLauthentificationController;
 import esprit.controllers.responsable.FXMLResponsableController;
 import esprit.dao.ArbitreDAO;
+import esprit.dao.JoueurDAO;
 import esprit.dao.MedecinDAO;
 import esprit.ressources.TFTEffects.TFTTransition;
 import java.net.URL;
@@ -22,8 +23,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import esprit.entite.Arbitre;
+import esprit.entite.Joueur;
 import esprit.entite.Medecin;
 import esprit.entite.Niveau;
+import esprit.entite.TrancheAge;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,7 +40,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -1185,6 +1190,11 @@ public class FXMLAdminController implements Initializable {
        zone_statisque_medecin.setVisible(false); 
           
         readNote();
+        
+        
+       
+       afficher();
+       RemplirCombo();
     }    
     
     
@@ -1863,5 +1873,457 @@ File file = fileChooser.showOpenDialog(null);
     }
    
   
+    
+    
+    /*
+    ########################## CHEMS ###################################
+    */
+    
+    
+        @FXML
+        private TextField rechJoueur;
+  
+    @FXML
+    private TextField jnom;
+    @FXML   
+    private TextField jprenom;
+    @FXML
+    private TextField jcin;
+    @FXML
+    private TextField jadresse;
+    @FXML
+    private TextField jemail;
+    
+    @FXML
+    private TextField daily;
+    @FXML
+    private RadioButton jfemme;
+    @FXML
+    private RadioButton jhomme;
+    @FXML
+    private RadioButton jjunior;
+    @FXML
+    private RadioButton jsenior;
+    @FXML
+    private RadioButton jveteran;
+    @FXML
+    private RadioButton jamateur;
+    @FXML
+    private RadioButton jnational;
+    @FXML
+    private RadioButton jinternational;
+    @FXML
+    private DatePicker jdate;
+    @FXML
+    private ComboBox jclub;
+    @FXML
+    private Button jenvoyer;
+    
+    @FXML
+    private Button jmodif;
+    
+    
+    @FXML
+         private ToggleGroup section;
+        @FXML
+         private ToggleGroup niveau;
+     @FXML
+    private TableView tablejo;
+         
+        
+         @FXML
+    private TableColumn colcin;
+    @FXML
+    private TableColumn colnom;
+    @FXML
+    private TableColumn colpren;
+     @FXML
+    private TableColumn coladr;
+     @FXML
+    private TableColumn colemail;
+         @FXML
+    private TableColumn colsexe;
+    @FXML
+    private TableColumn coldate;
+    @FXML
+    private TableColumn colsect;
+     @FXML
+    private TableColumn colclub;
+     @FXML
+    private TableColumn colniv;
+         @FXML
+    private TableColumn column41;
+          @FXML
+    private TableColumn libclub;
+      @FXML
+      private Hyperlink clear;
+
+           
+         private ObservableList<Joueur> data;
+         private ObservableList<Joueur> data_filtre;
+        
+          Joueur j =new Joueur();
+          JoueurDAO jdao=new JoueurDAO();
+          
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+          
+          
+          
+          
+    
+        
+    @FXML
+    private AnchorPane ajouterArbitrePane;
+    
+    
+    @FXML
+    private TextField nom1;
+    @FXML
+    private TextField prenom1;
+    @FXML
+    private TextField cin1;
+    @FXML
+    private ComboBox<?> niveau1;
+    
+   @FXML
+   private ToggleGroup sexeJoueur;
+    
+    @FXML
+    private Button menuClub;
+    
+    
+    
+    
+   
+    
+    
+       /**************************************************
+    * @Desc :  Gestion joueur.                                                           *
+    * @author : Chams.                                                                   *
+    *                                                                                                            *
+    **************************************************/
+    
+    
+     public void RemplirCombo (){
+        Set<String> clubj = new HashSet<String>();
+          
+        for (int i = 0; i < jdao.getClub().size(); i++) {
+            clubj.add(jdao.getClub().get(i).getLibellecode());
+        }
+        jclub.getItems().clear();
+        jclub.getItems().addAll(clubj);
+    
+    }
+    
+    @FXML
+    private void ajouterJoueur(ActionEvent event) 
+    {
+                      RadioButton Se = (RadioButton) (sexe).getSelectedToggle();
+                      RadioButton sect = (RadioButton) (section).getSelectedToggle();
+                      RadioButton niv = (RadioButton) (niveau).getSelectedToggle();
+
+        j.setNom(jnom.getText());
+            j.setPrenom(jprenom.getText());
+            j.setCin((jcin.getText()));
+            j.setAdresse(jadresse.getText());
+            j.setEmail(jemail.getText());
+            j.setNiveau(Niveau.valueOf(niv.getText()));
+            j.setSection(TrancheAge.valueOf(sect.getText()));
+            j.setSexe(Se.getText());
+            j.setDatenaissance(java.sql.Date.valueOf(jdate.getValue()));
+            j.setLogin(jcin.getText());
+            j.setPassword(jcin.getText()+jprenom.getText());
+            j.setRole("joueur");
+           
+           String b = jclub.getValue().toString();
+          // String b = jnom.getText();
+            int a =jdao.rechIdClubParNom(b);
+            j.setIdclub(a);
+            j.setAvatar("d");
+            jdao.save(j);
+            jdao.getList();
+            afficher();
+            
+    }
+    
+    public void afficher()
+    {
+    
+             colcin.setCellValueFactory(new PropertyValueFactory("cin"));
+             colnom.setCellValueFactory(new PropertyValueFactory("nom"));
+             colpren.setCellValueFactory(new PropertyValueFactory("prenom"));
+             coladr.setCellValueFactory(new PropertyValueFactory("adresse"));
+              colemail.setCellValueFactory(new PropertyValueFactory("email"));
+             colsexe.setCellValueFactory(new PropertyValueFactory("sexe"));
+             coldate.setCellValueFactory(new PropertyValueFactory("datenaissance"));
+              colsect.setCellValueFactory(new PropertyValueFactory("section"));
+             colclub.setCellValueFactory(new PropertyValueFactory("idclub"));
+             colniv.setCellValueFactory(new PropertyValueFactory("niveau"));
+             libclub.setCellValueFactory(new PropertyValueFactory("nomclub"));
+
+// data = FXCollections.observableArrayList();
+//               for (Joueur j : jdao.getList())
+//               {
+//                   data.add(j);
+//               }
+//         //   table.setItems(null);
+//           
+//
+//       tablejo.setItems(data);
+                   
+
+
+
+
+           
+             
+
+             Callback<TableColumn<Joueur, String>, TableCell<Joueur, String>> cellFactory = 
+                new Callback<TableColumn<Joueur, String>, TableCell<Joueur, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Joueur, String> param )
+                    {
+                        final TableCell<Joueur, String> cell = new TableCell<Joueur, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             j.setCin(getTableView().getItems().get( getIndex()).getCin()); 
+                                             jdao.delete(j);
+                                             afficher();
+                                             RemplirCombo();
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             column41.setCellFactory( cellFactory );
+            
+            
+            
+data = FXCollections.observableArrayList();
+               for (Joueur j : jdao.getList())
+               {
+                   data.add(j);
+               }
+           
+
+       tablejo.setItems(data);       
+            
+    }
+    
+     @FXML
+    public void rechercheJoueurr(){
+    
+     colcin.setCellValueFactory(new PropertyValueFactory("cin"));
+             colnom.setCellValueFactory(new PropertyValueFactory("nom"));
+             colpren.setCellValueFactory(new PropertyValueFactory("prenom"));
+             coladr.setCellValueFactory(new PropertyValueFactory("adresse"));
+              colemail.setCellValueFactory(new PropertyValueFactory("email"));
+             colsexe.setCellValueFactory(new PropertyValueFactory("sexe"));
+             coldate.setCellValueFactory(new PropertyValueFactory("datenaissance"));
+              colsect.setCellValueFactory(new PropertyValueFactory("section"));
+             colclub.setCellValueFactory(new PropertyValueFactory("idclub"));
+             colniv.setCellValueFactory(new PropertyValueFactory("niveau"));
+             
+    
+    Callback<TableColumn<Joueur, String>, TableCell<Joueur, String>> cellFactory = 
+                new Callback<TableColumn<Joueur, String>, TableCell<Joueur, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Joueur, String> param )
+                    {
+                        final TableCell<Joueur, String> cell = new TableCell<Joueur, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             j.setCin(getTableView().getItems().get( getIndex()).getCin()); 
+                                             jdao.delete(j);
+                                             afficher();
+                                             RemplirCombo();
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             column41.setCellFactory( cellFactory );
+             
+             data_filtre = FXCollections.observableArrayList();
+               for (Joueur j : jdao.getList())
+               {
+                   if ((j.getNom().contains(rechJoueur.getText()))  ||
+                 (j.getCin().contains( rechJoueur.getText()))
+                   ||
+                           
+                (j.getCin().contains( rechJoueur.getText())))
+                   {
+                   data_filtre.add(j);
+                   
+               }}
+           
+            tablejo.setItems(data_filtre);
+    
+    }
+    
+   @FXML
+    private void ModifierJoueur(MouseEvent event) 
+    {
+        if (tablejo != null) {
+            List<Joueur> tables = tablejo.getSelectionModel().getSelectedItems();
+            if (tables.size() == 1) {
+                final Joueur joueurselected = tables.get(0);
+                   position = data.indexOf(joueurselected);
+                        if (joueurselected != null) {
+
+            jnom.setText(joueurselected.getNom());
+            jprenom.setText(joueurselected.getPrenom());
+            
+           if (joueurselected.getSexe().equals("Homme")){
+                sexe.selectToggle(jhomme);
+            } else  
+           {sexe.selectToggle(jfemme);}
+           
+           if (joueurselected.getSection().toString().equals("Junior")){
+                section.selectToggle(jjunior);
+            } else if (joueurselected.getSection().toString().equals("Senior")) 
+           {section.selectToggle(jsenior);}
+            else {section.selectToggle(jveteran);}
+           
+            if (joueurselected.getNiveau().toString().equals("National")){
+                niveau.selectToggle(jnational);
+            } else if (joueurselected.getNiveau().toString().equals("Amateur")) 
+           {niveau.selectToggle(jamateur);}
+            else {niveau.selectToggle(jinternational);}
+                   
+          //  jclub.setCellFactory(joueurselected.get);
+                
+            jcin.setText(joueurselected.getCin());
+            jemail.setText(joueurselected.getEmail());
+            jadresse.setText(joueurselected.getAdresse());
+            String nomclub= jdao.rechnomclubparid(joueurselected.getIdclub());
+            jclub.setValue(nomclub);
+            Instant instant = Instant.ofEpochMilli(joueurselected.getDatenaissance().getTime());
+            LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+            
+            
+
+
+            jdate.setValue(res);
+        }        
+
+    }
+}
+    }
+    
+    
+     @FXML
+    private void updateJoueur(ActionEvent event)  {
+   
+  RadioButton Se = (RadioButton) (sexe).getSelectedToggle();
+                      RadioButton sect = (RadioButton) (section).getSelectedToggle();
+                      RadioButton niv = (RadioButton) (niveau).getSelectedToggle();
+
+        j.setNom(jnom.getText());
+            j.setPrenom(jprenom.getText());
+            j.setCin((jcin.getText()));
+            j.setAdresse(jadresse.getText());
+            j.setEmail(jemail.getText());
+            j.setNiveau(Niveau.valueOf(niv.getText()));
+            j.setSection(TrancheAge.valueOf(sect.getText()));
+            j.setSexe(Se.getText());
+            j.setDatenaissance(java.sql.Date.valueOf(jdate.getValue()));
+            j.setLogin(jcin.getText());
+            j.setPassword(jcin.getText()+jprenom.getText());
+            j.setRole("joueur");
+           
+           String b = jclub.getValue().toString();
+          // String b = jnom.getText();
+            int a =jdao.rechIdClubParNom(b);
+            j.setIdclub(a);
+            j.setAvatar("d");
+            jdao.update(j);
+            
+            
+           
+
+            System.out.println("modification effectuée  ");
+        
+        afficher();
+        jclub.setValue(null);
+        jnom.setText("");
+        jprenom.setText("");
+        jcin.setText("");
+        jadresse.setText("");
+        jemail.setText("");
+        sexe.selectToggle(null);
+        jdate.setValue(null);
+        section.selectToggle(null);
+        niveau.selectToggle(null);
+
+
+    }
+    
+             @FXML
+             public void clear()
+             {
+             jclub.setValue(null);
+        jnom.setText("");
+        jprenom.setText("");
+        jcin.setText("");
+        jadresse.setText("");
+        jemail.setText("");
+        sexe.selectToggle(null);
+        jdate.setValue(null);
+        section.selectToggle(null);
+        niveau.selectToggle(null);
+             }
+     
+    
+    /*
+    ########################## FIN CHEMS ###################################
+    */
+    
+    
+    
     
 }

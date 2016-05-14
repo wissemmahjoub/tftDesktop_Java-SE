@@ -19,7 +19,7 @@ public class Evenement {
     private Date datedebut;
     private Date datefin;
     private Date datedestruction;
-
+private String video;
     public Evenement() {
     }
 
@@ -105,6 +105,24 @@ public class Evenement {
             return false;
         }
         return true;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public Evenement(int idevenement, String libelle, String lieu, Date datedebut, Date datefin, Date datedestruction, String video) {
+        this.idevenement = idevenement;
+        this.libelle = libelle;
+        this.lieu = lieu;
+        this.datedebut = datedebut;
+        this.datefin = datefin;
+        this.datedestruction = datedestruction;
+        this.video = video;
     }
     
     

@@ -6,13 +6,16 @@
 package esprit.controllers.responsable;
 
 import esprit.controllers.admin.FXMLAdminController;
+import esprit.dao.ClubDAO;
 import esprit.dao.CompetitionDAO;
+import esprit.dao.EventDAO;
 import esprit.dao.MatchDAO;
 import esprit.dao.StadeDAO;
 import esprit.dao.StadeDAOInterface;
 import esprit.dao.TicketDAO;
 import esprit.entite.Arbitre;
 import esprit.entite.Categorie;
+import esprit.entite.Club;
 import esprit.entite.Competition;
 import esprit.entite.Evenement;
 import esprit.entite.Joueur;
@@ -23,7 +26,11 @@ import esprit.entite.Stade;
 import esprit.entite.Surface;
 import esprit.entite.Ticket;
 import esprit.entite.TrancheAge;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -48,17 +55,23 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Pair;
@@ -547,6 +560,7 @@ public class FXMLResponsableController implements Initializable {
      private void setMenuStyleNormal()
     {
         menuCup.setStyle(styleMenu);
+        esp_even.setStyle(styleMenu);
         menuStade.setStyle(styleMenu);
         menuMatch.setStyle(styleMenu);
         menuMessage.setStyle(styleMenu); 
@@ -560,6 +574,8 @@ public class FXMLResponsableController implements Initializable {
     public void setInvisibleAllConsult() {
         consulterStadePane.setVisible(false);
 //        sessionFormationPane.setVisible(false);
+           clubPane.setVisible(false);
+           esp_even.setVisible(false);
         consulterMatch.setVisible(false);
         EspaceCompetition.setVisible(false);
        
@@ -581,6 +597,20 @@ public class FXMLResponsableController implements Initializable {
 
         // Configuration d'affichage des Pane de gestion
         switch (buttonAux.getId()) {
+            case "menuClub" :
+                setInvisibleAllConsult();
+                
+                clubPane.setVisible(true);
+                titelLabel.setText("Gestion des Clubs");
+                break;
+            case "menuCup" :
+                
+                setInvisibleAllConsult();
+                
+                esp_even.setVisible(true);
+                ajoutevent.setVisible(true);
+                titelLabel.setText("Gestion des Events");
+                break;
             case "menuStade":
                 setInvisibleAllConsult();
                 consulterStadePane.setVisible(true);
@@ -2609,6 +2639,9 @@ public TableCell call( final TableColumn<Match, String> param )
         });
     
      afficher_Competition();
+     
+               afficher();
+        afficherEvent();
       /*
      
     #######################################################################################
@@ -2625,8 +2658,697 @@ public TableCell call( final TableColumn<Match, String> param )
     }
     
        
+    /*
+    ######################################### Chems ###########################
+    */
+    
+   
+    
+    
+    @FXML
+    private Button menuClub2;
+    
+    @FXML
+    private AnchorPane clubPane;
+    @FXML
+    private AnchorPane eventPane;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////// ATTRIBUTS DU CLUB /////////////////////////////////////  
+           @FXML
+    private TextField cnom;
+           
+           
+          @FXML
+    private AnchorPane  esp_even;
+          
+          @FXML
+    private AnchorPane gererclub;
+         
+           @FXML
+    private AnchorPane ajoutevent;
+                  
+        @FXML
+    private AnchorPane   esp_club;
+          
+    @FXML   
+    private TextField csiege;
+     @FXML   
+    private TextField daily;
+    @FXML
+    private TextField ctel;
+    @FXML
+    private TextField cpresident;
+    @FXML
+    private ImageView imagepr;
+    
+        @FXML
+        private DatePicker cdate;
+          
+          @FXML
+    private Button cenvoyer;
+    
+    @FXML
+    private Button cmodif;
+          
+          @FXML
+    private TableView tablecl;
+         
+         @FXML
+    private TableColumn clnom;
+    @FXML
+    private TableColumn clsiege;
+    @FXML
+    private TableColumn cldate;
+     @FXML
+    private TableColumn clpres;
+     @FXML
+    private TableColumn cltel;
+        @FXML
+    private TableColumn clidclub;
+       @FXML
+    private TableColumn column41;
+        @FXML
+    private TableColumn colimage;
+       @FXML
+    private TableColumn imgch;
+        @FXML
+    private TableColumn video;
+        @FXML   
+    private TextField idcl;
+      @FXML   
+    private Label labb;
+       @FXML
+    private TableColumn column411;
+       
+      @FXML
+    private TableColumn lieuevv;
+       
+       @FXML
+    private Button btnFile;
+       
+       ////////////////////////////////////////////////////////////////////////////
+       
+       /////////// Attributs evenement ////////////////////////
+       
+        @FXML
+    private TableView tableev;
+        @FXML
+    private Label labeven;
+         
+         @FXML
+    private TableColumn evlib;
+    @FXML
+    private TableColumn evlieu;
+    @FXML
+    private TableColumn evdatedeb;
+     @FXML
+    private TableColumn evdatefin;
+       @FXML
+    private TableColumn colsup;
+       @FXML
+    private TableColumn idevent;
+      @FXML
+    private TableColumn lienvid;
+     @FXML
+    private TextField tlib;
+    @FXML   
+    private TextField tlieu;
+    @FXML
+    private DatePicker tdatedeb;
+    @FXML
+    private DatePicker tdatefin;
+    @FXML
+    private Button cenvoyer1;
+    @FXML
+    private Button cmodif1;
+    
+       
+       ///////////////////////////////////////////////////
+        
+         private ObservableList<Club> data;
+         private ObservableList<Club> data_filtre;
+               
+         private ObservableList<Evenement> dataevent;
+         private ObservableList<Evenement> data_filtreevent;
+
+          Club c =new Club();
+         ClubDAO cdao=new ClubDAO();
+         
+         Evenement e = new Evenement();
+         EventDAO edao=new EventDAO();
+       
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+   
+     
+    
+     
+     
+     
+    
+   
+     
+     
+     
+     
+     
+     
+     
+         
+    
+    
+    
+    
+    /////////// Espace Club (made by chams)      ////////////////////////////
+    @FXML
+    private void passerMenuClub(ActionEvent event)
+    {
+        tablecl.setVisible(true);
+    }
+    
+     @FXML
+    private void ajouterClub(ActionEvent event) 
+    {
+                 
+
+             c.setLibellecode(cnom.getText());
+            c.setDatecreation(java.sql.Date.valueOf(cdate.getValue()));
+            c.setSiege((csiege.getText()));
+            c.setPresident((cpresident.getText()));
+            c.setTel((ctel.getText()));
+            c.setAvatar(labb.getText());
+            c.setVideo(daily.getText());
+            cdao.save(c);
+            
+           afficher();
+            
+    }
+    
+     @FXML
+    private void Modifier(MouseEvent event) 
+    {
+        if (tablecl != null) {
+            List<Club> tables = tablecl.getSelectionModel().getSelectedItems();
+            if (tables.size() == 1) {
+                final Club clubselected = tables.get(0);
+                   position = data.indexOf(clubselected);
+                        if (clubselected != null) {
+
+            cnom.setText(clubselected.getLibellecode());
+            cpresident.setText(clubselected.getPresident());
+            ctel.setText(clubselected.getTel());
+            csiege.setText(clubselected.getSiege());
+            Instant instant = Instant.ofEpochMilli(clubselected.getDatecreation().getTime());
+            LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+            cdate.setValue(res);
+            idcl.setText(String.valueOf(clubselected.getIdclub()));
+            daily.setText(clubselected.getVideo());
+        }        
+
+    }
+}
+    }
+    
+    
+     @FXML
+    private void update(ActionEvent event)  {
+   
+  
+
+       c.setLibellecode(cnom.getText());
+            c.setDatecreation(java.sql.Date.valueOf(cdate.getValue()));
+            c.setSiege((csiege.getText()));
+            c.setPresident((cpresident.getText()));
+            c.setTel((ctel.getText()));
+            c.setAvatar("a");
+            c.setIdclub(Integer.valueOf(idcl.getText()));
+           c.setVideo(daily.getText());
+         
+            cdao.update(c);
+            
+            
+           
+
+            System.out.println("modification effectuée  ");
+        
+        afficher();
+        cnom.setText("");
+            cpresident.setText("");
+            ctel.setText("");
+            csiege.setText("");
+         cdate.setValue(null);
+        
+
+
+    }
+    
+            
+    
+     public void afficher()
+    {
+    
+             clnom.setCellValueFactory(new PropertyValueFactory("libellecode"));
+             clsiege.setCellValueFactory(new PropertyValueFactory("siege"));
+             cldate.setCellValueFactory(new PropertyValueFactory("datecreation"));
+             clpres.setCellValueFactory(new PropertyValueFactory("president"));
+              cltel.setCellValueFactory(new PropertyValueFactory("tel"));
+            colimage.setCellValueFactory(new PropertyValueFactory("avatar"));
+             lienvid.setCellValueFactory(new PropertyValueFactory("video"));
+
+             Callback<TableColumn<Club, String>, TableCell<Club, String>> cellFactory = 
+                new Callback<TableColumn<Club, String>, TableCell<Club, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Club, String> param )
+                    {
+                        final TableCell<Club, String> cell = new TableCell<Club, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+                            
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             c.setIdclub(getTableView().getItems().get( getIndex()).getIdclub()); 
+                                             cdao.delete(c);
+                                             afficher();
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             column41.setCellFactory( cellFactory );
+            
+            ////////////////////////////////////////
+             Callback<TableColumn<Club, String>, TableCell<Club, String>> cellFactoryModifyy = 
+                new Callback<TableColumn<Club, String>, TableCell<Club, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Club, String> param )
+                    {
+                        final TableCell<Club, String> cell = new TableCell<Club, String>()
+                        {
+
+                            final Button btnModify = new Button( "video" );
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btnModify.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                              
+                                             
+                                             
+//                                             Stage stageModify = new Stage();
+//                                            stageModify.setResizable(false);
+//                                             Parent root;
+//                                        try {
+//                    root = FXMLLoader.load(getClass().getResource("/esprit/gui/responsable/FXMLVideo.fxml"));
+//                                            
+//                                            stageModify.setScene(new Scene(root));
+//                                        } catch (IOException ex) {
+//                                            Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+//                                        }
+//                                            
+                                                
+                                                Stage stageModify = new Stage();
+                                            stageModify.setResizable(false);
+                                                WebView web=new WebView();
+                                             //  MediaPlayer mediaPlayer;
+                                             //   Media media;
+                                           //String path = "C:\\tunis.mp4";
+                                            WebView webvview = new WebView();
+                                     String pathh = (getTableView().getItems().get( getIndex()).getVideo()); 
+
+                                            webvview.getEngine().load(pathh);
+                                                  webvview.setPrefSize(640, 390);
+
+                                        
+               
+                                                    Scene scene = new Scene(new Group());
+                                                     VBox root = new VBox();    
+                                   root.getChildren().addAll(webvview);
+                                                      scene.setRoot(root);
+                                            stageModify.setScene(scene);
+                                          
+                                             stageModify.setResizable(false);
+                                                   stageModify.show();
+                                         
+                                             
+                                             
+                                    } );
+                                    setGraphic( btnModify );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                }; 
+            
+            column411.setCellFactory(cellFactoryModifyy);
+            ////////////////////////////////////
+            
+             
+            
+            /////////////////////////////////////////////////////////////////
+            Callback<TableColumn<Club, String>, TableCell<Club, String>> cellFactoryModifyyy = 
+                new Callback<TableColumn<Club, String>, TableCell<Club, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Club, String> param )
+                    {
+                        final TableCell<Club, String> cell = new TableCell<Club, String>()
+                        {
+
+                            final Button btnModify = new Button( "image" );
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btnModify.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                    
+                                             Stage stageModify = new Stage();
+                                            stageModify.setResizable(false);
+                                            ImageView img=new ImageView();
+                               String f = (getTableView().getItems().get( getIndex()).getAvatar()); 
+                                                System.out.println("le path est : " + f);
+                               InputStream inputStream = null;
+                                        try {
+                                            inputStream = new FileInputStream(f);
+                                        } catch (FileNotFoundException ex) {
+                                            Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                 Image imgg = new Image(inputStream);
+               
+                                 img.setImage(imgg);
+                                                    Scene scene = new Scene(new Group());
+                                                     VBox root = new VBox();    
+                                   root.getChildren().addAll(img);
+                                                      scene.setRoot(root);
+                                            stageModify.setScene(scene);
+                                  
+                     
+                                                   stageModify.show();
+                                             
+                                    } );
+                                    setGraphic( btnModify );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                }; 
+            
+            imgch.setCellFactory(cellFactoryModifyyy);
+            
+data = FXCollections.observableArrayList();
+               for (Club c : cdao.getList())
+               {
+                   data.add(c);
+               }
+           
+
+       tablecl.setItems(data);       
+            
+    }
+    
+    
+    @FXML
+    private void imageAction(ActionEvent event) throws IOException 
+    
+    {
+         Stage pstage=null;
+         FileChooser fileChooser = new FileChooser();
+//         fileChooser.setTitle("Open Resource File");
+//         File file = fileChooser.showOpenDialog(new Stage());
+//         if(file != null) {
+//        String imagepath = file.getPath();
+//        System.out.println("file:"+file.getCanonicalPath());
+
+ FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+File file = fileChooser.showOpenDialog(null);
+            String path = file.getAbsolutePath();
+             
+            try {
+                InputStream inputStream = new FileInputStream(path);
+                Image img = new Image(inputStream);
+               
+                imagepr.setImage(img);
+                labb.setText(path);
+           } catch (FileNotFoundException ex) {
+                Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+
+
+       //String imgp= "C:\\mm.jpg";
+        //Image image = new Image(file.getCanonicalPath());
+      
+       //Image image = new Image("/tn/esprit/crowdrise/utils/Project.png");
+       // imgProfil.setImage(image);
+        
+    }
+
+/////////////////// espace EVENEMENT ///////////////////////////
+    @FXML
+    private void ajouterEvent(ActionEvent event) 
+    {
+             e.setLibelle(tlib.getText());
+             e.setLieu(tlieu.getText());
+            e.setDatedebut(java.sql.Date.valueOf(tdatedeb.getValue()));
+           e.setDatefin(java.sql.Date.valueOf(tdatefin.getValue()));
+           e.setVideo(labeven.getText());
+        edao.save(e);
+        afficherEvent();
+        
+    }
+    
+       public void afficherEvent ()
+       {
+       
+             evlib.setCellValueFactory(new PropertyValueFactory("libelle"));
+             evlieu.setCellValueFactory(new PropertyValueFactory("lieu"));
+             evdatedeb.setCellValueFactory(new PropertyValueFactory("datedebut"));
+             evdatefin.setCellValueFactory(new PropertyValueFactory("datefin"));
+             lieuevv.setCellValueFactory(new PropertyValueFactory("video"));
+             //idevent.setCellValueFactory(new PropertyValueFactory("idevenement"));
+             
+             Callback<TableColumn<Evenement, String>, TableCell<Evenement, String>> cellFactory = 
+                new Callback<TableColumn<Evenement, String>, TableCell<Evenement, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Evenement, String> param )
+                    {
+                        final TableCell<Evenement, String> cell = new TableCell<Evenement, String>()
+                        {
+
+                            final Button btn = new Button( "Supprimer" );
+                            
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btn.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                             e.setIdevenement(getTableView().getItems().get( getIndex()).getIdevenement()); 
+                                              edao.delete(e);
+                                             afficherEvent();
+                                    } );
+                                    setGraphic( btn );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+            
+             colsup.setCellFactory( cellFactory );
+             
+             //////////////////////////////////////////////////////////
+             Callback<TableColumn<Evenement, String>, TableCell<Evenement, String>> cellFactoryMod= 
+                new Callback<TableColumn<Evenement, String>, TableCell<Evenement, String>>()
+                {
+                    @Override
+                    public TableCell call( final TableColumn<Evenement, String> param )
+                    {
+                        final TableCell<Evenement, String> cell = new TableCell<Evenement, String>()
+                        {
+
+                            final Button btnModify = new Button( "video" );
+                            @Override
+                            public void updateItem( String item, boolean empty )
+                            {
+                                super.updateItem( item, empty );
+                                if ( empty )
+                                {
+                                    setGraphic( null );
+                                    setText( null );
+                                }
+                                else
+                                {
+                                    btnModify.setOnAction( ( ActionEvent event ) ->
+                                            {
+                                              
+                                             Stage stageModify = new Stage();
+                                            stageModify.setResizable(false);
+                                                MediaView mediaview=new MediaView();
+                                               MediaPlayer mediaPlayer;
+                                                Media media;
+                                           //String path = "C:\\tunis.mp4";
+                                 String path = (getTableView().getItems().get( getIndex()).getVideo()); 
+
+                                            media = new Media(new File(path).toURI().toString());
+                                            mediaPlayer = new MediaPlayer(media);
+                                              mediaPlayer.setAutoPlay(true);
+                                          mediaview.setMediaPlayer(mediaPlayer);
+               
+                                                    Scene scene = new Scene(new Group());
+                                                     VBox root = new VBox();    
+                                   root.getChildren().addAll(mediaview);
+                                                      scene.setRoot(root);
+                                            stageModify.setScene(scene);
+                                             stageModify.setHeight(600);
+                                             stageModify.setWidth(600);
+                                             stageModify.setResizable(false);
+                                                   stageModify.show();
+                                       
+                                             
+                                    } );
+                                    setGraphic( btnModify );
+                                    setText( null );
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                }; 
+            
+            video.setCellFactory(cellFactoryMod);
+
+              dataevent = FXCollections.observableArrayList();
+               for (Evenement e : edao.getList())
+               {
+                   dataevent.add(e);
+               }
+           
+
+       tableev.setItems(dataevent);   
+       
+       }
+              
+       @FXML
+    private void ModifierEvent(MouseEvent event) 
+    {
+          if (tableev != null) {
+            List<Evenement> tables = tableev.getSelectionModel().getSelectedItems();
+            if (tables.size() == 1) {
+                final Evenement eventselected = tables.get(0);
+                   position = dataevent.indexOf(eventselected);
+                        if (eventselected != null) {
+
+            tlib.setText(eventselected.getLibelle());
+            tlieu.setText(eventselected.getLieu());
+            Instant instant = Instant.ofEpochMilli(eventselected.getDatedebut().getTime());
+            LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+            tdatedeb.setValue(res);
+           Instant instantt = Instant.ofEpochMilli(eventselected.getDatefin().getTime());
+            LocalDate ress = LocalDateTime.ofInstant(instantt, ZoneId.systemDefault()).toLocalDate();
+            tdatefin.setValue(ress);
+            
+        }        
+
+    }
+          }
+    }
+    
+      @FXML
+    private void EspaceClub(ActionEvent event) {
+    esp_club.setVisible(true);
+    esp_even.setVisible(false);
+    gererclub.setVisible(true);
+    ajoutevent.setVisible(false);
+    
+    }
+    
+  @FXML
+    private void EspaceEven(ActionEvent event) {
+    esp_club.setVisible(false);
+    esp_even.setVisible(true);
+        gererclub.setVisible(false);
+    ajoutevent.setVisible(true);
 
     
+    }
+    
+   @FXML
+    private void videoAction (ActionEvent event)
+    {
+         Stage pstage=null;
+         FileChooser fileChooser = new FileChooser();
+
+
+ //FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+          //  FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+          //  fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        File file = fileChooser.showOpenDialog(null);
+            String path = file.getAbsolutePath();
+             
+            try {
+                InputStream inputStream = new FileInputStream(path);
+                
+               
+                labeven.setText(path);
+           } catch (FileNotFoundException ex) {
+                Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+
+    }
     
 }
  

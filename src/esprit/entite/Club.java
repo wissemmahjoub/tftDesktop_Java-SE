@@ -19,6 +19,10 @@ public class Club {
     private String avatar;
     private Date datecreation;
     private Date datedestruction;
+    private String siege;
+    private String president;
+    private String tel;
+    private String video;
 
     public Club() {
     }
@@ -29,6 +33,11 @@ public class Club {
         this.avatar = avatar;
         this.datecreation = datecreation;
         this.datedestruction = datedestruction;
+    }
+
+    public Club(int idclub, String libellecode) {
+        this.idclub = idclub;
+        this.libellecode = libellecode;
     }
 
     public int getIdclub() {
@@ -96,6 +105,61 @@ public class Club {
             return false;
         }
         return true;
+    }
+
+    public String getSiege() {
+        return siege;
+    }
+
+    public void setSiege(String siege) {
+        this.siege = siege;
+    }
+
+    public String getPresident() {
+        return president;
+    }
+
+    public void setPresident(String president) {
+        this.president = president;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public Club(int idclub, String libellecode, String avatar, Date datecreation, Date datedestruction, String siege, String president, String tel) {
+        this.idclub = idclub;
+        this.libellecode = libellecode;
+        this.avatar = avatar;
+        this.datecreation = datecreation;
+        this.datedestruction = datedestruction;
+        this.siege = siege;
+        this.president = president;
+        this.tel = tel;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public Club(int idclub, String libellecode, String avatar, Date datecreation, Date datedestruction, String siege, String president, String tel, String video) {
+        this.idclub = idclub;
+        this.libellecode = libellecode;
+        this.avatar = avatar;
+        this.datecreation = datecreation;
+        this.datedestruction = datedestruction;
+        this.siege = siege;
+        this.president = president;
+        this.tel = tel;
+        this.video = video;
     }
     
     

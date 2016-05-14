@@ -284,7 +284,7 @@
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane id="CorpsMedecin" fx:id="consulterMatch" layoutX="176.0" layoutY="117.0" onMouseClicked="#dontshowmailbar" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMatch" layoutX="176.0" layoutY="117.0" onMouseClicked="#dontshowmailbar" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <AnchorPane id="tableViewMedecin" fx:id="AnchorMatchlist" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tft/src/frontend/mainSheet.css" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
                <children>
@@ -745,6 +745,123 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="corpsClub" fx:id="clubPane" layoutX="173.0" layoutY="123.0" prefHeight="577.0" prefWidth="1056.0" styleClass="corpsPane" visible="false">
+         <children>
+            <AnchorPane id="tableViewClub" fx:id="esp_club" layoutX="4.0" layoutY="15.0" prefHeight="504.0" prefWidth="676.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="376.0" AnchorPane.topAnchor="15.0">
+               <children>
+                  <Pane layoutX="-6.0" prefHeight="39.0" prefWidth="653.0" styleClass="titleListPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label layoutX="73.0" layoutY="6.0" text="Liste des Clubs" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tablecl" layoutX="2.0" layoutY="44.0" onMouseClicked="#Modifier" prefHeight="464.0" prefWidth="676.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="44.0">
+                     <columns>
+                        <TableColumn fx:id="clnom" prefWidth="95.0" text="Nom complet" />
+                        <TableColumn fx:id="clsiege" prefWidth="60.0" text="Siége" />
+                        <TableColumn fx:id="colimage" prefWidth="75.0" text="colimage" visible="false" />
+                        <TableColumn fx:id="lienvid" prefWidth="75.0" text="lien video" visible="false" />
+                        <TableColumn fx:id="cldate" prefWidth="112.0" text="Date de Fondation" />
+                        <TableColumn fx:id="clpres" prefWidth="78.0" text="Président" />
+                        <TableColumn fx:id="cltel" prefWidth="99.0" text="Téléphone" />
+                        <TableColumn fx:id="clidclub" prefWidth="1.0" text="Column X" visible="false" />
+                        <TableColumn fx:id="column411" prefWidth="61.0" text="Video" />
+                        <TableColumn fx:id="imgch" prefWidth="70.0" text="image" />
+                        <TableColumn fx:id="column41" prefWidth="97.0" text="Supprimer" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouetrClub" fx:id="gererclub" layoutX="691.0" layoutY="28.0" prefHeight="492.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="14.0">
+               <children>
+                  <Pane layoutY="-12.0" prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane">
+                     <children>
+                        <Label layoutX="113.0" layoutY="6.0" text="Gerer un Club" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="cnom" layoutX="147.0" layoutY="60.0" />
+                  <TextField fx:id="csiege" layoutX="147.0" layoutY="115.0" />
+                  <DatePicker fx:id="cdate" layoutX="147.0" layoutY="169.0" prefHeight="25.0" prefWidth="149.0" />
+                  <TextField fx:id="cpresident" layoutX="150.0" layoutY="221.0" />
+                  <TextField fx:id="ctel" layoutX="150.0" layoutY="269.0" />
+                  <Label layoutX="33.0" layoutY="64.0" text="Nom Complet" />
+                  <Label layoutX="56.0" layoutY="119.0" text="Siège" />
+                  <Label layoutX="24.0" layoutY="173.0" text="Date De Fondation" />
+                  <Label layoutX="48.0" layoutY="225.0" text="Président" />
+                  <Label layoutX="57.0" layoutY="273.0" text="Téléphone" />
+                  <Button fx:id="cenvoyer" layoutX="214.0" layoutY="408.0" mnemonicParsing="false" onAction="#ajouterClub" styleClass="btnEnvoyer" text="Ajouter" />
+                  <Button fx:id="cmodif" layoutX="39.0" layoutY="408.0" mnemonicParsing="false" onAction="#update" styleClass="btnEnvoyer" text="Modifier" />
+                  <Button fx:id="btnFile" layoutX="150.0" layoutY="317.0" mnemonicParsing="false" onAction="#imageAction" prefHeight="25.0" prefWidth="149.0" text="Choisir une image" />
+                  <Label layoutX="69.0" layoutY="321.0" text="Image" />
+                  <TextField fx:id="daily" layoutX="150.0" layoutY="363.0" />
+                  <Label layoutX="25.0" layoutY="367.0" text="Video Dailymotion" />
+               </children>
+            </AnchorPane>
+            <TextField fx:id="idcl" layoutX="405.0" layoutY="60.0" visible="false" />
+            <ImageView fx:id="imagepr" fitHeight="150.0" fitWidth="200.0" layoutX="280.0" layoutY="-22.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+            <Label fx:id="labb" layoutX="141.0" layoutY="52.0" text="Label" visible="false" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="tableViewEvent" fx:id="esp_even" layoutX="176.0" layoutY="136.0" prefHeight="566.0" prefWidth="1042.0" styleClass="backgroundListPane">
+         <children>
+            <Pane layoutY="14.0" prefHeight="39.0" prefWidth="619.0" styleClass="titleListPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="12.0">
+               <children>
+                  <Label layoutX="73.0" layoutY="6.0" text="Liste des Evenements" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TableView fx:id="tableev" layoutX="2.0" layoutY="57.0" onMouseClicked="#ModifierEvent" prefHeight="492.0" prefWidth="656.0" AnchorPane.topAnchor="57.0">
+               <columns>
+                  <TableColumn fx:id="evlib" prefWidth="137.0" text="Nom Evenement" />
+                  <TableColumn fx:id="evlieu" prefWidth="128.0" text="Lieu" />
+                  <TableColumn fx:id="evdatedeb" prefWidth="71.0" text="Date de Début" />
+                  <TableColumn fx:id="evdatefin" prefWidth="100.0" text="Date de Fin" />
+                  <TableColumn fx:id="clidclub1" prefWidth="1.0" text="Column X" visible="false" />
+                  <TableColumn fx:id="colimage1" prefWidth="75.0" text="colimage" visible="false" />
+                  <TableColumn fx:id="colsup" prefWidth="75.0" text="Supprimer" />
+                  <TableColumn fx:id="idevents" prefWidth="75.0" text="id" visible="false" />
+                  <TableColumn fx:id="video" prefWidth="120.0" text="video" />
+                  <TableColumn fx:id="lieuevv" prefWidth="75.0" text="Column X" visible="false" />
+               </columns>
+            </TableView>
+            <AnchorPane id="ajouetrEvent" fx:id="ajoutevent" layoutY="27.0" prefHeight="504.0" prefWidth="350.0" style="-fx-background-color: #FFF;" AnchorPane.rightAnchor="14.0">
+               <children>
+                  <Pane layoutY="-12.0" prefHeight="39.0" prefWidth="350.0" styleClass="titleListPane">
+                     <children>
+                        <Label layoutX="101.0" layoutY="6.0" text="Gérer un evenement" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="tlib" layoutX="147.0" layoutY="60.0" />
+                  <TextField fx:id="tlieu" layoutX="147.0" layoutY="115.0" />
+                  <DatePicker fx:id="tdatedeb" layoutX="147.0" layoutY="169.0" prefHeight="25.0" prefWidth="149.0" />
+                  <Label layoutX="33.0" layoutY="64.0" text="Nom Evenement" />
+                  <Label layoutX="56.0" layoutY="119.0" text="Lieu" />
+                  <Label layoutX="24.0" layoutY="173.0" text="Date De Début" />
+                  <Label layoutX="45.0" layoutY="238.0" text="Date De Fin" />
+                  <Button fx:id="ajouterEvent" layoutX="215.0" layoutY="386.0" mnemonicParsing="false" onAction="#ajouterEvent" styleClass="btnEnvoyer" text="Ajouter" />
+                  <Button layoutX="36.0" layoutY="386.0" mnemonicParsing="false" styleClass="btnEnvoyer" text="Modifier" />
+                  <DatePicker fx:id="tdatefin" layoutX="151.0" layoutY="234.0" prefHeight="25.0" prefWidth="149.0" />
+                  <Button layoutX="164.0" layoutY="303.0" mnemonicParsing="false" onAction="#videoAction" prefHeight="25.0" prefWidth="132.0" text="choisir un fichier" />
+                  <Label fx:id="labeven" layoutX="164.0" layoutY="400.0" text="Label" visible="false" />
+                  <Label layoutX="55.0" layoutY="307.0" prefHeight="17.0" prefWidth="43.0" text="Video" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

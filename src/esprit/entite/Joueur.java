@@ -17,14 +17,15 @@ public class Joueur extends Personne {
     private TrancheAge section;
     private int idclub;
 
-    public Joueur() {}
-    
+    public Joueur() {
+
+    }
+
     public Joueur(int idpersonne , String cin, String nom, String prenom )
     {super(idpersonne, cin, nom, prenom);}
     public Joueur(int idpersonne , String nom, String prenom )
     {super(idpersonne,  nom, prenom);}
-
-
+    
     public Joueur(Niveau niveau, TrancheAge section, int idclub, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction) {
         super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance, role, avatar, datedestruction);
         this.niveau = niveau;
@@ -62,5 +63,22 @@ public class Joueur extends Personne {
     }
     
     
+    //nomclub
+    private String nomclub;
+
+    public String getNomclub() {
+        return nomclub;
+    }
+
+    public void setNomclub(String nomclub) {
+        this.nomclub = nomclub;
+    }
+     public Joueur(Niveau niveau, TrancheAge section, int idclub, int idpersonne, String cin, String nom, String prenom, String adresse, String email, String sexe, String login, String password, Date datenaissance, String role, String avatar, Date datedestruction,String nomclub) {
+        super(idpersonne, cin, nom, prenom, adresse, email, sexe, login, password, datenaissance, role, avatar, datedestruction);
+        this.niveau = niveau;
+        this.section = section;
+        this.idclub = idclub;
+        this.nomclub=nomclub;
+    }
     
 }
