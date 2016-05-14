@@ -133,7 +133,7 @@ public class MedecinDAO implements ICrudDAO<Medecin>{
     public List<Medecin> getList() {
         List<Medecin> M = new ArrayList<>();
          
-        String req4= "SELECT idpersonne,salaire ,specialite,cin,nom,prenom,adresse,email,sexe,login,password,datenaissance ,avatar FROM personne WHERE role = 'medecin' and datedestruction is NULL";
+        String req4= "SELECT idpersonne,salaire ,specialite,cin,nom,prenom,adresse,email,sexe,login,password,datenaissance ,avatar FROM personne WHERE role = 'Medecin' and datedestruction is NULL";
         try {
             ResultSet res =  stmnt.executeQuery(req4);
             while (res.next()) {

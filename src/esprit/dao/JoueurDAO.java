@@ -281,7 +281,7 @@ if (alert.getResult() == ButtonType.YES) {
                      List<Joueur> LJoueur = new ArrayList<>();
         Joueur j ;
        
-        String req= "select idpersonne,personne.idclub,cin,nom,prenom,adresse,email,sexe,login,password,datenaissance,personne.datedestruction,section,libelleclub,role,personne.avatar,niveau from personne,club where personne.idclub=club.idclub and role = 'joueur' and personne.datedestruction is null";
+        String req= "select idpersonne,personne.idclub,cin,nom,prenom,adresse,email,sexe,login,password,datenaissance,personne.datedestruction,section,libelleclub,role,personne.avatar,niveau from personne,club where personne.idclub=club.idclub and role = 'Joueur' and personne.datedestruction is null";
     try {
             ResultSet res =  ste.executeQuery(req);
          

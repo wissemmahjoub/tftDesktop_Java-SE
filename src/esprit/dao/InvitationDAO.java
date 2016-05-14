@@ -124,7 +124,7 @@ public class InvitationDAO implements ICrudDAO<Invitation>{
     public  List<Joueur>liste_joueur_hasard()
     {
     List<Joueur> j = new ArrayList<>();
-    String req= "SELECT idpersonne,cin,nom,prenom FROM personne  WHERE datedestruction is NULL and role = 'joueur' and etat_invit is NULL ORDER BY rand() LIMIT 3 ";
+    String req= "SELECT idpersonne,cin,nom,prenom FROM personne  WHERE datedestruction is NULL and role = 'Joueur' and etat_invit is NULL ORDER BY rand() LIMIT 3 ";
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {

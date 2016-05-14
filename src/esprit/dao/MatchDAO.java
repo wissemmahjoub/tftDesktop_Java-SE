@@ -404,7 +404,7 @@ String req4="SELECT idmatch,m.type,m.niveau,m.categorie,t.idticket idticket, l.l
     public List<Arbitre> List_ArbitresForComboBox() 
    {
     List<Arbitre> Arbi = new ArrayList<>();
-    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'arbitre'  ";
+    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'Arbitre'  ";
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {
@@ -436,7 +436,7 @@ String req4="SELECT idmatch,m.type,m.niveau,m.categorie,t.idticket idticket, l.l
     public List<Joueur> List_Joueur_HommesForComboBox() 
    {
     List<Joueur> j = new ArrayList<>();
-    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'joueur' and sexe='homme'  ";
+    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'Joueur' and sexe='Homme'  ";
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {
@@ -465,7 +465,7 @@ String req4="SELECT idmatch,m.type,m.niveau,m.categorie,t.idticket idticket, l.l
     public List<Joueur> List_Joueur_FemmesForComboBox() 
    {
     List<Joueur> j = new ArrayList<>();
-    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'joueur' and sexe='femme'  ";
+    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'Joueur' and sexe='Femme'  ";
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {
@@ -493,7 +493,7 @@ String req4="SELECT idmatch,m.type,m.niveau,m.categorie,t.idticket idticket, l.l
     public List<Joueur> List_ALL_JoueurForComboBox() 
    {
     List<Joueur> j = new ArrayList<>();
-    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'joueur' ";
+    String req= "SELECT * FROM personne  WHERE datedestruction is NULL and role = 'Joueur' ";
         try {
             ResultSet res =  ste.executeQuery(req);
             while (res.next()) {

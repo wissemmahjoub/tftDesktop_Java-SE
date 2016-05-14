@@ -2035,7 +2035,7 @@ File file = fileChooser.showOpenDialog(null);
             j.setDatenaissance(java.sql.Date.valueOf(jdate.getValue()));
             j.setLogin(jcin.getText());
             j.setPassword(jcin.getText()+jprenom.getText());
-            j.setRole("joueur");
+            j.setRole("Joueur");
            
            String b = jclub.getValue().toString();
           // String b = jnom.getText();
@@ -2274,7 +2274,7 @@ data = FXCollections.observableArrayList();
             j.setDatenaissance(java.sql.Date.valueOf(jdate.getValue()));
             j.setLogin(jcin.getText());
             j.setPassword(jcin.getText()+jprenom.getText());
-            j.setRole("joueur");
+            j.setRole("Joueur");
            
            String b = jclub.getValue().toString();
           // String b = jnom.getText();

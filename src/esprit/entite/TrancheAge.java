@@ -13,5 +13,6 @@ public enum TrancheAge {
     
     Junior, 
     Senior,
-    Veteran
+    Veteran,
+    Vide,
 }
