@@ -15,30 +15,53 @@ import java.util.Objects;
 public class SessionFormation {
     
     private int idsession;
-    private String libelesession;
+    private String libellesession;
     private String lieu;
     private Date datedebut;
     private Date datefin;
     private Date datedestruction;
     private Cible cible;
-    private Niveau niveau;
     private int capacite;
+    private Niveau niveau;
+    private TrancheAge section;
 
     public SessionFormation() {
     }
 
-    public SessionFormation(int idsession, String libelesession, String lieu, Date datedebut, Date datefin, Date datedestruction, Cible cible, Niveau niveau, int capacite) {
+    public SessionFormation(int idsession, String libellesession, String lieu, Date datedebut, Date datefin,Cible cible, int capacite, Niveau niveau, TrancheAge section) {
         this.idsession = idsession;
-        this.libelesession = libelesession;
+        this.libellesession = libellesession;
         this.lieu = lieu;
         this.datedebut = datedebut;
         this.datefin = datefin;
-        this.datedestruction = datedestruction;
         this.cible = cible;
-        this.niveau = niveau;
         this.capacite = capacite;
+        this.section = section;
     }
 
+    public SessionFormation(int idsession,String libelesession, String lieu, Date datedebut, Date datefin,int capacite, Niveau niveau) {
+        this.idsession = idsession;
+        this.libellesession = libelesession;
+        this.lieu = lieu;
+        this.datedebut = datedebut;
+        this.datefin = datefin;
+        this.capacite = capacite;
+        this.niveau = niveau;
+    }
+
+    public SessionFormation(int idsession, String libellesession, String lieu, Date datedebut, Date datefin, int capacite,TrancheAge section) {
+        this.idsession = idsession;
+        this.libellesession = libellesession;
+        this.lieu = lieu;
+        this.datedebut = datedebut;
+        this.datefin = datefin;
+        this.capacite = capacite;
+        this.section = section;
+    }
+
+    
+    
+    
     public int getIdsession() {
         return idsession;
     }
@@ -47,13 +70,14 @@ public class SessionFormation {
         this.idsession = idsession;
     }
 
-    public String getLibelesession() {
-        return libelesession;
+    public String getLibellesession() {
+        return libellesession;
     }
 
-    public void setLibelesession(String libelesession) {
-        this.libelesession = libelesession;
+    public void setLibellesession(String libellesession) {
+        this.libellesession = libellesession;
     }
+
 
     public String getLieu() {
         return lieu;
@@ -95,14 +119,6 @@ public class SessionFormation {
         this.cible = cible;
     }
 
-    public Niveau getNiveau() {
-        return niveau;
-    }
-
-    public void setNiveau(Niveau niveau) {
-        this.niveau = niveau;
-    }
-
     public int getCapacite() {
         return capacite;
     }
@@ -111,16 +127,31 @@ public class SessionFormation {
         this.capacite = capacite;
     }
 
+    public Niveau getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(Niveau niveau) {
+        this.niveau = niveau;
+    }
+
+    public TrancheAge getSection() {
+        return section;
+    }
+
+    public void setSection(TrancheAge section) {
+        this.section = section;
+    }
+
     @Override
     public String toString() {
-        return "SessionFormation{" + "idsession=" + idsession + ", libelesession=" + libelesession + ", lieu=" + lieu + ", datedebut=" + datedebut + ", datefin=" + datefin + ", datedestruction=" + datedestruction + ", cible=" + cible + ", niveau=" + niveau + ", capacite=" + capacite + '}';
+        return "SessionFormation{" + "idsession=" + idsession + ", libelesession=" + libellesession + ", lieu=" + lieu + ", datedebut=" + datedebut + ", datefin=" + datefin + ", datedestruction=" + datedestruction + ", cible=" + cible + ", capacite=" + capacite + ", niveau=" + niveau + ", section=" + section + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + this.idsession;
-        hash = 67 * hash + Objects.hashCode(this.libelesession);
+        int hash = 7;
+        hash = 79 * hash + this.idsession;
         return hash;
     }
 
@@ -136,11 +167,13 @@ public class SessionFormation {
         if (this.idsession != other.idsession) {
             return false;
         }
-        if (!Objects.equals(this.libelesession, other.libelesession)) {
-            return false;
-        }
         return true;
     }
+
+    
+    
+
+    
     
     
     

@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package esprit.entite;
+package esprit.dao;
+
+import java.util.List;
 
 /**
  *
  * @author yasmi
  */
-public enum TrancheAge {
+public interface ISessionFormation<T>  {
     
-    Junior, 
-    Senior,
-    Veteran,
-    Aucun,
+  public List<T> getListJoueurs();
+ 
+  
+  
+  
+  
 }

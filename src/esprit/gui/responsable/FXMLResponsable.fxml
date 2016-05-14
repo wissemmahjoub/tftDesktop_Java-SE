@@ -731,7 +731,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="CorpsArbitre" fx:id="consulterStadePane" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsArbitre" fx:id="consulterStadePane" layoutX="176.0" layoutY="117.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <TextField fx:id="recherchestade" layoutX="30.0" layoutY="48.0" onKeyReleased="#afficherDataStadeRechcherche" prefHeight="31.0" prefWidth="267.0" promptText="Rechercher par Libellé, Ville" styleClass="inputNormal" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="48.0" />
             <AnchorPane id="tableViewStade" fx:id="listeContainer" layoutX="11.0" layoutY="110.0" prefHeight="436.0" prefWidth="695.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="469.0" AnchorPane.topAnchor="110.0">
@@ -885,6 +885,146 @@
                </children>
             </Pane>
             <WebView fx:id="googleMap" layoutY="120.0" prefHeight="464.0" prefWidth="1175.0" />
+         </children>
+         <effect>
+            <InnerShadow color="#00000060" radius="4.75" width="0.0" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane id="CorpsArbitre" fx:id="sessionFormationPane" layoutX="186.0" layoutY="127.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+         <children>
+            <AnchorPane id="tableViewStade" fx:id="listeContainerSession" layoutX="11.0" layoutY="110.0" prefHeight="436.0" prefWidth="736.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="428.0" AnchorPane.topAnchor="110.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="639.0" styleClass="titleListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="381.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label layoutX="48.0" layoutY="6.0" text="Liste sessions de formation" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <RadioButton fx:id="arbitresessionradio" layoutX="530.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#ChoixTableAffich" text="Arbitre" />
+                        <RadioButton fx:id="joueursessionradio" layoutX="613.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#ChoixTableAffich" text="Joueur" />
+                     </children>
+                  </Pane>
+                  <TableView fx:id="tablejoueur" editable="true" layoutX="4.0" layoutY="67.0" onMouseClicked="#EditableTableViewSessionJoueur" prefHeight="364.0" prefWidth="684.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="67.0">
+                     <columns>
+                        <TableColumn fx:id="column1joueur" prefWidth="86.0" text="Libéllé" />
+                        <TableColumn fx:id="column2joueur" prefWidth="99.0" text="Capacité" />
+                        <TableColumn fx:id="column3joueur" prefWidth="71.0" text="Lieu" />
+                        <TableColumn fx:id="column4joueur" prefWidth="86.0" text="Date début" />
+                        <TableColumn fx:id="column5joueur" prefWidth="109.0" text="Date fin" />
+                        <TableColumn fx:id="column6joueur" prefWidth="85.0" text="Section" />
+                        <TableColumn fx:id="column7joueur" prefWidth="81.0" text="Suppression" />
+                        <TableColumn fx:id="column8joueur" prefWidth="124.0" text="Modification" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="tablearbitre" editable="true" layoutX="5.0" layoutY="67.0" onMouseClicked="#EditableTableViewSessionArbitre" prefHeight="364.0" prefWidth="731.0">
+                     <columns>
+                        <TableColumn fx:id="column1arbitre" prefWidth="86.0" text="Libéllé" />
+                        <TableColumn fx:id="column2arbitre" prefWidth="65.0" text="Capacité" />
+                        <TableColumn fx:id="column3arbitre" prefWidth="72.99996948242188" text="Lieu" />
+                        <TableColumn fx:id="column4arbitre" prefWidth="117.0" text="Date début" />
+                        <TableColumn fx:id="column5arbitre" prefWidth="134.0" text="Date fin" />
+                        <TableColumn fx:id="column6arbitre" prefWidth="61.0" text="Niveau" />
+                        <TableColumn fx:id="column7arbitre" prefWidth="102.0" text="Suppression" />
+                        <TableColumn fx:id="column8arbitre" prefWidth="103.0" text="Modification" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="ajouterStadeContainer" layoutX="777.0" layoutY="46.0" minWidth="-Infinity" prefHeight="495.0" prefWidth="360.0" style="-fx-background-color: #FFF;" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.rightAnchor="27.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="360.0" styleClass="titleListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css">
+                     <children>
+                        <Label layoutX="93.0" layoutY="7.0" text="Ajouter une nouvelle session" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <VBox fx:id="boxSessionFormation" layoutX="4.0" layoutY="69.0" prefHeight="327.0" prefWidth="352.0" spacing="20.0">
+                     <children>
+                        <HBox fx:id="hbLibelleSession" spacing="70.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="110.0" text="Nom" />
+                              <TextField fx:id="txtlibellesession" prefHeight="27.0" prefWidth="154.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbCapaciteSession" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="84.0" text="Capacité" />
+                              <TextField fx:id="txtcapacitesession" prefHeight="27.0" prefWidth="157.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbLieuSession" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="70.0" text="Lieu" />
+                              <ComboBox fx:id="txtlieusession" editable="true" onAction="#villeLieu" prefHeight="25.0" prefWidth="144.0">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Australia" />
+                                       <String fx:value="France" />
+                                       <String fx:value="India" />
+                                       <String fx:value="Russia" />
+                                       <String fx:value="USA" />
+                                       <String fx:value="Tunisia" />
+                                       <String fx:value="Ariana" />
+                                       <String fx:value="Bizerte" />
+                                       <String fx:value="Soussa" />
+                                       <String fx:value="Sfax" />
+                                    </FXCollections>
+                                 </items>
+                              </ComboBox>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbDateDebSession" prefHeight="27.0" prefWidth="352.0" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="188.0" text="DateDebut" />
+                              <DatePicker fx:id="datedebutsession" editable="false" prefHeight="27.0" prefWidth="264.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbDateFinSession" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="188.0" text="DateFin" />
+                              <DatePicker fx:id="datefinsession" editable="false" prefHeight="27.0" prefWidth="264.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbCibleSession" spacing="120.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="73.0" text="Cible" />
+                              <ComboBox fx:id="txtciblesession" onMouseClicked="#choixCibleSession" prefHeight="27.0" prefWidth="171.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="Arbitre" />
+                                       <String fx:value="Joueur" />
+                                    </FXCollections>
+                                 </items>
+                              </ComboBox>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbNiveauSession" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="97.0" text="Niveau" />
+                              <ComboBox fx:id="txtnivesession" onAction="#niveauSession" onMouseClicked="#choixCibleSession" prefHeight="27.0" prefWidth="176.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbSectionSession" spacing="100.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="97.0" text="Section" />
+                              <ComboBox fx:id="txtsecsession" onAction="#sectionSession" onMouseClicked="#choixCibleSession" prefHeight="27.0" prefWidth="176.0" styleClass="errorTextField" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </padding>
+                  </VBox>
+                  <Button fx:id="btnajoutersession" layoutX="118.0" layoutY="436.0" mnemonicParsing="false" onAction="#ajouterSession" prefHeight="45.0" prefWidth="124.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" text="Ajouter" textAlignment="CENTER" />
+                  <Hyperlink fx:id="clearSession" layoutX="287.0" layoutY="39.0" onAction="#clearSessionFields" text="Clear" />
+               </children>
+            </AnchorPane>
+            <TextField fx:id="recherchesessionjoueur" layoutX="38.0" layoutY="48.0" onKeyReleased="#afficherDataSessionRechrecheJoueur" prefHeight="31.0" prefWidth="267.0" promptText="Rechercher par Libellé,Lieu" styleClass="inputNormal" />
+            <TextField fx:id="recherchesessionarbitre" layoutX="37.0" layoutY="48.0" onKeyReleased="#afficherDataSessionRechrecheArbitre" prefHeight="31.0" prefWidth="267.0" promptText="Rechercher par Libellé,Lieu" styleClass="inputNormal" />
          </children>
          <effect>
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />

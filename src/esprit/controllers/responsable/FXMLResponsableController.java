@@ -10,10 +10,12 @@ import esprit.dao.ClubDAO;
 import esprit.dao.CompetitionDAO;
 import esprit.dao.EventDAO;
 import esprit.dao.MatchDAO;
+import esprit.dao.SessionFormationDAO;
 import esprit.dao.StadeDAO;
 import esprit.dao.TicketDAO;
 import esprit.entite.Arbitre;
 import esprit.entite.Categorie;
+import esprit.entite.Cible;
 import esprit.entite.Club;
 import esprit.entite.Competition;
 import esprit.entite.Evenement;
@@ -47,6 +49,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -111,24 +115,7 @@ public class FXMLResponsableController implements Initializable {
     private TableColumn<?, ?> idevents;
     @FXML
     private Button ajouterEvent;
-    @FXML
-    private AnchorPane listeContainer;
-    @FXML
-    private HBox hbLibelleStade;
-    @FXML
-    private HBox hbCapaciteStade;
-    @FXML
-    private HBox hbSurfaceStade;
-    @FXML
-    private HBox hbDateCreationStade;
-    @FXML
-    private HBox hbVilleStade;
-    @FXML
-    private HBox hbLatitudeStade;
-    @FXML
-    private HBox hbLongitudeStade;
-    @FXML
-    private Hyperlink clearStade;
+    
     
      @FXML
      private void deconnexion(MouseEvent event)
@@ -278,10 +265,52 @@ public class FXMLResponsableController implements Initializable {
     @FXML
     private Label error;
     
+
+   @FXML
+    private AnchorPane SendMail;
+   @FXML
+    private AnchorPane mailAnchor;
+   @FXML
+    private WebView webgmail;
+   @FXML
+    private ImageView gmail;
+    @FXML
+    private TextField sendto;
+    @FXML
+    private TextField subject;
+    @FXML
+    private TextField textenvoie;
+               
+    @FXML
+    private Button btexit;
+    @FXML
+    private AnchorPane EspaceCompetition;
     
-   
+
     
+    
+        
+   //***************************************ATTRIBUTS YASMINE DONT TOUCH HERE**************************************************
+
     //ATTRIBUTS STADE + SESSION
+    @FXML
+    private AnchorPane listeContainer;
+    @FXML
+    private HBox hbLibelleStade;
+    @FXML
+    private HBox hbCapaciteStade;
+    @FXML
+    private HBox hbSurfaceStade;
+    @FXML
+    private HBox hbDateCreationStade;
+    @FXML
+    private HBox hbVilleStade;
+    @FXML
+    private HBox hbLatitudeStade;
+    @FXML
+    private HBox hbLongitudeStade;
+    @FXML
+    private Hyperlink clearStade;
     @FXML
     private Label titelLabel;
     @FXML
@@ -326,7 +355,7 @@ public class FXMLResponsableController implements Initializable {
     private TableColumn column8stade;
     @FXML
     private Button boutonGlissantMap1;
-       @FXML
+    @FXML
     private Button btnModifierCompe;
     @FXML
     private Button boutonGlissantList;
@@ -334,45 +363,121 @@ public class FXMLResponsableController implements Initializable {
     private WebView googleMap;
     @FXML
     private AnchorPane consulterMatch;
-       @FXML
-    private AnchorPane SendMail;
-  @FXML
-    private AnchorPane mailAnchor;
-     @FXML
-    private WebView webgmail;
-   @FXML
-    private ImageView gmail;
-    @FXML
-    private TextField sendto;
-         @FXML
-    private TextField subject;
-           @FXML
-    private TextField textenvoie;
-               
-    @FXML
-    private Button btexit;
-    @FXML
-    private AnchorPane EspaceCompetition;
     
-
+    //tableview JOUEURS
+    @FXML
+    private TableView tablejoueur;
+    @FXML
+    private TableColumn column1joueur;
+    @FXML
+    private TableColumn column2joueur;
+    @FXML
+    private TableColumn column3joueur;
+    @FXML
+    private TableColumn column4joueur;
+    @FXML
+    private TableColumn column5joueur;
+    @FXML
+    private TableColumn column6joueur;
+    @FXML
+    private TableColumn column7joueur;
+    @FXML
+    private TableColumn column8joueur;
+    
+    
+    //tableview SESSION ARBITRE
+    @FXML
+    private TableView tablearbitre;
+    @FXML
+    private TableColumn column1arbitre;
+    @FXML
+    private TableColumn column2arbitre;
+    @FXML
+    private TableColumn column3arbitre;
+    @FXML
+    private TableColumn column4arbitre;
+    @FXML
+    private TableColumn column5arbitre;
+    @FXML
+    private TableColumn column6arbitre;
+    @FXML
+    private TableColumn column7arbitre;
+    @FXML
+    private TableColumn column8arbitre;
+     
+    @FXML
+    private RadioButton arbitresessionradio;
+    @FXML
+    private RadioButton joueursessionradio;
+    @FXML
+    private TextField recherchesessionarbitre;
+    @FXML
+    private TextField recherchesessionjoueur;
+    @FXML
+    private TextField txtlibellesession;
+    @FXML
+    private TextField txtcapacitesession;
+    @FXML
+    private ComboBox<String> txtlieusession;
+    @FXML
+    private DatePicker datedebutsession;
+    @FXML
+    private DatePicker datefinsession;
+    @FXML
+    private ComboBox<String> txtciblesession;
+    @FXML
+    private Hyperlink clearSession;
+    @FXML
+    private HBox hbLibelleSession;
+    @FXML
+    private HBox hbCapaciteSession;
+    @FXML
+    private HBox hbLieuSession;
+    @FXML
+    private HBox hbDateDebSession;
+    @FXML
+    private HBox hbDateFinSession;
+    @FXML
+    private HBox hbCibleSession;
+    @FXML
+    private HBox hbNiveauSession;
+    @FXML
+    private HBox hbSectionSession;
+    @FXML
+    private ComboBox<String> txtnivesession;
+    @FXML
+    private ComboBox<String> txtsecsession;
+    
+    // AUTRES VARABLES FXML STADE + SESSION YASMINE
     private StadeDAO stadedao;
-   // private SessionFormationDAO sessiondao;
+    private SessionFormationDAO sessiondao;
     private Dialog<Pair<String, String>> dialog;
     private Alert alert;
     private SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-    
     private ObservableList<Stade> dataStade;
     private ObservableList<Stade> dataStadeRecherche;
     private ObservableList<String> listeVilles;
     private ObservableList<SessionFormation> dataSessionArbitre;
-    private ObservableList<SessionFormation> dataSessionArbitreRecherche;
     private ObservableList<SessionFormation> dataSessionJoueur;
-    private ObservableList<SessionFormation> dataSessionJoueurRecherche;
+    private ObservableList<SessionFormation> dataSessionRechercheArbitre;
+    private ObservableList<SessionFormation> dataSessionRechercheJoueur;
     private String villeStade, surfaceStade, villeChoix, libellestade, latitude, longitude, ville, surface, datecreat, capacite;
+    private String lieusession, capacitesession, libellesession, datedsession, datefssion, ciblesession, niveausession,sectionsssion;
     private int position, idStade;;
-    private LocalDate datestade;
+    private LocalDate datestade, datedebsession, datefnsession;
     private Instant instant;
-    private Date dteStade;
+    private Date dteStade, dtedsession, dtefsession;
+    
+    //***************************************END ATTRIBUTS YASMINE **************************************************
+
+    
+    
+    
+    
+    
+    
+    
+    
     @FXML
     private Pane scrollbar;
     @FXML
@@ -758,8 +863,8 @@ public class FXMLResponsableController implements Initializable {
     
 
     
-    
-    //------------------------------------------------------------------PARTIE STADE YASMINE DONT TOUCH HERE-----------------------------------------------------------------------------------//
+
+//------------------------------------------------------------------PARTIE STADE YASMINE DONT TOUCH HERE-----------------------------------------------------------------------------------//
     @FXML
     private void basculerVersStadeOuListe( MouseEvent event){
         Button auxButton = (Button)event.getSource();
@@ -1435,7 +1540,1004 @@ public class FXMLResponsableController implements Initializable {
     
     
     
+    //------------------------------------------------------------------PARTIE SESSION YASMINE DONT TOUCH HERE-----------------------------------------------------------------------------------//
     
+                                        //////////////////PARTIE COMMUNE///////////////////
+    public void InitialisationTables(){
+        tablestade.setPlaceholder(new Label("Aucun stade"));
+        tablearbitre.setPlaceholder(new Label("Aucune session pour les arbitres"));
+        tablejoueur.setPlaceholder(new Label("Aucune session pour les joueurs"));
+                                      }
+    
+    //initialiser les fields
+    public void initaliserFieldsSession() {
+        //fields par défaut
+        txtlibellesession.getStyleClass().remove("errorTextField");
+        txtlibellesession.getStyleClass().remove("champsModifiable");
+        txtcapacitesession.getStyleClass().remove("errorTextField");
+        txtcapacitesession.getStyleClass().remove("champsModifiable");
+        txtlieusession.getStyleClass().remove("errorTextField");
+        txtlieusession.getStyleClass().remove("champsModifiable");
+        datedebutsession.getStyleClass().remove("errorTextField");
+        datedebutsession.getStyleClass().remove("champsModifiable");
+        datefinsession.getStyleClass().remove("errorTextField");
+        datefinsession.getStyleClass().remove("champsModifiable");
+        txtciblesession.getStyleClass().remove("errorTextField");
+        txtnivesession.getStyleClass().remove("errorTextField");
+        txtsecsession.getStyleClass().remove("errorTextField");
+                                          }
+    
+    //tous les hbox sont visibles
+    public void enableFieldsSession(){
+        hbLibelleSession.setVisible(true);
+        hbCapaciteSession.setVisible(true);
+        hbLibelleSession.setVisible(true);
+        hbDateDebSession.setVisible(true);
+        hbDateFinSession.setVisible(true);
+        hbCibleSession.setVisible(true); 
+        hbNiveauSession.setVisible(true);
+        hbSectionSession.setVisible(true);
+    }
+    
+    @FXML
+    public void ChoixTableAffich(MouseEvent event){
+        
+        if(arbitresessionradio.isSelected()){
+            tablearbitre.setVisible(true);
+            tablejoueur.setVisible(false);
+            recherchesessionjoueur.setVisible(false);
+            recherchesessionarbitre.setVisible(true);
+                                            }
+        
+        if(joueursessionradio.isSelected()){
+            tablejoueur.setVisible(true);
+            tablearbitre.setVisible(false);
+            recherchesessionjoueur.setVisible(true);
+            recherchesessionarbitre.setVisible(false);
+                                           }                                
+                                                    }
+      
+    //initialisation des boutons radio
+    public void InitilisationRadioButtons(){               
+        final ToggleGroup group = new ToggleGroup();
+        joueursessionradio.setToggleGroup(group);
+        arbitresessionradio.setToggleGroup(group);
+        arbitresessionradio.setSelected(true);
+        recherchesessionarbitre.setVisible(true);
+                                            }
+
+    //vider les champs d'ajout/modification d'une session de formation
+    public void viderChampsSession() {
+        initaliserFieldsSession();
+        txtlibellesession.clear();
+        txtcapacitesession.clear();
+        txtlieusession.valueProperty().set(null);
+        txtnivesession.valueProperty().set(null);
+        txtsecsession.valueProperty().set(null);
+        datedebutsession.getEditor().clear();
+        datefinsession.getEditor().clear();
+        txtciblesession.valueProperty().set(null);
+
+        
+        txtlibellesession.setPromptText("");
+        txtcapacitesession.setPromptText("");
+        txtlieusession.setPromptText("");
+        txtnivesession.setPromptText("");
+        txtsecsession.setPromptText("");
+        datedebutsession.setPromptText("");
+        datefinsession.setPromptText(""); 
+        txtciblesession.setPromptText("");
+                                        }
+  
+    
+    @FXML
+    public void clearSessionFields(){
+        viderChampsSession();
+        initaliserFieldsSession();  
+        enableFieldsSession();
+    }
+    
+    //recuperer la valeur du combobox "Cible" 
+    public void cibleSession(ActionEvent event) {
+        ciblesession = (String) txtciblesession.getValue();
+                                                }
+    //recuperer la valeur du combobox "Niveau" 
+    @FXML
+    public void niveauSession(ActionEvent event) {
+        niveausession = (String) txtnivesession.getValue();
+                                                }
+    
+    //recuperer la valeur du combobox "Section" 
+    @FXML
+    public void sectionSession(ActionEvent event) {
+        sectionsssion = (String) txtsecsession.getValue();
+                                                }
+    
+    
+    
+    //implementer second combobox selon la valeur choisie du premier combobox
+    @FXML
+    public void choixCibleSession(MouseEvent event) {
+
+        final ObservableList<String> niveauArbitre =
+                FXCollections.observableArrayList(
+                "Amateur",
+                "National",
+                "International");
+
+        final ObservableList<String> sectionJoueur =
+                FXCollections.observableArrayList(
+                "Junior",
+                "Senior",
+                "Veteran");
+
+        txtciblesession.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object t, Object t1) {
+                try {
+                    switch (t1.toString()) {
+                    case "Arbitre":
+                        hbSectionSession.setVisible(false);
+                        txtnivesession.setItems(niveauArbitre);
+                        break;
+                   case "Joueur":
+                       hbSectionSession.setVisible(true);
+                       hbNiveauSession.setVisible(true);
+                       txtnivesession.setItems(niveauArbitre);
+                       txtsecsession.setItems(sectionJoueur);
+                       break;
+                   
+
+                }
+                } catch (Exception e) {
+                    System.out.println("ERROR");
+                }
+                
+            }
+        });
+    }
+    
+
+   
+  
+   //recuperer de la tablearbitre/joueur uniquement les chams modifiables
+    public void recuprerValeurSessionModif() throws SQLException{
+        libellesession = txtlibellesession.getText();
+        capacitesession = txtcapacitesession.getText();
+        lieusession = txtlieusession.getValue();
+                
+        datedsession = datedebutsession.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dtedsession = java.sql.Date.valueOf(datedebsession);
+        
+        datefssion = datefinsession.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dtefsession = java.sql.Date.valueOf(datefnsession);
+    }
+  
+    //**************************************************************SESSIONS FORMATION ARBITRES YASMINE DONT TOUCH************************************************************************************//
+    
+
+    //set columns values pour le tableview
+    public void setColumnTableSessionArbitre() {
+        column1arbitre.setCellValueFactory(new PropertyValueFactory("libellesession"));
+        column2arbitre.setCellValueFactory(new PropertyValueFactory("capacite"));
+        column3arbitre.setCellValueFactory(new PropertyValueFactory("lieu"));
+        column4arbitre.setCellValueFactory(new PropertyValueFactory("datedebut"));
+        column5arbitre.setCellValueFactory(new PropertyValueFactory("datefin"));
+        column6arbitre.setCellValueFactory(new PropertyValueFactory("niveau"));
+                                                }
+    
+    
+    public void recuprerValeurSession() throws SQLException {
+        libellesession = txtlibellesession.getText();
+        capacitesession = txtcapacitesession.getText();
+        lieusession = txtlieusession.getValue();
+        
+        datedsession = datedebutsession.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dtedsession = java.sql.Date.valueOf(datedebsession);
+        
+        datefssion = datefinsession.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dtefsession = java.sql.Date.valueOf(datefnsession);
+          
+        
+        ciblesession = txtciblesession.getValue();
+        niveausession = txtnivesession.getValue();
+        sectionsssion = txtsecsession.getValue();
+        
+
+        
+    }
+    
+    
+    
+    //ajouter un nouveau stade
+   @FXML
+    public void ajouterSession(ActionEvent event) {
+
+      
+        boolean controlesaisie = true;
+        SessionFormation session = new SessionFormation();
+        sessiondao = new SessionFormationDAO();
+
+        try {
+              recuprerValeurSession();
+
+        } catch (Exception e) {
+            System.out.println("ERREUR");
+        }
+
+        
+        //controle libelle session        
+        if (libellesession.isEmpty()) {
+            txtlibellesession.getStyleClass().add("errorTextField");
+            txtlibellesession.setPromptText("Champ vide");
+            controlesaisie = false;
+        } 
+        if (!this.isValidString(libellesession)) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message d'erreur");
+            alert.setHeaderText("Libelle"+" "+libellesession+" " +"invalide");
+            alert.setContentText("Verifiez le type");
+            alert.showAndWait();
+            txtlibellesession.getStyleClass().add("errorTextField");
+            controlesaisie = false;
+        } 
+
+        //controle capacite session
+        if (capacitesession.isEmpty()) {
+            txtcapacitesession.getStyleClass().add("errorTextField");
+            txtcapacitesession.setPromptText("Champ vide");
+            controlesaisie = false;
+        }
+        if (!this.isValidInt(capacitesession)) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message d'erreur");
+            alert.setHeaderText("Capacite"+" "+capacitesession+" " +"invalide");
+            alert.setContentText("Verifiez le type");
+            alert.showAndWait();
+            txtcapacitesession.getStyleClass().add("errorTextField");
+            controlesaisie = false;
+                                        }
+        
+        //controle surface stade
+        if(txtlieusession.getValue()==null){
+            txtlieusession.getStyleClass().add("errorTextField");
+            txtlieusession.setPromptText("Champ vide");
+            controlesaisie = false;
+                                        }
+        
+//        //controle sur la date de debut de session
+        if(datedebutsession.getValue()==null){
+            datedebutsession.getStyleClass().add("errorTextField");
+            datedebutsession.setPromptText("Champ vide");
+            controlesaisie = false;
+                                            }
+        
+//        //controle sur la date de fin de session
+        if(datefinsession.getValue()==null){
+            datefinsession.getStyleClass().add("errorTextField");
+            datefinsession.setPromptText("Champ vide");
+            controlesaisie = false;
+                                            }
+        
+        
+        //controle sur la cible de la session
+        if (txtciblesession.getValue() == null) {
+            txtciblesession.getStyleClass().add("errorTextField");
+            txtciblesession.setPromptText("Champ vide");
+            controlesaisie = false;
+                                        }
+        
+//        //controle sur le niveau/section de la cible
+//        if (txtnivsecsession.getValue() == null) {
+//            txtnivsecsession.getStyleClass().add("errorTextField");
+//            txtnivsecsession.setPromptText("Champ vide");
+//            controlesaisie = false;
+//                                        }
+        //controle sur date debut et date fin
+      try{
+        
+        if(dtedsession.after(dtefsession) || dtefsession.before(dtedsession)){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message d'erreur");
+            alert.setHeaderText("Date dÃ©but doit etre avant date fin");
+            alert.setContentText("Verifiez les dates");
+            alert.showAndWait();
+            datedebutsession.getStyleClass().add("errorTextField");
+            datefinsession.getStyleClass().add("errorTextField");
+            controlesaisie = false;
+        } 
+        if(dtedsession.equals(dtefsession)) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message d'erreur");
+            alert.setHeaderText("Choisissez deux dates diffÃ©rentes");
+            alert.setContentText("Verifiez les dates");
+            alert.showAndWait();
+            datedebutsession.getStyleClass().add("errorTextField");
+            datefinsession.getStyleClass().add("errorTextField");
+            controlesaisie = false;
+        }
+
+        if (controlesaisie == true) {
+           // btnajouterstade.setDisable(false);
+            session.setLibellesession(libellesession);
+            session.setCapacite(Integer.parseInt(capacitesession));
+            session.setLieu(lieusession);
+            session.setDatedebut(dtedsession);
+            session.setDatefin(dtefsession);
+            session.setCible(Cible.valueOf(ciblesession)); 
+            if(ciblesession.equals("Arbitre")){
+                 session.setNiveau(Niveau.valueOf(niveausession));
+                 session.setSection(TrancheAge.Aucun);
+            }if(ciblesession.equals("Joueur")){
+                 session.setSection(TrancheAge.valueOf(niveausession));
+                 session.setSection(TrancheAge.valueOf(sectionsssion));
+            }
+           
+
+            if(!sessiondao.save(session)){
+            afficherDataSessionArbitre();
+            afficherDataSessionJoueur();
+            //data.add(new Stade(libelle, capacite, surface,dte,ville,code));
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Session"+" "+ciblesession +" "+libellesession+" "+"ajoutÃ©e");
+            alert.showAndWait();
+          
+            viderChampsSession();
+            initaliserFieldsSession();
+        }else{
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de l'ajout");
+            alert.showAndWait();
+            }
+        }
+      }catch (Exception ex){
+
+          alert = new Alert(Alert.AlertType.ERROR);
+          alert.setTitle("Message d'erreur");
+          alert.setHeaderText("Veuillez remplir tous les champs");
+          alert.showAndWait();
+          
+      }
+          
+                 
+        //fin ajouter session   
+    }
+    
+
+    
+     //afficher les données des sessions de formation Arbitre
+    public void afficherDataSessionArbitre() {
+   
+        final SessionFormation session = new SessionFormation();
+        try {
+            setColumnTableSessionArbitre();
+            Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>> cellFactory = //
+                    new Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<SessionFormation, String> param) {
+                            final TableCell<SessionFormation, String> cell = new TableCell<SessionFormation, String>() {
+
+                                final Button btnSuppSessionArbitre = new Button("Supprimer");
+
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btnSuppSessionArbitre.setOnAction((ActionEvent event) -> {
+                                            
+                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setTitle("Confirmation Dialog");
+                                            alert.setHeaderText("Dialogue de confirmation");
+                                            alert.setContentText("Voulez vous vraiment supprimer cette session?");
+                                            Optional<ButtonType> result = alert.showAndWait();
+                                            
+                                            if (result.get() == ButtonType.OK) {
+                                                
+                                              session.setIdsession(getTableView().getItems().get(getIndex()).getIdsession());
+                                              // stadedao.delete(stade);
+                                              if(!sessiondao.delete(session)){
+                                                 
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Session"+" "+libellesession+" "+"supprimée");
+                                                  alert.showAndWait();
+
+                                              } else {
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Erreur lors de la suppression");
+                                                  alert.showAndWait();
+                                                  clearSessionFields();
+                                                      }
+         
+                                            }
+                                            afficherDataSessionArbitre();
+                                        });
+                                        setGraphic(btnSuppSessionArbitre);
+                                        setText(null);
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+            column7arbitre.setCellFactory(cellFactory);
+
+            sessiondao = new SessionFormationDAO();
+            dataSessionArbitre = FXCollections.observableArrayList();
+
+            for (SessionFormation aIterator : sessiondao.getList()) {
+                dataSessionArbitre.add(aIterator);
+            }
+            tablearbitre.setItems(null);
+            tablearbitre.setItems(dataSessionArbitre);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+
+    }
+    
+
+    
+    //modification session arbitre
+    public void modifierSessionArbitre() {
+        final SessionFormation session = new SessionFormation();
+        try {
+            setColumnTableSessionArbitre();
+            Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>> cellFactory = //
+                    new Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<SessionFormation, String> param) {
+                            final TableCell<SessionFormation, String> cell = new TableCell<SessionFormation, String>() {
+
+                                final Button btnModifSession = new Button("Modifier");
+
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btnModifSession.setOnAction((ActionEvent event) -> {
+                                            
+                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setTitle("Confirmation Dialog");
+                                            alert.setHeaderText("Dialogue de confimation");
+                                            alert.setContentText("Voulez vous vraiment modifier les coordonnés de cette formation?");
+                                            Optional<ButtonType> result = alert.showAndWait();
+                                            
+                                            if (result.get() == ButtonType.OK) {
+                                                boolean controlesaisie = true;
+                                              session.setIdsession(getTableView().getItems().get(getIndex()).getIdsession());
+                                             
+                                                try {
+                                                    recuprerValeurSessionModif(); 
+                                                   
+                                                } catch (SQLException ex) {
+                                                    Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                                                                                                          
+                                                try{
+                                                    
+                                                //controle libelle session        
+                                            if (libellesession.isEmpty()) {
+                                                txtlibellesession.getStyleClass().add("errorTextField");
+                                                txtlibellesession.setPromptText("Champ vide");
+                                                controlesaisie = false;
+                                            } 
+                                            if (!isValidString(libellesession)) {
+                                                alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Message d'erreur");
+                                                alert.setHeaderText("Libelle"+" "+libellesession+" " +"invalide");
+                                                alert.setContentText("Verifiez le type");
+                                                alert.showAndWait();
+                                                txtlibellesession.getStyleClass().add("errorTextField");
+                                                controlesaisie = false;
+                                            } 
+
+                                            //controle capacite session
+                                            if (capacitesession.isEmpty()) {
+                                                txtcapacitesession.getStyleClass().add("errorTextField");
+                                                txtcapacitesession.setPromptText("Champ vide");
+                                                controlesaisie = false;
+                                            }
+                                            if (!isValidInt(capacitesession)) {
+                                                alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Message d'erreur");
+                                                alert.setHeaderText("Capacite"+" "+capacitesession+" " +"invalide");
+                                                alert.setContentText("Verifiez le type");
+                                                alert.showAndWait();
+                                                txtcapacitesession.getStyleClass().add("errorTextField");
+                                                controlesaisie = false;
+                                                                            }
+
+                                            //controle surface stade
+                                            if(txtlieusession.getValue()==null){
+                                                txtlieusession.getStyleClass().add("errorTextField");
+                                                txtlieusession.setPromptText("Champ vide");
+                                                controlesaisie = false;
+                                                                            }
+                                                 
+                                                if(dtedsession.after(dtefsession) || dtefsession.before(dtedsession)){
+                                                    alert = new Alert(Alert.AlertType.ERROR);
+                                                    alert.setTitle("Message d'erreur");
+                                                    alert.setHeaderText("Date dÃ©but doit etre avant date fin");
+                                                    alert.setContentText("Verifiez les dates");
+                                                    alert.showAndWait();
+                                                    datedebutsession.getStyleClass().add("errorTextField");
+                                                    datefinsession.getStyleClass().add("errorTextField");
+                                                    controlesaisie = false;
+                                                } 
+                                                if(dtedsession.equals(dtefsession)) {
+                                                    alert = new Alert(Alert.AlertType.ERROR);
+                                                    alert.setTitle("Message d'erreur");
+                                                    alert.setHeaderText("Choisissez deux dates diffÃ©rentes");
+                                                    alert.setContentText("Verifiez les dates");
+                                                    alert.showAndWait();
+                                                    datedebutsession.getStyleClass().add("errorTextField");
+                                                    datefinsession.getStyleClass().add("errorTextField");
+                                                    controlesaisie = false;
+                                                }
+                                                
+                                                                                                
+                                                //cas d'ajout d'une session  
+                                                if (controlesaisie == true) {
+                                                
+                                                session.setLibellesession(libellesession);
+                                                session.setCapacite(Integer.parseInt(capacitesession));
+                                                session.setLieu(lieusession);
+                                                session.setDatedebut(dtedsession);
+                                                session.setDatefin(dtefsession);
+                                                                                                                                           
+                                                    if(!sessiondao.update(session)){                                                 
+                                                      alert = new Alert(Alert.AlertType.INFORMATION);
+                                                      alert.setTitle("Information Dialog");
+                                                      alert.setHeaderText(null);
+                                                      alert.setContentText("Coordonnées session"+" "+libellesession+" "+"modifiéss");
+                                                      alert.showAndWait();
+                                                      afficherDataSessionArbitre();
+                                                      clearSessionFields();
+
+                                                  } else {
+                                                      alert = new Alert(Alert.AlertType.ERROR);
+                                                      alert.setTitle("Message d'erreur");
+                                                      alert.setHeaderText("Veuillez remplir tous les champs");
+                                                      alert.showAndWait();
+                                                          }
+         
+                                            }
+    
+                                              }catch (Exception ex){
+                                              }
+                                                                                                                                            
+                                            }
+                                            
+                                        });
+                                        setGraphic(btnModifSession);
+                                        setText(null);
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+            column8arbitre.setCellFactory(cellFactory);
+
+            sessiondao = new SessionFormationDAO();
+            dataSessionArbitre = FXCollections.observableArrayList();
+
+            for (SessionFormation aIterator : sessiondao.getList()) {
+                dataSessionArbitre.add(aIterator);
+            }
+            tablearbitre.setItems(null);
+            tablearbitre.setItems(dataSessionArbitre);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+    }
+  
+
+    @FXML
+    public void EditableTableViewSessionArbitre(MouseEvent event) {
+        enableFieldsSession();
+        if (tablearbitre != null) {
+            List<SessionFormation> tables = tablearbitre.getSelectionModel().getSelectedItems();
+            if (tables.size() == 1) {
+                final SessionFormation sessionselected = tables.get(0);
+                position = dataSessionArbitre.indexOf(sessionselected);
+                if (sessionselected != null) {
+                    //cacher les champs à ne pas modifier
+                    hbCibleSession.setVisible(false);
+                    hbSectionSession.setVisible(false);
+                    hbNiveauSession.setVisible(false);
+                    
+                    //champs à recuprerer de la table => textboxs
+                    txtlibellesession.setText(sessionselected.getLibellesession());
+                    txtlibellesession.getStyleClass().add("champsModifiable");
+                    
+                    txtcapacitesession.setText(String.valueOf(sessionselected.getCapacite()));
+                    txtcapacitesession.getStyleClass().add("champsModifiable");
+                    
+                    txtlieusession.setValue(sessionselected.getLieu());
+                    txtlieusession.getStyleClass().add("champsModifiable");
+          
+                    datedebutsession.setValue(Instant.ofEpochMilli(sessionselected.getDatedebut().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                    datedebutsession.getStyleClass().add("champsModifiable");
+                    
+                    datefinsession.setValue(Instant.ofEpochMilli(sessionselected.getDatefin().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                    datefinsession.getStyleClass().add("champsModifiable");
+
+                }          
+            }
+        }
+    }
+   
+    //lors de'une recherche d'un stade
+    @FXML
+    public void afficherDataSessionRechrecheArbitre(KeyEvent event) {
+
+        final SessionFormation session = new SessionFormation();
+        try {
+
+            setColumnTableSessionArbitre();
+
+            sessiondao = new SessionFormationDAO();
+            dataSessionRechercheArbitre = FXCollections.observableArrayList();
+
+            for (SessionFormation aIterator : sessiondao.getList()) {
+                String chaine = recherchesessionarbitre.getText();
+                if (aIterator.getLibellesession().contains(chaine) || (aIterator.getLieu().contains(chaine))) {
+                    dataSessionRechercheArbitre.add(aIterator);
+                }
+            }
+
+            tablearbitre.setItems(null);
+            tablearbitre.setItems(dataSessionRechercheArbitre);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+    }
+
+    
+    
+//**************************************************************SESSIONS FORMATION JOUEURS YASMINE DONT TOUCH************************************************************************************//    
+
+    //set columns values pour le tableview
+    public void setColumnTableSessionJoueur() {
+        column1joueur.setCellValueFactory(new PropertyValueFactory("libellesession"));
+        column2joueur.setCellValueFactory(new PropertyValueFactory("capacite"));
+        column3joueur.setCellValueFactory(new PropertyValueFactory("lieu"));
+        column4joueur.setCellValueFactory(new PropertyValueFactory("datedebut"));
+        column5joueur.setCellValueFactory(new PropertyValueFactory("datefin"));
+        column6joueur.setCellValueFactory(new PropertyValueFactory("section"));
+                                                }
+    
+
+    //afficher les données des sessions de formation Joueur
+    public void afficherDataSessionJoueur() {
+   
+         final SessionFormation session = new SessionFormation();
+        try {
+            setColumnTableSessionJoueur();
+            Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>> cellFactory = //
+                    new Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<SessionFormation, String> param) {
+                            final TableCell<SessionFormation, String> cell = new TableCell<SessionFormation, String>() {
+
+                                final Button btnSuppSessionJoueur = new Button("Supprimer");
+
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btnSuppSessionJoueur.setOnAction((ActionEvent event) -> {
+                                            
+                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setTitle("Confirmation Dialog");
+                                            alert.setHeaderText("Dialogue de confirmation");
+                                            alert.setContentText("Voulez vous vraiment supprimer cette session?");
+                                            Optional<ButtonType> result = alert.showAndWait();
+                                            
+                                            if (result.get() == ButtonType.OK) {
+                                                
+                                              session.setIdsession(getTableView().getItems().get(getIndex()).getIdsession());
+                                              // stadedao.delete(stade);
+                                              if(!sessiondao.delete(session)){
+                                                 
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Session"+" "+libellesession+" "+"supprimée");
+                                                  alert.showAndWait();
+
+                                              } else {
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Erreur lors de la suppression");
+                                                  alert.showAndWait();
+                                                  clearSessionFields();
+                                                      }
+         
+                                            }
+                                            afficherDataSessionJoueur();
+                                        });
+                                        setGraphic(btnSuppSessionJoueur);
+                                        setText(null);
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+            column7joueur.setCellFactory(cellFactory);
+
+            sessiondao = new SessionFormationDAO();
+            dataSessionJoueur = FXCollections.observableArrayList();
+
+            for (SessionFormation aIterator : sessiondao.getListJoueurs()) {
+                dataSessionJoueur.add(aIterator);
+            }
+            tablejoueur.setItems(null);
+            tablejoueur.setItems(dataSessionJoueur);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+
+
+    }
+
+    
+    //modification session joueur
+    public void modifierSessionJoueur() {
+        final SessionFormation session = new SessionFormation();
+        try {
+            setColumnTableSessionJoueur();
+            Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>> cellFactory = //
+                    new Callback<TableColumn<SessionFormation, String>, TableCell<SessionFormation, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<SessionFormation, String> param) {
+                            final TableCell<SessionFormation, String> cell = new TableCell<SessionFormation, String>() {
+
+                                final Button btnModifSession = new Button("Modifier");
+
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btnModifSession.setOnAction((ActionEvent event) -> {
+                                            
+                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setTitle("Confirmation Dialog");
+                                            alert.setHeaderText("Dialogue de confimation");
+                                            alert.setContentText("Voulez vous vraiment modifier les coordonnés de cette formation?");
+                                            Optional<ButtonType> result = alert.showAndWait();
+                                            
+                                            if (result.get() == ButtonType.OK) {
+                                                boolean controlesaisie = true;
+                                              session.setIdsession(getTableView().getItems().get(getIndex()).getIdsession());
+                                             
+                                                try {
+                                                    recuprerValeurSessionModif(); 
+                                                   
+                                                } catch (SQLException ex) {
+                                                    Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+
+                                                try{
+                                                    
+                                                //controle libelle session        
+                                            if (libellesession.isEmpty()) {
+                                                txtlibellesession.getStyleClass().add("errorTextField");
+                                                txtlibellesession.setPromptText("Champ vide");
+                                                controlesaisie = false;
+                                            } 
+                                            if (!isValidString(libellesession)) {
+                                                alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Message d'erreur");
+                                                alert.setHeaderText("Libelle"+" "+libellesession+" " +"invalide");
+                                                alert.setContentText("Verifiez le type");
+                                                alert.showAndWait();
+                                                txtlibellesession.getStyleClass().add("errorTextField");
+                                                controlesaisie = false;
+                                            } 
+
+                                            //controle capacite session
+                                            if (capacitesession.isEmpty()) {
+                                                txtcapacitesession.getStyleClass().add("errorTextField");
+                                                txtcapacitesession.setPromptText("Champ vide");
+                                                controlesaisie = false;
+                                            }
+                                            if (!isValidInt(capacitesession)) {
+                                                alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Message d'erreur");
+                                                alert.setHeaderText("Capacite"+" "+capacitesession+" " +"invalide");
+                                                alert.setContentText("Verifiez le type");
+                                                alert.showAndWait();
+                                                txtcapacitesession.getStyleClass().add("errorTextField");
+                                                controlesaisie = false;
+                                                                            }
+
+                                            //controle surface stade
+                                            if(txtlieusession.getValue()==null){
+                                                txtlieusession.getStyleClass().add("errorTextField");
+                                                txtlieusession.setPromptText("Champ vide");
+                                                controlesaisie = false;
+                                                                            }
+                                                 
+                                                if(dtedsession.after(dtefsession) || dtefsession.before(dtedsession)){
+                                                    alert = new Alert(Alert.AlertType.ERROR);
+                                                    alert.setTitle("Message d'erreur");
+                                                    alert.setHeaderText("Date dÃ©but doit etre avant date fin");
+                                                    alert.setContentText("Verifiez les dates");
+                                                    alert.showAndWait();
+                                                    datedebutsession.getStyleClass().add("errorTextField");
+                                                    datefinsession.getStyleClass().add("errorTextField");
+                                                    controlesaisie = false;
+                                                } 
+                                                if(dtedsession.equals(dtefsession)) {
+                                                    alert = new Alert(Alert.AlertType.ERROR);
+                                                    alert.setTitle("Message d'erreur");
+                                                    alert.setHeaderText("Choisissez deux dates diffÃ©rentes");
+                                                    alert.setContentText("Verifiez les dates");
+                                                    alert.showAndWait();
+                                                    datedebutsession.getStyleClass().add("errorTextField");
+                                                    datefinsession.getStyleClass().add("errorTextField");
+                                                    controlesaisie = false;
+                                                }
+                                                
+                                                                                                
+                                                //cas d'ajout d'une session  
+                                                if (controlesaisie == true) {
+                                                
+                                                session.setLibellesession(libellesession);
+                                                session.setCapacite(Integer.parseInt(capacitesession));
+                                                session.setLieu(lieusession);
+                                                session.setDatedebut(dtedsession);
+                                                session.setDatefin(dtefsession);
+                                                                                                                                           
+                                                    if(!sessiondao.update(session)){                                                 
+                                                      alert = new Alert(Alert.AlertType.INFORMATION);
+                                                      alert.setTitle("Information Dialog");
+                                                      alert.setHeaderText(null);
+                                                      alert.setContentText("Coordonnées session"+" "+libellesession+" "+"modifiéss");
+                                                      alert.showAndWait();
+                                                      afficherDataSessionJoueur();
+                                                      clearSessionFields();
+
+                                                  } else {
+                                                      alert = new Alert(Alert.AlertType.ERROR);
+                                                      alert.setTitle("Message d'erreur");
+                                                      alert.setHeaderText("Veuillez remplir tous les champs");
+                                                      alert.showAndWait();
+                                                          }
+         
+                                            }
+    
+                                              }catch (Exception ex){
+      
+                                              }
+
+                                            }
+                                            
+                                        });
+                                        setGraphic(btnModifSession);
+                                        setText(null);
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+            column8joueur.setCellFactory(cellFactory);
+
+            sessiondao = new SessionFormationDAO();
+            dataSessionJoueur = FXCollections.observableArrayList();
+
+            for (SessionFormation aIterator : sessiondao.getListJoueurs()) {
+                dataSessionJoueur.add(aIterator);
+            }
+            tablejoueur.setItems(null);
+            tablejoueur.setItems(dataSessionJoueur);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+    }
+  
+
+    @FXML
+    public void EditableTableViewSessionJoueur(MouseEvent event) {
+        enableFieldsSession();
+        if (tablejoueur != null) {
+            List<SessionFormation> tables = tablejoueur.getSelectionModel().getSelectedItems();
+            if (tables.size() == 1) {
+                final SessionFormation sessionselected = tables.get(0);
+                position = dataSessionJoueur.indexOf(sessionselected);
+                if (sessionselected != null) {
+                    //cacher les champs à ne pas modifier
+                    hbCibleSession.setVisible(false);
+                    hbNiveauSession.setVisible(false);
+                    hbSectionSession.setVisible(false);
+                    
+                    //champs à recuprerer de la table => textboxs
+                    txtlibellesession.setText(sessionselected.getLibellesession());
+                    txtlibellesession.getStyleClass().add("champsModifiable");
+                    
+                    txtcapacitesession.setText(String.valueOf(sessionselected.getCapacite()));
+                    txtcapacitesession.getStyleClass().add("champsModifiable");
+                    
+                    txtlieusession.setValue(sessionselected.getLieu());
+                    txtlieusession.getStyleClass().add("champsModifiable");
+          
+                    datedebutsession.setValue(Instant.ofEpochMilli(sessionselected.getDatedebut().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                    datedebutsession.getStyleClass().add("champsModifiable");
+                    
+                    datefinsession.setValue(Instant.ofEpochMilli(sessionselected.getDatefin().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                    datefinsession.getStyleClass().add("champsModifiable");
+
+                }          
+            }
+        }
+    }
+    
+    
+    @FXML
+    public void afficherDataSessionRechrecheJoueur(KeyEvent event) {
+
+        final SessionFormation session = new SessionFormation();
+        try {
+
+            setColumnTableSessionJoueur();
+            
+            sessiondao = new SessionFormationDAO();
+            dataSessionRechercheJoueur = FXCollections.observableArrayList();
+
+            for (SessionFormation aIterator : sessiondao.getListJoueurs()) {
+                String chaine = recherchesessionjoueur.getText();
+                if (aIterator.getLibellesession().contains(chaine) || (aIterator.getLieu().contains(chaine))) {
+                    dataSessionRechercheJoueur.add(aIterator);
+                }
+            }
+
+            tablejoueur.setItems(null);
+            tablejoueur.setItems(dataSessionRechercheJoueur);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+    }
     
     
     
@@ -2776,9 +3878,43 @@ public TableCell call( final TableColumn<Match, String> param )
 //        }
 //    }
 //);
-     //******************************END PARTIE STADE YASMINE*****************************************
         
+ //***************************************************END PARTIE STADE YASMINE**************************************************
         
+ //*****************************************PARTIE SESSSION YASMINE DONT TOUCH************************************************
+        initaliserFieldsSession();
+        InitilisationRadioButtons();
+        InitialisationTables();
+        afficherDataSessionArbitre();
+        afficherDataSessionJoueur();
+        modifierSessionArbitre();
+        modifierSessionJoueur();
+        enableFieldsSession();
+        //AUTOMPLETE COMBOBOX FOR VILLES TUNISIE
+        new AutoCompleteComboBoxListener<>(txtlieusession);
+        
+        //CONTROLE SUR LA RECUPERATION DES VALEURS SAISIES PAR LE USER
+        //recuperer la date de debut session 
+        datedebutsession.setOnAction(event -> {
+            datedebsession = datedebutsession.getValue();
+            System.out.println(datedebsession);
+        });
+        
+        //recuperer la date de debut session 
+        datefinsession.setOnAction(event -> {
+            datefnsession = datefinsession.getValue();
+            System.out.println(datefnsession);
+        });
+        
+        //SEARCH  REAL TIME
+        recherchesessionarbitre.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                afficherDataSessionRechrecheArbitre(ke);
+                System.out.println("Key Pressed: " + ke.getText());
+            }
+        });
+  //********************************************END PARTIE SESSION YASMINE************************************************* 
+             
         
         
         
