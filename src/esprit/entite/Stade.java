@@ -60,6 +60,9 @@ public class Stade {
         this.datecreation = datecreation;
     }
     
+       
+    
+   
     
     public int getIdstade() {
         return idstade;

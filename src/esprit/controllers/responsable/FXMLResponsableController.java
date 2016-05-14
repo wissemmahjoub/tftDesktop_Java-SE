@@ -11,7 +11,6 @@ import esprit.dao.CompetitionDAO;
 import esprit.dao.EventDAO;
 import esprit.dao.MatchDAO;
 import esprit.dao.StadeDAO;
-import esprit.dao.StadeDAOInterface;
 import esprit.dao.TicketDAO;
 import esprit.entite.Arbitre;
 import esprit.entite.Categorie;
@@ -104,6 +103,32 @@ public class FXMLResponsableController implements Initializable {
                 "-fx-cursor : hand;"+
                 "-fx-alignment : baseline-left;";
    private final String styleMenu = styleMenuPressed + "-fx-background-color: #29778e;";
+    @FXML
+    private TableColumn<?, ?> clidclub1;
+    @FXML
+    private TableColumn<?, ?> colimage1;
+    @FXML
+    private TableColumn<?, ?> idevents;
+    @FXML
+    private Button ajouterEvent;
+    @FXML
+    private AnchorPane listeContainer;
+    @FXML
+    private HBox hbLibelleStade;
+    @FXML
+    private HBox hbCapaciteStade;
+    @FXML
+    private HBox hbSurfaceStade;
+    @FXML
+    private HBox hbDateCreationStade;
+    @FXML
+    private HBox hbVilleStade;
+    @FXML
+    private HBox hbLatitudeStade;
+    @FXML
+    private HBox hbLongitudeStade;
+    @FXML
+    private Hyperlink clearStade;
     
      @FXML
      private void deconnexion(MouseEvent event)
@@ -120,6 +145,19 @@ public class FXMLResponsableController implements Initializable {
         
      }
    /*
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
      
     #######################################################################################
     #######################################################################################
@@ -250,6 +288,7 @@ public class FXMLResponsableController implements Initializable {
     private AnchorPane consulterStadePane;
      @FXML
     private AnchorPane anchorMatch;
+     @FXML
     private AnchorPane googleMapContainer;
     @FXML
     private DatePicker datecreationstade;
@@ -280,20 +319,18 @@ public class FXMLResponsableController implements Initializable {
     private TableColumn column4stade;
     @FXML
     private TableColumn column5stade;
-    @FXML
     private TableColumn column6stade;
     @FXML
     private TableColumn column7stade;
     @FXML
     private TableColumn column8stade;
     @FXML
-    private Hyperlink clear;
-    @FXML
-    private Button boutonGlissantMap;
+    private Button boutonGlissantMap1;
        @FXML
     private Button btnModifierCompe;
     @FXML
     private Button boutonGlissantList;
+    @FXML
     private WebView googleMap;
     @FXML
     private AnchorPane consulterMatch;
@@ -336,8 +373,6 @@ public class FXMLResponsableController implements Initializable {
     private LocalDate datestade;
     private Instant instant;
     private Date dteStade;
-    @FXML
-    private AnchorPane listeContainer;
     @FXML
     private Pane scrollbar;
     @FXML
@@ -721,54 +756,97 @@ public class FXMLResponsableController implements Initializable {
                 
     }
     
-//------------------------------------------------------------------PARTIE STADE YASMINE-----------------------------------------------------------------------------------//
+
     
+    
+    //------------------------------------------------------------------PARTIE STADE YASMINE DONT TOUCH HERE-----------------------------------------------------------------------------------//
     @FXML
-    private void handleButtonMap( MouseEvent event){
-        boutonGlissantMap.setVisible(false);
-        boutonGlissantList.setVisible(true);
-        googleMapContainer.setVisible(false);
-        consulterStadePane.setVisible(true);
-                                                    }
-    @FXML
-    private void handleButtonListe( MouseEvent event){
-        boutonGlissantMap.setVisible(true);
-        boutonGlissantList.setVisible(false);
-        
-        googleMapContainer.setVisible(true);
-        consulterStadePane.setVisible(false);
-                                                     }
+    private void basculerVersStadeOuListe( MouseEvent event){
+        Button auxButton = (Button)event.getSource();
+        if (auxButton.getId().equals("boutonGlissantList"))
+        {
+           // imageScrollPaneContainer.setVisible(true);
+            boutonGlissantList.setVisible(false);
+            boutonGlissantMap1.setVisible(true);
+            //TFTTransition.fadeIn(imageScrollPaneContainer,400);
+           // fillImages();
+           // googleMapContainer.setOpacity(0);
+            consulterStadePane.setVisible(false);
+            googleMapContainer.setVisible(true);
+            
+            
+        } if (auxButton.getId().equals("boutonGlissantMap1")){
+                //boutonGlissantMap1.setVisible(false);
+                boutonGlissantList.setVisible(true);
+                consulterStadePane.setVisible(true);
+                googleMapContainer.setVisible(false);
+                                                            }
+//        if (auxButton.getId().equals("boutonGlissantList1"))
+//        {
+//           //imageScrollPaneContainer.setVisible(true);
+//             
+//             boutonGlissantMap.setVisible(true);
+//             boutonGlissantList1.setVisible(false);
+//            //TFTTransition.fadeIn(imageScrollPaneContainer,400);
+//           // fillImages();
+//           // googleMapContainer.setOpacity(0);
+//            consulterStadePane.setVisible(true);
+//            googleMapContainer.setVisible(false);
+//            
+//            
+//        } if (auxButton.getId().equals("boutonGlissantMap1")){
+//               // boutonGlissantList1.setVisible(true);
+//                boutonGlissantMap1.setVisible(false);
+//                boutonGlissantList.setVisible(true);
+//                consulterStadePane.setVisible(true);
+//                googleMapContainer.setVisible(false);
+//                                                            }
+                                                             }    
 
 
 
-    //initialiser les fields
+
+//initialiser les fields d'ajout/modification d'un stade
     public void initaliserFieldsStade() {
         //fields par défaut
         txtlibellestade.getStyleClass().remove("errorTextField");
+        txtlibellestade.getStyleClass().remove("champsModifiable");
         txtcapacite.getStyleClass().remove("errorTextField");
+        txtcapacite.getStyleClass().remove("champsModifiable");
         txtsurface.getStyleClass().remove("errorTextField");
+        txtsurface.getStyleClass().remove("champsModifiable");
         datecreationstade.getStyleClass().remove("errorTextField");
         txtville.getStyleClass().remove("errorTextField");
         txtlatitude.getStyleClass().remove("errorTextField");
         txtlongitude.getStyleClass().remove("errorTextField");
                                           }
+    
+//    public void validerFieldsStade() {
+//        //fields par défaut
+//        txtlibellestade.getStyleClass().add("validTextField");
+//        txtcapacite.getStyleClass().add("validTextField");
+//        txtsurface.getStyleClass().add("validTextField");
+//        datecreationstade.getStyleClass().add("validTextField");
+//        txtville.getStyleClass().add("validTextField");
+//        txtlatitude.getStyleClass().add("validTextField");
+//        txtlongitude.getStyleClass().add("validTextField");
+//                                          }
 
     //set columns values pour le tableview
     public void setColumnTableStade() {
-
         column1stade.setCellValueFactory(new PropertyValueFactory("libellestade"));
         column2stade.setCellValueFactory(new PropertyValueFactory("capacite"));
         column3stade.setCellValueFactory(new PropertyValueFactory("surface"));
         column4stade.setCellValueFactory(new PropertyValueFactory("datecreation"));
         column5stade.setCellValueFactory(new PropertyValueFactory("ville"));
-        column6stade.setCellValueFactory(new PropertyValueFactory("latitude"));
-        column8stade.setCellValueFactory(new PropertyValueFactory("longitude"));
+//      column8stade.setCellValueFactory(new PropertyValueFactory("longitude"));
                                         }
     
     
     //vider les champs d'ajout stade
     public void viderChampsStade() {
         initaliserFieldsStade();
+        
         txtlibellestade.clear();
         txtcapacite.clear();
         txtsurface.valueProperty().set(null);
@@ -783,195 +861,27 @@ public class FXMLResponsableController implements Initializable {
         datecreationstade.setPromptText("");
         txtville.setPromptText("");
         txtlatitude.setPromptText("");
-        txtlongitude.setPromptText("");
-        
+        txtlongitude.setPromptText("");      
                                     }
     @FXML
-    public void clear(){
+    public void clearStadeFields(){
         viderChampsStade();
+        initaliserFieldsStade();
+        enableFieldsStade();
     }
-
-
-    //afficher les données des stades
-    public void afficherDataStade() {
-        //affichage par défaut
-        //tablestade.setItems(null);
-
-        final Stade stade = new Stade();
-        try {
-            setColumnTableStade();
-            Callback<TableColumn<Stade, String>, TableCell<Stade, String>> cellFactory = //
-                    new Callback<TableColumn<Stade, String>, TableCell<Stade, String>>() {
-                        @Override
-                        public TableCell call(final TableColumn<Stade, String> param) {
-                            final TableCell<Stade, String> cell = new TableCell<Stade, String>() {
-
-                                final Button btnSuppStade = new Button("Supprimer");
-
-                                @Override
-                                public void updateItem(String item, boolean empty) {
-                                    super.updateItem(item, empty);
-                                    if (empty) {
-                                        setGraphic(null);
-                                        setText(null);
-                                    } else {
-                                        btnSuppStade.setOnAction((ActionEvent event) -> {
-                                            
-                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                            alert.setTitle("Confirmation Dialog");
-                                            alert.setHeaderText("Look, a Confirmation Dialog");
-                                            alert.setContentText("Are you ok with this?");
-                                            Optional<ButtonType> result = alert.showAndWait();
-                                            
-                                            if (result.get() == ButtonType.OK) {
-                                                
-                                              stade.setIdstade(getTableView().getItems().get(getIndex()).getIdstade());
-                                             // stadedao.delete(stade);
-                                              if(!stadedao.delete(stade)){
-                                                 
-                                                  alert = new Alert(Alert.AlertType.INFORMATION);
-                                                  alert.setTitle("Information Dialog");
-                                                  alert.setHeaderText(null);
-                                                  alert.setContentText("Stade supprimé");
-                                                  alert.showAndWait();
-
-                                              } else {
-                                                  alert = new Alert(Alert.AlertType.INFORMATION);
-                                                  alert.setTitle("Information Dialog");
-                                                  alert.setHeaderText(null);
-                                                  alert.setContentText("Erreur lors de la suppression");
-                                                  alert.showAndWait();
-                                                  clear();
-                                                      }
-         
-                                            }
-                                            afficherDataStade();
-                                        });
-                                        setGraphic(btnSuppStade);
-                                        setText(null);
-                                    }
-                                }
-                            };
-                            return cell;
-                        }
-                    };
-
-            column7stade.setCellFactory(cellFactory);
-
-            stadedao = new StadeDAO();
-            dataStade = FXCollections.observableArrayList();
-
-            for (Stade aIterator : stadedao.getList()) {
-                dataStade.add(aIterator);
-            }
-            tablestade.setItems(null);
-            tablestade.setItems(dataStade);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error on Building Data");
-        }
-
-    }
-
-    //lors de'une recherche d'un stade
-    @FXML
-    public void afficherDataStadeRechcherche(KeyEvent event) {
-
-        final Stade stade = new Stade();
-        try {
-
-            setColumnTableStade();
-            Callback<TableColumn<Stade, String>, TableCell<Stade, String>> cellFactory = //
-                    new Callback<TableColumn<Stade, String>, TableCell<Stade, String>>() {
-                        @Override
-                        public TableCell call(final TableColumn<Stade, String> param) {
-                            final TableCell<Stade, String> cell = new TableCell<Stade, String>() {
-                                final Button btnSuppStade = new Button("Supprimer");
-
-                                @Override
-                                public void updateItem(String item, boolean empty) {
-                                    super.updateItem(item, empty);
-                                    if (empty) {
-                                        setGraphic(null);
-                                        setText(null);
-                                    } else {
-                                        btnSuppStade.setOnAction((ActionEvent event) -> {
-                                          
-                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                            alert.setTitle("Confirmation Dialog");
-                                            alert.setHeaderText("Look, a Confirmation Dialog");
-                                            alert.setContentText("Are you ok with this?");
-                                            Optional<ButtonType> result = alert.showAndWait();
-                                            
-                                            if (result.get() == ButtonType.OK) {
-                                                
-                                              stade.setIdstade(getTableView().getItems().get(getIndex()).getIdstade());
-
-                                              if(!stadedao.delete(stade)){
-                                                 
-                                                  alert = new Alert(Alert.AlertType.INFORMATION);
-                                                  alert.setTitle("Information Dialog");
-                                                  alert.setHeaderText(null);
-                                                  alert.setContentText("Stade supprimé");
-                                                  alert.showAndWait();
-                                                  clear();
-
-                                              } else {
-                                                  alert = new Alert(Alert.AlertType.INFORMATION);
-                                                  alert.setTitle("Information Dialog");
-                                                  alert.setHeaderText(null);
-                                                  alert.setContentText("Erreur lors de la suppression");
-                                                  alert.showAndWait();
-                                                      }
-         
-                                            }
-                                            afficherDataStade();
-                                        });
-                                            
-                                        setGraphic(btnSuppStade);
-                                        setText(null);
-                                    }
-                                }
-                            };
-                            return cell;
-                        }
-                    };
-
-            column7stade.setCellFactory(cellFactory);
-
-            stadedao = new StadeDAO();
-            dataStadeRecherche = FXCollections.observableArrayList();
-
-            for (Stade aIterator : stadedao.getList()) {
-                String chaine = recherchestade.getText();
-                if (aIterator.getLibellestade().contains(chaine) || (aIterator.getVille().contains(chaine))) {
-                    dataStadeRecherche.add(aIterator);
-                }
-            }
-
-            tablestade.setItems(null);
-            tablestade.setItems(dataStadeRecherche);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error on Building Data");
-        }
-    }
-
+    
+    
+    
     //combobox
     @FXML
-    public void villeStade(ActionEvent event) {
-
+    public void villeLieu(ActionEvent event) {
         villeStade = (String) txtville.getValue();
                                               }
 
     //combobox
     @FXML
     public void surfaceStade(ActionEvent event) {
-
         surfaceStade = (String) txtsurface.getValue();
-
                                                 }
 
     //validation des string
@@ -1014,10 +924,184 @@ public class FXMLResponsableController implements Initializable {
         capacite = txtcapacite.getText();
         datecreat = datecreationstade.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         dteStade = java.sql.Date.valueOf(datestade);
-        
-        StadeDAO crudDAO = new StadeDAO();
-        idStade = crudDAO.find(libellestade);
     }
+    
+    //recuprere de la tablestade uniquement les valeurs modifiables
+    public void recuprerValeurStadeModif()throws SQLException{
+        libellestade = txtlibellestade.getText();
+        surface = txtsurface.getValue();
+        capacite = txtcapacite.getText();
+    }
+    
+    
+    
+    //afficher les données des stades
+    public void afficherDataStade() {
+        //affichage par défaut
+        //tablestade.setItems(null);
+
+        final Stade stade = new Stade();
+        try {
+            setColumnTableStade();
+            Callback<TableColumn<Stade, String>, TableCell<Stade, String>> cellFactory = //
+                    new Callback<TableColumn<Stade, String>, TableCell<Stade, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<Stade, String> param) {
+                            final TableCell<Stade, String> cell = new TableCell<Stade, String>() {
+
+                                final Button btnSuppStade = new Button("Supprimer");
+
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btnSuppStade.setOnAction((ActionEvent event) -> {
+                                            
+                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setTitle("Confirmation Dialog");
+                                            alert.setHeaderText("Dialogue de confirmation");
+                                            alert.setContentText("Voulez vous vraiment supprimer ce stade?");
+                                            Optional<ButtonType> result = alert.showAndWait();
+                                            
+                                            if (result.get() == ButtonType.OK) {
+                                                
+                                              stade.setIdstade(getTableView().getItems().get(getIndex()).getIdstade());
+                                              // stadedao.delete(stade);
+                                              if(!stadedao.delete(stade)){
+                                                 
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Stade"+" "+libellestade+" "+ "supprimé");
+                                                  alert.showAndWait();
+
+                                              } else {
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Erreur lors de la suppression");
+                                                  alert.showAndWait();
+                                                  clearStadeFields();
+                                                      }
+         
+                                            }
+                                            afficherDataStade();
+                                        });
+                                        setGraphic(btnSuppStade);
+                                        setText(null);
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+            column7stade.setCellFactory(cellFactory);
+
+            stadedao = new StadeDAO();
+            dataStade = FXCollections.observableArrayList();
+
+            for (Stade aIterator : stadedao.getList()) {
+                dataStade.add(aIterator);
+            }
+            tablestade.setItems(null);
+            tablestade.setItems(dataStade);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+
+    }
+
+    //lors de'une recherche d'un stade
+    @FXML
+    public void afficherDataStadeRechcherche(KeyEvent event) {
+
+        final Stade stade = new Stade();
+        try {
+
+            setColumnTableStade();
+//            Callback<TableColumn<Stade, String>, TableCell<Stade, String>> cellFactory = //
+//                    new Callback<TableColumn<Stade, String>, TableCell<Stade, String>>() {
+//                        @Override
+//                        public TableCell call(final TableColumn<Stade, String> param) {
+//                            final TableCell<Stade, String> cell = new TableCell<Stade, String>() {
+//                                final Button btnSuppStade = new Button("Supprimer");
+//
+//                                @Override
+//                                public void updateItem(String item, boolean empty) {
+//                                    super.updateItem(item, empty);
+//                                    if (empty) {
+//                                        setGraphic(null);
+//                                        setText(null);
+//                                    } else {
+//                                        btnSuppStade.setOnAction((ActionEvent event) -> {
+//                                          
+//                                            Alert alert = new Alert(AlertType.CONFIRMATION);
+//                                            alert.setTitle("Confirmation Dialog");
+//                                            alert.setHeaderText("Look, a Confirmation Dialog");
+//                                            alert.setContentText("Are you ok with this?");
+//                                            Optional<ButtonType> result = alert.showAndWait();
+//                                            
+//                                            if (result.get() == ButtonType.OK) {
+//                                                
+//                                              stade.setIdstade(getTableView().getItems().get(getIndex()).getIdstade());
+//                                              if(!stadedao.delete(stade)){
+//                                                 
+//                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+//                                                  alert.setTitle("Information Dialog");
+//                                                  alert.setHeaderText(null);
+//                                                  alert.setContentText("Stade"+" "+libellestade+" "+ "supprimé");
+//                                                  alert.showAndWait();
+//
+//                                              } else {
+//                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+//                                                  alert.setTitle("Information Dialog");
+//                                                  alert.setHeaderText(null);
+//                                                  alert.setContentText("Erreur lors de la suppression");
+//                                                  alert.showAndWait();
+//                                                  clearStadeFields();
+//                                                      }
+//         
+//         
+//                                            }
+//                                            afficherDataStade();
+//                                        });
+//                                            
+//                                        setGraphic(btnSuppStade);
+//                                        setText(null);
+//                                    }
+//                                }
+//                            };
+//                            return cell;
+//                        }
+//                    };
+//
+//            column7stade.setCellFactory(cellFactory);
+
+            stadedao = new StadeDAO();
+            dataStadeRecherche = FXCollections.observableArrayList();
+
+            for (Stade aIterator : stadedao.getList()) {
+                String chaine = recherchestade.getText();
+                if (aIterator.getLibellestade().contains(chaine) || (aIterator.getVille().contains(chaine))) {
+                    dataStadeRecherche.add(aIterator);
+                }
+            }
+
+            tablestade.setItems(null);
+            tablestade.setItems(dataStadeRecherche);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+    }
+
     //ajouter un nouveau stade
 
     @FXML
@@ -1039,16 +1123,16 @@ public class FXMLResponsableController implements Initializable {
             txtlibellestade.getStyleClass().add("errorTextField");
             txtlibellestade.setPromptText("Champ vide");
             controlesaisie = false;
-        }
-        if (!this.isValidString(libellestade)) {
+        } 
+        if (!isValidString(libellestade)) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message d'erreur");
-            alert.setHeaderText("Type libelle invalide");
-            alert.setContentText("Verifiez le type svp");
+            alert.setHeaderText("Libelle"+" "+libellestade+" " +"invalide");
+            alert.setContentText("Verifiez le type");
             alert.showAndWait();
             txtlibellestade.getStyleClass().add("errorTextField");
             controlesaisie = false;
-        }
+        } 
 
         //controle capacite stade
         if (capacite.isEmpty()) {
@@ -1056,11 +1140,11 @@ public class FXMLResponsableController implements Initializable {
             txtcapacite.setPromptText("Champ vide");
             controlesaisie = false;
         }
-        if (!this.isValidInt(capacite)) {
+        if (!isValidInt(capacite)) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message d'erreur");
-            alert.setHeaderText("Type capacité invalide");
-            alert.setContentText("Verifiez le type svp");
+            alert.setHeaderText("Capacite"+" "+capacite+" " +"invalide");
+            alert.setContentText("Verifiez le type");
             alert.showAndWait();
             txtcapacite.getStyleClass().add("errorTextField");
             controlesaisie = false;
@@ -1084,12 +1168,6 @@ public class FXMLResponsableController implements Initializable {
             txtville.setPromptText("Champ vide");
             controlesaisie = false;
                                         }
-        
-//             if  (!this.isValidString(ville) ) { 
-//                  
-//                  txtville.getStyleClass().add("errorTextField");
-//                  controlesaisie = false;
-//                                              }
 
         //controle sur les latitudes
         if (latitude.isEmpty()) {
@@ -1097,11 +1175,11 @@ public class FXMLResponsableController implements Initializable {
             txtlatitude.setPromptText("Champ vide");
             controlesaisie = false;
         }
-        if (!this.isValidFloat(latitude)) {
+        if (!isValidFloat(latitude)) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message d'erreur");
-            alert.setHeaderText("Type latitude invalide");
-            alert.setContentText("Verifiez le type svp");
+            alert.setHeaderText("Latitude"+" "+latitude+" " +"invalide");
+            alert.setContentText("Verifiez le type");
             alert.showAndWait();
             txtlatitude.getStyleClass().add("errorTextField");
             controlesaisie = false;
@@ -1113,18 +1191,16 @@ public class FXMLResponsableController implements Initializable {
             txtlongitude.setPromptText("Champ vide");
             controlesaisie = false;
         }
-        if (!this.isValidFloat(longitude)) {
+        if (!isValidFloat(longitude)) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message d'erreur");
-            alert.setHeaderText("Type longitude invalide");
-            alert.setContentText("Verifiez le type svp");
+            alert.setHeaderText("Longitude"+" "+longitude+" " +"invalide");
+            alert.setContentText("Verifiez le type");
             alert.showAndWait();
             txtlongitude.getStyleClass().add("errorTextField");
             controlesaisie = false;
         }
-        
-        
-        
+
         //cas d'ajout d'un stade
         if (controlesaisie == true) {
            // btnajouterstade.setDisable(false);
@@ -1136,100 +1212,257 @@ public class FXMLResponsableController implements Initializable {
             stade.setLongidute(Float.parseFloat(longitude));
             stade.setVille(ville);
 
-
-            stadedao.save(stade);
+            if(!stadedao.save(stade)){
             afficherDataStade();
             //data.add(new Stade(libelle, capacite, surface,dte,ville,code));
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText(null);
-            alert.setContentText("Stade ajouté");
+            alert.setContentText("Stade" +" "+libellestade +" "+"ajouté");
             alert.showAndWait();
+          
+            viderChampsStade();
             initaliserFieldsStade();
-            viderChampsStade();
-        }
+        }else{
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de l'ajout du Stade");
+            alert.showAndWait();
+            }
+ 
+        }// fin controle saisie
+        
+    }// fin ajouter stade
 
-        //fin ajouter stade   
-    }
-
+    //essay autre methode de modification stade
     @FXML
-    public void modifierStade(ActionEvent event) throws SQLException {
+    public void modifierStade() {
+        final Stade stade = new Stade();
+        try {
+            setColumnTableStade();
+            Callback<TableColumn<Stade, String>, TableCell<Stade, String>> cellFactory = //
+                    new Callback<TableColumn<Stade, String>, TableCell<Stade, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<Stade, String> param) {
+                            final TableCell<Stade, String> cell = new TableCell<Stade, String>() {
 
-        Stade stade = new Stade();
-        recuprerValeurStade();
-        stade.setLibellestade(libellestade);
-        stade.setCapacite(Integer.parseInt(capacite));
-        stade.setSurface(Surface.valueOf(surface));
-        stade.setDatecreation(dteStade);
-        stade.setLatitude(Float.parseFloat(latitude));
-        stade.setLongidute(Float.parseFloat(longitude));
-        stade.setVille(ville);
-        
-        StadeDAOInterface icd = new StadeDAO();
-        stade.setIdstade(icd.find(libellestade));
+                                final Button btnModifStade = new Button("Modifier");
 
-        if(!stadedao.update(stade)){
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText(null);
-            alert.setContentText("Modification éfféctuée");
-            alert.showAndWait();
-            afficherDataStade();
-            viderChampsStade();
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btnModifStade.setOnAction((ActionEvent event) -> {
+                                            
+                                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setTitle("Confirmation Dialog");
+                                            alert.setHeaderText("Dialogue de confimation");
+                                            alert.setContentText("Voulez vous vraiment modifier les coordonnés de ce stade?");
+                                            Optional<ButtonType> result = alert.showAndWait();
+                                            
+                                            if (result.get() == ButtonType.OK) {
+                                                 boolean controlesaisie = true;
+                                                
+                                              stade.setIdstade(getTableView().getItems().get(getIndex()).getIdstade());
+                                              // stadedao.delete(stade);
+                                                try {
+                                                    recuprerValeurStadeModif();
+
+                                                    //controle libelle stade                                                      
+                                                    if (!isValidString(libellestade)) {
+                                                    alert = new Alert(Alert.AlertType.ERROR);
+                                                    alert.setTitle("Message d'erreur");
+                                                    alert.setHeaderText("Libelle"+" "+libellestade+" " +"invalide");
+                                                    alert.setContentText("Verifiez le type");
+                                                    alert.showAndWait();
+                                                    txtlibellestade.getStyleClass().add("errorTextField");
+                                                    controlesaisie = false;
+                                                } 
+                                                //controle capacite stade
+                                                if (!isValidInt(capacite)) {
+                                                    alert = new Alert(Alert.AlertType.ERROR);
+                                                    alert.setTitle("Message d'erreur");
+                                                    alert.setHeaderText("Capacite"+" "+capacite+" " +"invalide");
+                                                    alert.setContentText("Verifiez le type");
+                                                    alert.showAndWait();
+                                                    txtcapacite.getStyleClass().add("errorTextField");
+                                                    controlesaisie = false;
+                                                                                }
+                                                //controle surface stade
+                                                if(txtsurface.getValue()==null){
+                                                    txtsurface.getStyleClass().add("errorTextField");
+                                                    txtsurface.setPromptText("Champ vide");
+                                                    controlesaisie = false;
+                                                                                }
+                                              }catch (SQLException ex) {
+                                                    Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }  
+
+                                                //cas d'ajout d'un stade
+                                             if (controlesaisie == true) {
+                                                 stade.setLibellestade(libellestade);
+                                                 stade.setCapacite(Integer.parseInt(capacite));
+                                                 stade.setSurface(Surface.valueOf(surface));
+                                                 if(!stadedao.update(stade)){
+                                                 
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Coordonnées stade"+ " "+libellestade+" "+ "modifiés");
+                                                  alert.showAndWait();
+                                                  afficherDataStade();
+                                                  clearStadeFields();
+
+                                              } else {
+                                                  alert = new Alert(Alert.AlertType.INFORMATION);
+                                                  alert.setTitle("Information Dialog");
+                                                  alert.setHeaderText(null);
+                                                  alert.setContentText("Erreur lors de la suppression");
+                                                  alert.showAndWait();                                                
+                                                  clearStadeFields();
+                                                      }
+                                                 
+                                                
+                                                } 
+                                                
+                                                
+                                                
+                                               
+                                                
+         
+                                            }
+//                                            afficherDataStade();
+//                                            clearStadeFields();
+                                        });
+                                        setGraphic(btnModifStade);
+                                        setText(null);
                                     }
-        else{
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText(null);
-            alert.setContentText("Modification non éfféctuée");
-            alert.showAndWait();
-                                    }
-        
-        
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+            column8stade.setCellFactory(cellFactory);
+
+            stadedao = new StadeDAO();
+            dataStade = FXCollections.observableArrayList();
+
+            for (Stade aIterator : stadedao.getList()) {
+                dataStade.add(aIterator);
+            }
+            tablestade.setItems(null);
+            tablestade.setItems(dataStade);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
     }
 
+    //tous les hbox sont visibles
+    public void enableFieldsStade(){
+        hbLibelleStade.setVisible(true);
+        hbCapaciteStade.setVisible(true);
+        hbSurfaceStade.setVisible(true);
+        hbDateCreationStade.setVisible(true);
+        hbVilleStade.setVisible(true);
+        hbLatitudeStade.setVisible(true); 
+        hbLongitudeStade.setVisible(true);
+    }
+  
     @FXML
     public void EditableTableViewStade(MouseEvent event) {
+        enableFieldsStade();
         if (tablestade != null) {
             List<Stade> tables = tablestade.getSelectionModel().getSelectedItems();
+       
             if (tables.size() == 1) {
                 final Stade stadeselected = tables.get(0);
                 position = dataStade.indexOf(stadeselected);
                 if (stadeselected != null) {
-
+                    //cacher lles hbox non modifiables
+                    hbDateCreationStade.setVisible(false);
+                    hbLatitudeStade.setVisible(false);
+                    hbLongitudeStade.setVisible(false); 
+                    hbVilleStade.setVisible(false);
+                    
+                    //champs à recuprerer
                     txtlibellestade.setText(stadeselected.getLibellestade());
+                    txtlibellestade.getStyleClass().add("champsModifiable");
+                 
                     txtcapacite.setText(String.valueOf(stadeselected.getCapacite()));
-                    txtlatitude.setText(String.valueOf(stadeselected.getLatitude()));
-                    txtlongitude.setText(String.valueOf(stadeselected.getLongidute()));
-
-                    instant = Instant.ofEpochMilli(stadeselected.getDatecreation().getTime());
-                    datestade = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
-                    datecreationstade.setValue(datestade);
-
-                    txtville.setValue(stadeselected.getVille());
+                    txtcapacite.getStyleClass().add("champsModifiable");
+                    
                     txtsurface.setValue(stadeselected.getSurface().name());
-
+                    txtsurface.getStyleClass().add("champsModifiable");
+                  
                 }
-
             }
-        }
+        }               
     }
-    
-
     
     public void GoogleMap(){
       //google map
+    
+        
         final URL urlGoogleMaps = getClass().getResource("googleMap.html");
         WebEngine webEngine = googleMap.getEngine();
         webEngine.load(urlGoogleMaps.toExternalForm());
         webEngine.setJavaScriptEnabled(true);
+//        
+//        
+//        
+//
+//
+//        
+////        
+////         WebView web = new WebView();
+////         web.getEngine().load("https://www.google.fr/maps/place/Esprit+Pr%C3%A9pa/@36.8984864,10.1875732,17z/data=!3m1!4b1!4m2!3m1!1s0x12e2cb7454c6ed51:0xcb5e71cbf91ec526");
+////         Stage stage = new Stage();
+////         stage.setScene(new Scene(web));
+////         stage.show();
                            }
     
-    public void InitialisationTables(){
-        tablestade.setPlaceholder(new Label("Aucun stade"));
-        //tablearbitre.setPlaceholder(new Label("Aucune session pour les arbitres"));
-        //tablejoueur.setPlaceholder(new Label("Aucune session pour les joueurs"));
-                                      }     
+
+//------------------------------------------------------------------ END PARTIE STADE YASMINE-----------------------------------------------------------------------------------//
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//------------------------------------------------------------------PARTIE SESSION YASMINE DONT TOUCH HERE-----------------------------------------------------------------------------------//
+
+    
+    
+    
      
     
     //#####################################################################################
@@ -2491,6 +2724,72 @@ public TableCell call( final TableColumn<Match, String> param )
           @Override
     public void initialize(URL url, ResourceBundle rb) {
     
+        
+         //**************************PARTIE STADE YASMINE DONT TOUCH**********************************
+        
+        //METHODS
+        afficherDataStade();
+        modifierStade();
+        initaliserFieldsStade();
+        GoogleMap();
+        
+        
+        //AUTOMPLETE COMBOBOX FOR VILLES TUNISIE
+        new AutoCompleteComboBoxListener<>(txtville);
+        
+        //SEARCH  REAL TIME
+        recherchestade.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                afficherDataStadeRechcherche(ke);
+                System.out.println("Key Pressed: " + ke.getText());
+            }
+        });
+        //CONTROLE SUR LA RECUPERATION DES VALEURS SAISIES PAR LE USER
+        //recuperer la date de creation du stade 
+        datecreationstade.setOnAction(event -> {
+            datestade = datecreationstade.getValue();
+            System.out.println(datestade);
+        });
+
+        //recuperer la valeur de la ville
+        txtville.setOnAction((ActionEvent evnt) -> {
+            villeChoix = txtville.getValue();
+            System.out.println("selected: " + villeChoix);
+        });
+       
+        txtville.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                String chaine = ke.getText();
+                System.out.println("Key Pressed: " + chaine);
+            }
+        });
+
+        
+//        column1stade.setCellFactory(TextFieldTableCell.forTableColumn());
+//        column1stade.setOnEditCommit(
+//        new EventHandler<CellEditEvent<Stade, String>>() {
+//        @Override
+//        public void handle(CellEditEvent<Stade, String> t) {
+//            ((Stade) t.getTableView().getItems().get(
+//                t.getTablePosition().getRow())
+//                ).setLibellestade(libellestade);
+//        }
+//    }
+//);
+     //******************************END PARTIE STADE YASMINE*****************************************
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
          /*
      
     #######################################################################################
@@ -2602,8 +2901,8 @@ public TableCell call( final TableColumn<Match, String> param )
         afficherDataStade();
         initaliserFieldsStade();
         //InitilisationRadioButtons();
-        InitialisationTables();
-        //GoogleMap();
+
+        GoogleMap();
         
        // afficherDataSessionArbitre();
        // initaliserFieldsSession();
@@ -2662,16 +2961,8 @@ public TableCell call( final TableColumn<Match, String> param )
     ######################################### Chems ###########################
     */
     
-   
-    
-    
-    @FXML
-    private Button menuClub2;
-    
     @FXML
     private AnchorPane clubPane;
-    @FXML
-    private AnchorPane eventPane;
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////// ATTRIBUTS DU CLUB /////////////////////////////////////  
@@ -2766,8 +3057,6 @@ public TableCell call( final TableColumn<Match, String> param )
     private TableColumn evdatefin;
        @FXML
     private TableColumn colsup;
-       @FXML
-    private TableColumn idevent;
       @FXML
     private TableColumn lienvid;
      @FXML
@@ -2778,10 +3067,6 @@ public TableCell call( final TableColumn<Match, String> param )
     private DatePicker tdatedeb;
     @FXML
     private DatePicker tdatefin;
-    @FXML
-    private Button cenvoyer1;
-    @FXML
-    private Button cmodif1;
     
        
        ///////////////////////////////////////////////////
@@ -2823,7 +3108,6 @@ public TableCell call( final TableColumn<Match, String> param )
     
     
     /////////// Espace Club (made by chams)      ////////////////////////////
-    @FXML
     private void passerMenuClub(ActionEvent event)
     {
         tablecl.setVisible(true);
@@ -3306,7 +3590,6 @@ File file = fileChooser.showOpenDialog(null);
           }
     }
     
-      @FXML
     private void EspaceClub(ActionEvent event) {
     esp_club.setVisible(true);
     esp_even.setVisible(false);
@@ -3315,7 +3598,6 @@ File file = fileChooser.showOpenDialog(null);
     
     }
     
-  @FXML
     private void EspaceEven(ActionEvent event) {
     esp_club.setVisible(false);
     esp_even.setVisible(true);

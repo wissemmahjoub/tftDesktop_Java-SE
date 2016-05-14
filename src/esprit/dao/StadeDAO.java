@@ -5,6 +5,7 @@
  */
 package esprit.dao;
 
+import esprit.dao.*;
 import esprit.config.DBconnexion;
 import esprit.entite.Stade;
 import esprit.entite.Surface;
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author yasmi
  */
-public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
+public class StadeDAO implements ICrudDAO<Stade> {
 
     private static Connection con;
     private static Statement stat;
@@ -51,6 +52,10 @@ public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
         try {
             String req = "insert into stade (libellestade,latitude,longitude,ville,capacite,surface,datecreation) values (?,?,?,?,?,?,?)";
             prep = con.prepareStatement(req);
+            
+
+            System.out.println("MODIF ID stade est"+t.getIdstade());
+            
             prep.setString(1, t.getLibellestade());
             prep.setFloat(2, t.getLatitude());
             prep.setFloat(3, t.getLongidute());
@@ -59,6 +64,7 @@ public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
             prep.setString(6, t.getSurface().name());
             prep.setDate(7, (Date) t.getDatecreation());
 
+            
             prep.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(StadeDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,7 +77,9 @@ public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
 
         try {
               stat.executeUpdate("update stade set datedestruction = now() where idstade=" + t.getIdstade());
-
+              
+              
+            System.out.println("SUPP ID stade est"+t.getIdstade());
         } catch (SQLException ex) {
             Logger.getLogger(StadeDAO.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -97,7 +105,7 @@ public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
                         Surface.valueOf(res.getString("surface")),
                         res.getDate("datecreation")
                 ));
-
+                    
             }
 
         } catch (SQLException ex) {
@@ -117,18 +125,18 @@ public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
       PreparedStatement prep; 
       //int result = 0 ;
         try {
-            String sql = "update stade set libellestade=?,latitude=?,longitude=?,ville=?,capacite=?,surface=?,datecreation=? where idstade=" + t.getIdstade();
-            System.out.println(t.getIdstade());
-            prep = con.prepareStatement(sql);
+    
+            prep = con.prepareStatement("update stade set libellestade = ?,capacite = ?, surface = ? where idstade=" + t.getIdstade());
+         
+            System.out.println("MODIF ID stade est" +t.getIdstade());
+            System.out.println("MODIF libelle" +t.getLibellestade());
+            
             prep.setString(1, t.getLibellestade());
-            prep.setFloat(2, t.getLatitude());
-            prep.setFloat(3, t.getLongidute());
-            prep.setString(4, t.getVille());
-            prep.setInt(5, t.getCapacite());
-            prep.setString(6, t.getSurface().name());
-            prep.setDate(7, (Date) t.getDatecreation());
+            prep.setInt(2, t.getCapacite());
+            prep.setString(3, t.getSurface().name());
 
-           /*result =  */prep.executeUpdate();
+            prep.execute();
+            prep.close();
         } catch (SQLException ex) {
             Logger.getLogger(StadeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -151,20 +159,6 @@ public class StadeDAO implements ICrudDAO<Stade>, StadeDAOInterface<Stade> {
         return stade.getIdstade();
     }
 
-    @Override
-    public String exists(int t) throws SQLException {
 
-      PreparedStatement prep ; 
-      Stade stade  = new Stade();
-          prep = con.prepareStatement("select *  from stade where idstade = ?");
-          prep.setInt(1, t);
-          ResultSet rs = prep.executeQuery();
-          
-          while (rs.next()) {
-           stade.setLibellestade(rs.getString(2));
-        }
 
-        return stade.getLibellestade();
-            
-                                                       }
 }

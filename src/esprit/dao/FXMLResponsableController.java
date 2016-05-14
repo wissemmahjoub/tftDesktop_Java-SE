@@ -8,8 +8,7 @@ package esprit.dao;
 import esprit.controllers.responsable.*;
 import esprit.controllers.admin.FXMLAdminController;
 import esprit.dao.MatchDAO;
-import esprit.dao.StadeDAO;
-import esprit.dao.StadeDAOInterface;
+
 import esprit.dao.TicketDAO;
 import esprit.entite.Arbitre;
 import esprit.entite.Categorie;
@@ -889,8 +888,7 @@ public class FXMLResponsableController implements Initializable {
         stade.setLongidute(Float.parseFloat(longitude));
         stade.setVille(ville);
         
-        StadeDAOInterface icd = new StadeDAO();
-        stade.setIdstade(icd.find(libellestade));
+
 
         if(!stadedao.update(stade)){
             alert = new Alert(Alert.AlertType.INFORMATION);

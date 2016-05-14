@@ -14,10 +14,19 @@ and open the template in the editor.
     -fx-background-image: url(../../ressources/images/notebg7.png);
     -fx-background-repeat: repeat;
 }
+
+//**************************************YASMINE HERE DONT TOUCH**********************************************
 .errorTextField{
     -fx-background-color: #FFF0F0;
     -fx-border-color: #DBB1B1;
 }
+
+.champsModifiable{
+
+    -fx-border-color: #AC58FA ;
+}
+
+//*********************************************END YASMINE********************************************************
 
 .inputError
 {
