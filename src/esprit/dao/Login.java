@@ -207,7 +207,7 @@ public class Login {
      try {
             connexion = DBconnexion.getConnexion();
             ste = connexion.createStatement();
-              String req= "select * from fos_user where roles = '{i:0;s:12:\"ROLE_MEDECIN\";}' and username = '"+login+"'";
+              String req= "select * from fos_user where roles = 'a:1:{i:0;s:12:\"ROLE_MEDECIN\";}' and username = '"+login+"'";
              
               try {
             ResultSet res3 =  ste.executeQuery(req);
@@ -243,7 +243,7 @@ public class Login {
                       return null;
                 }
             }else{
-               
+                    System.out.println("REQUETE");
                   return null;
             }
             

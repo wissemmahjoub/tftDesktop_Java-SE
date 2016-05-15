@@ -890,7 +890,7 @@
             <InnerShadow color="#00000060" radius="4.75" width="0.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane id="CorpsArbitre" fx:id="sessionFormationPane" layoutX="186.0" layoutY="127.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+      <AnchorPane id="CorpsArbitre" fx:id="sessionFormationPane" layoutX="186.0" layoutY="127.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <AnchorPane id="tableViewStade" fx:id="listeContainerSession" layoutX="11.0" layoutY="110.0" prefHeight="436.0" prefWidth="736.0" styleClass="backgroundListPane" stylesheets="@../../../../../../tftpidev_clone/src/esprit/ressources/css/mainSheet.css" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="428.0" AnchorPane.topAnchor="110.0">
                <children>

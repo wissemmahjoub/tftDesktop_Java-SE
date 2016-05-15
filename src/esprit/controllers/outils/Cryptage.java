@@ -26,14 +26,17 @@ public class Cryptage {
    {
        try {
            URL a= new URL("http://localhost/test.php?password="+password+"&salt="+salt+"");
+           //open cnx avec le script
            URLConnection ac=a.openConnection();
+           // resultat du script  php
            BufferedReader in=new BufferedReader(new InputStreamReader(ac.getInputStream()));
-          
+          //conversion du bufferReader (buffer --> string )
            String line;
           String res = "";
            while((line = in.readLine()) != null){
                res = res + line;
             } 
+           // return le resultat crypté :) 
            return res;
        } catch (IOException ex) {
            Logger.getLogger(Cryptage.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,6 +44,12 @@ public class Cryptage {
        }
        
    }
+   
+   
+   
+   
+   // Methodes de cryptages supplementaires
+   
     public static String getSHA512(String toHash, String salt)
     {
         for (int i = 0; i < 5000; i++)

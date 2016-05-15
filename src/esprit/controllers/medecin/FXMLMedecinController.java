@@ -1,19 +1,26 @@
 package esprit.controllers.medecin;
 
+import esprit.controllers.admin.FXMLAdminController;
 import esprit.dao.TestDAO;
 import esprit.dao.InvitationDAO;
 import esprit.entite.Joueur;
 import esprit.dao.InvitationDAO;
 import esprit.entite.Invitation;
 import esprit.entite.Test;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -157,7 +164,20 @@ Joueur j = new Joueur();
      Liste_invités.setVisible(false);
     
     }   
-    
+     @FXML
+     private void deconnexion(MouseEvent event)
+     {
+         Stage stage = getStage();
+           Parent rootAuth;
+       try {
+           rootAuth = FXMLLoader.load(getClass().getResource("/esprit/gui/authentification/FXMLauthentificationv2.fxml"));
+            Scene scene = new Scene(rootAuth);
+            stage.setScene(scene);
+       } catch (IOException ex) {
+           Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
+     }
     
     /*############ ACTION Menu afficher invités##############*/
      @FXML

@@ -33,7 +33,7 @@
       <DropShadow color="#00000043" spread="0.52" />
    </effect>
    <children>
-       <AnchorPane id="CorpsJoueur" fx:id="consulterJoueurPane" layoutX="166.0" layoutY="109.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
+       <AnchorPane id="CorpsJoueur" fx:id="consulterJoueurPane" layoutX="166.0" layoutY="109.0" prefHeight="585.0" prefWidth="1056.0" styleClass="corpsPane" visible="false" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
             <TextField fx:id="rechJoueur" layoutX="38.0" layoutY="66.0" onKeyPressed="#rechercheJoueurr" onKeyReleased="#rechercheJoueurr" prefHeight="31.0" prefWidth="267.0" promptText="Recherche" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="44.0" />
             <Pane layoutX="492.0" layoutY="66.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-radius: 15px; -fx-border-color: rgba(0,0,0,0.3); -fx-border-radius: 15px;" styleClass="boutonGlissant" AnchorPane.rightAnchor="414.0" AnchorPane.topAnchor="44.0">
@@ -137,6 +137,7 @@
                   <TextField fx:id="jnom" layoutX="138.0" layoutY="31.0" prefHeight="25.0" prefWidth="132.0" />
                </children>
             </AnchorPane>
+            <Label fx:id="labb" layoutX="389.0" layoutY="14.0" text="Label" visible="false" />
          </children>
          <effect>
             <InnerShadow color="#0000003c" />
@@ -400,7 +401,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="168.0" layoutY="108.0" prefHeight="617.0" prefWidth="1119.0" styleClass="corpsPane" visible="false">
+      <AnchorPane id="CorpsMedecin" fx:id="consulterMedecinPane" layoutX="168.0" layoutY="108.0" prefHeight="617.0" prefWidth="1119.0" styleClass="corpsPane">
          <children>
             <AnchorPane id="tableViewMedecin" layoutX="56.0" layoutY="124.0" prefHeight="420.0" prefWidth="663.0" styleClass="backgroundListPane" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="391.0" AnchorPane.topAnchor="128.0">
                <children>
@@ -426,7 +427,6 @@
                         <TableColumn fx:id="col_sexe_med" prefWidth="45.0" text="Sexe" />
                         <TableColumn fx:id="col_mail_med" minWidth="5.0" prefWidth="51.0" text="Mail" />
                         <TableColumn fx:id="col_adress_med" prefWidth="37.0" text="Adresse" />
-                        <TableColumn fx:id="imgch" prefWidth="47.0" text="images" />
                         <TableColumn fx:id="col_path" prefWidth="28.0" text="Column X" visible="false" />
                         <TableColumn fx:id="col_supp_med" prefWidth="69.0" />
                      </columns>
@@ -495,7 +495,6 @@
                   <DatePicker fx:id="date_naiss_medecin" layoutX="125.0" layoutY="286.0" prefHeight="25.0" prefWidth="149.0" promptText="date de naissance" />
                   <Label layoutX="32.0" layoutY="290.0" text="DateNaissance" />
                   <Label fx:id="labb" layoutX="206.0" layoutY="429.0" text="Label" visible="false" />
-                  <Button fx:id="parcourir_image" layoutX="143.0" layoutY="415.0" mnemonicParsing="false" onAction="#parcourirImage" prefHeight="45.0" prefWidth="110.0" styleClass="btnEnvoyer" stylesheets="@../../../../../../../Users/wissem/Desktop/tft/src/frontend/mainSheet.css" text="Avatar" textAlignment="CENTER" />
                </children>
             </AnchorPane>
          </children>

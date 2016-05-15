@@ -150,8 +150,6 @@ public class FXMLAdminController implements Initializable {
    @FXML
    private TableColumn arbitreColumnCin;
    @FXML
-   private TableColumn arbitreColumnAdresse;
-   @FXML
    private TableColumn arbitreColumnLogin;
    @FXML
    private TableColumn arbitreColumnPassword;
@@ -169,7 +167,6 @@ public class FXMLAdminController implements Initializable {
     private TableColumn arbitreColumnButtonModify;
     @FXML
     private ScrollPane imageScrollPaneContainer;
-    @FXML
      private List<AnchorPane> anchorListe;
     @FXML
     private AnchorPane imageGlobalContainer;
@@ -185,7 +182,6 @@ public class FXMLAdminController implements Initializable {
     private AnchorPane consulterDashboardPane;
     @FXML
     private AnchorPane stat2;
-    @FXML
     private BarChart barChart;
     
          private ObservableList<Arbitre> mainArbitreData;
@@ -1218,17 +1214,10 @@ public class FXMLAdminController implements Initializable {
     @FXML
     private TextField rech;
     @FXML
+    private Label Label;
+    @FXML
     private Label labb;
-
-    @FXML
-    private TextField nom2;
-
-    @FXML
-    private TextField prenom2;
-
-    @FXML
-    private TextField cin2;
-@FXML
+ @FXML
 private ImageView imagepr;
     @FXML
     private Label email;
@@ -1244,8 +1233,6 @@ private ImageView imagepr;
    @FXML
     private TableColumn imgch;
 
-    @FXML
-    private TableColumn col_idmed;
 
     @FXML
     private TableColumn  col_nom_med;
@@ -1402,6 +1389,7 @@ private ImageView imagepr;
     
     //################### changement de couleur de bordure de text fild ##########
    
+    @FXML
     public void testCin(KeyEvent event)
     {
      
@@ -1413,6 +1401,7 @@ private ImageView imagepr;
         else{   cin_medecin.setStyle("-fx-border-color: #0ad200;");}
     }
     
+    @FXML
      public void testPwd(KeyEvent event)
     {
      
@@ -1429,6 +1418,7 @@ private ImageView imagepr;
      //#######################################################
     
     
+    @FXML
    public void AjouterMedecin(ActionEvent event)
    { int x =1;
        //########### LES CONTROLS DE SAISIE ################
@@ -1487,7 +1477,7 @@ private ImageView imagepr;
         m.setSexe(rd.getText());
         m.setEmail(mail_medecin.getText());
         m.setAdresse(adrs_medecin.getText());
-        m.setAvatar(labb.getText());
+       
         
         mdao.save(m);
       
@@ -1656,74 +1646,7 @@ public TableCell call( final TableColumn<Medecin, String> param )
              
             col_supp_med.setCellFactory( cellFactory );
             
-            /////////////////////////////////////////////
-            
-             Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>> cellFactoryModifyyy = 
-                new Callback<TableColumn<Medecin, String>, TableCell<Medecin, String>>()
-                {
-                    @Override
-                    public TableCell call( final TableColumn<Medecin, String> param )
-                    {
-                        final TableCell<Medecin, String> cell = new TableCell<Medecin, String>()
-                        {
-
-                            final Button afficherimage = new Button( "image" );
-                            @Override
-                            public void updateItem( String item, boolean empty )
-                            {
-                                super.updateItem( item, empty );
-                                if ( empty )
-                                {
-                                    setGraphic( null );
-                                    setText( null );
-                                }
-                                else
-                                {
-                                    afficherimage.setOnAction( ( ActionEvent event ) ->
-                                            {
-                                    
-                                             Stage stageModify = new Stage();
-                                            stageModify.setResizable(false);
-                                            ImageView img=new ImageView();
-//                               String f = (getTableView().getItems().get(getIndex()).getAvatar()); 
-                 String f = (getTableView().getItems().get(getIndex()).getAvatar()); 
-                                System.out.println("le path est : " + f);
-                               InputStream inputStream = null;
-                                        try {
-                                            inputStream = new FileInputStream(f);
-                                        } catch (FileNotFoundException ex) {
-                                            Logger.getLogger(FXMLAdminController.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-                                 Image imgg = new Image(inputStream);
-               
-                                 img.setImage(imgg);
-                                                    Scene scene = new Scene(new Group());
-                                                     VBox root = new VBox();    
-                                   root.getChildren().addAll(img);
-                                                      scene.setRoot(root);
-                                            stageModify.setScene(scene);
-                                  
-                     
-                                                   stageModify.show();
-                                             
-                                    } );
-                                    setGraphic( afficherimage );
-                                    setText( null );
-                                }
-                            }
-                        };
-                        return cell;
-                    }
-                }; 
-            
-            imgch.setCellFactory(cellFactoryModifyyy);
-            
-      
-            
-                
-            
-            
-            
+           
             dataMedecin = FXCollections.observableArrayList();
                for (Medecin m : mdao.getList())
                {
@@ -1745,6 +1668,7 @@ public TableCell call( final TableColumn<Medecin, String> param )
 //######################################################################
    private ObservableList<Medecin> dataMedecin2;    
   
+    @FXML
    public void FiltrerMedecin(){
   
        try {
@@ -1842,35 +1766,7 @@ public TableCell call( final TableColumn<Medecin, String> param )
            zone_statisque_medecin.setVisible(false);
 
     }
- //######################################################################################
- //########################## Parcourir IMAGE ###########################################
-    @FXML
-    private void parcourirImage(ActionEvent event) throws IOException 
-    
-    {
-         Stage pstage=null;
-         FileChooser fileChooser = new FileChooser();
-
-
- FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-            fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-File file = fileChooser.showOpenDialog(null);
-            String path = file.getAbsolutePath();
-             
-            try {
-                InputStream inputStream = new FileInputStream(path);
-                Image img = new Image(inputStream);
-               
-                imagepr.setImage(img);
-                labb.setText(path);
-           } catch (FileNotFoundException ex) {
-                Logger.getLogger(FXMLResponsableController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-
-        
-    }
+ 
    
   
     
@@ -1894,8 +1790,6 @@ File file = fileChooser.showOpenDialog(null);
     @FXML
     private TextField jemail;
     
-    @FXML
-    private TextField daily;
     @FXML
     private RadioButton jfemme;
     @FXML
@@ -1978,20 +1872,10 @@ File file = fileChooser.showOpenDialog(null);
     private AnchorPane ajouterArbitrePane;
     
     
-    @FXML
-    private TextField nom1;
-    @FXML
-    private TextField prenom1;
-    @FXML
-    private TextField cin1;
-    @FXML
-    private ComboBox<?> niveau1;
     
    @FXML
    private ToggleGroup sexeJoueur;
     
-    @FXML
-    private Button menuClub;
     
     
     
